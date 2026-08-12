@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: ltg242-knowledge-retrieval
+services:
+  agent-toolbox-foundryiq:
+    project: src/agent-toolbox-foundryiq
+    host: azure.ai.agent
+    language: python
+    codeConfiguration:
+      dependencyResolution: remote_build
+      entryPoint: main.py
+      runtime: python_3_13
+    container:
+      resources:
+        cpu: "0.5"
+        memory: 1Gi
+    environmentVariables:
+      - name: FOUNDRY_PROJECT_ENDPOINT
+        value: ${FOUNDRY_PROJECT_ENDPOINT}
+      - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
+        value: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
+      - name: CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME
+        value: ${CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME=knowledge-retrieval-tools}
+    kind: hosted
+    name: agent-toolbox-foundryiq
+    protocols:
+      - protocol: responses
+        version: 2.0.0
+hooks:
+  postdeploy:
+    windows:
+      shell: pwsh
+      run: infra/hooks/postdeploy.ps1
+      interactive: true
+    posix:
+      shell: sh
+      run: infra/hooks/postdeploy.sh
+      interactive: true
+  postprovision:
+    windows:
+      shell: pwsh
+      run: infra/hooks/postprovision.ps1
+      interactive: true
+    posix:
+      shell: sh
+      run: infra/hooks/postprovision.sh
+      interactive: true

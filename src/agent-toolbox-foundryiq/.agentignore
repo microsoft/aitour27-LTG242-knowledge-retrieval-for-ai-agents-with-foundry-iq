@@ -1,0 +1,5 @@
+.env
+.venv/
+.foundry/
+__pycache__/
+*.pyc
