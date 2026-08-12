@@ -1,0 +1,19 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .milestone header { align-items:start; display:flex; justify-content:space-between; }
+  .milestone-title { border:2px dashed var(--accent); color:var(--primary); font-family:Georgia,serif; font-size:18px; margin:14px 0; padding:10px; text-align:center; }
+  .milestone .meta,.milestone .party,.milestone .references,.milestone .totals-box { border-style:dashed; }
+  .milestone .meta { border:1px dashed var(--rule); }
+  .milestone-flow { display:grid; gap:12px; grid-template-columns:1fr 1fr 1fr; margin-top:12px; }
+  .milestone-flow > div { border-top:3px solid var(--accent); padding-top:6px; }
+  .milestone table { margin-top:14px; }
+  .milestone th { background:var(--tint); border-bottom:2px dashed var(--primary); color:var(--primary); }
+{% endblock %}
+{% block document %}<article class="invoice milestone">
+  <header>{{ c.brand() }}{{ c.heading() }}</header><div class="milestone-title">Process development milestone worksheet</div>
+  {{ c.metadata() }}<div style="margin-top:12px">{{ c.parties() }}</div>
+  <section class="milestone-flow"><div><span class="eyebrow">1 · Deliverables</span></div><div><span class="eyebrow">2 · Engineering</span></div><div><span class="eyebrow">3 · Validation</span></div></section>
+  {{ c.line_table('Deliverable / milestone', 'Project stage', 'Milestones', 'Acceptance evidence') }}
+  <section class="grid-2" style="margin-top:12px">{{ c.references() }}<div class="stack">{{ c.terms() }}{{ c.totals('Milestone balance') }}</div></section>{{ c.footer() }}
+</article>{% endblock %}

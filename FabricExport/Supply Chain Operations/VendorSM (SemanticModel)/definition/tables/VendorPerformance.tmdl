@@ -1,0 +1,188 @@
+/// Fact table at daily grain: one row per vendor per weekly snapshot day with quality, regulatory, capacity and commercial KPIs. Joins to DimVendor on VendorID and to DimDate on DateKey.
+table VendorPerformance
+	lineageTag: 098116e6-abff-4cd1-a7d4-d5ac1ca56ff5
+	sourceLineageTag: [dbo].[VendorPerformance]
+
+	/// Average on-time-in-full delivery rate over the period.
+	measure 'Avg OTIF %' = AVERAGE(VendorPerformance[OTIF12moPct])
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: cd5b92ad-cb22-4052-a634-534ecc6f46e3
+
+	/// Average batch rejection rate over the period.
+	measure 'Avg Batch Rejection %' = AVERAGE(VendorPerformance[BatchRejectionRatePct])
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: c41d74e7-c953-47aa-bf43-474ef7ec2844
+
+	/// Average right-first-time rate over the period.
+	measure 'Avg Right First Time %' = AVERAGE(VendorPerformance[RightFirstTimePct])
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: ef4d89b4-0f52-41b9-9be6-bac7c27904bc
+
+	/// Average customer complaints per 1,000 batches.
+	measure 'Avg Complaints /1k' = AVERAGE(VendorPerformance[CustomerComplaintsPer1k])
+		formatString: 0.0
+		displayFolder: KPIs
+		lineageTag: 412bb664-6935-40a3-a7f4-cec8f61c2a7d
+
+	/// Average current plant utilization over the period.
+	measure 'Avg Utilization %' = AVERAGE(VendorPerformance[CurrentUtilizationPct])
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: 3c9b8548-f8c6-4ce8-8010-995b3a77ea3e
+
+	/// Average lead time to first production (weeks).
+	measure 'Avg Lead Time (wks)' = AVERAGE(VendorPerformance[LeadTimeToFirstProductionWks])
+		formatString: 0.0
+		displayFolder: KPIs
+		lineageTag: 8036cf7f-e8fb-45d8-9cf3-4d2b5e8e32cb
+
+	/// Average cost index (market = 100).
+	measure 'Avg Cost Index' = AVERAGE(VendorPerformance[CostIndex])
+		formatString: 0.0
+		displayFolder: KPIs
+		lineageTag: e47d1ccd-143c-4769-a0d8-35aef2d21f7e
+
+	/// Average technology-transfer success rate.
+	measure 'Avg Tech Transfer %' = AVERAGE(VendorPerformance[TechTransferSuccessPct])
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: 30fa00e3-1615-42cd-a4ab-46c90ddde73f
+
+	/// Total open regulatory actions in context.
+	measure 'Total Open Reg Actions' = SUM(VendorPerformance[OpenRegulatoryActions])
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 820c55e9-77dd-4133-956e-ae4102fbf171
+
+	/// On-time-in-full at the most recent date in context.
+	measure 'Latest OTIF %' = LASTNONBLANKVALUE(DimDate[Date], AVERAGE(VendorPerformance[OTIF12moPct]))
+		formatString: 0.0%
+		displayFolder: Trend
+		lineageTag: 60d71aee-6485-400e-8f0e-a50f8a079b74
+
+	/// Batch rejection rate at the most recent date in context.
+	measure 'Latest Batch Rejection %' = LASTNONBLANKVALUE(DimDate[Date], AVERAGE(VendorPerformance[BatchRejectionRatePct]))
+		formatString: 0.0%
+		displayFolder: Trend
+		lineageTag: 7958a32f-7ab9-4665-b9c0-5f2a6a1fb958
+
+	/// Right-first-time at the most recent date in context.
+	measure 'Latest Right First Time %' = LASTNONBLANKVALUE(DimDate[Date], AVERAGE(VendorPerformance[RightFirstTimePct]))
+		formatString: 0.0%
+		displayFolder: Trend
+		lineageTag: 4d60339d-9384-4bf1-80d6-a216e15f7973
+
+	/// Plant utilization at the most recent date in context.
+	measure 'Latest Utilization %' = LASTNONBLANKVALUE(DimDate[Date], AVERAGE(VendorPerformance[CurrentUtilizationPct]))
+		formatString: 0.0%
+		displayFolder: Trend
+		lineageTag: 10f281fd-1af6-44ec-9e7e-bd3432d05245
+
+	/// Complaints per 1,000 batches at the most recent date in context.
+	measure 'Latest Complaints /1k' = LASTNONBLANKVALUE(DimDate[Date], AVERAGE(VendorPerformance[CustomerComplaintsPer1k]))
+		formatString: 0.0
+		displayFolder: Trend
+		lineageTag: 1dbade3a-921c-4abf-83f4-782b8ca6afc3
+
+	/// Change in OTIF % versus 4 weeks (28 days) earlier. Positive = improving.
+	measure 'OTIF % Δ 4 Weeks' = VAR lastDt = MAXX(VendorPerformance, RELATED(DimDate[Date])) VAR prevDt = lastDt - 28 VAR cur = CALCULATE(AVERAGE(VendorPerformance[OTIF12moPct]), FILTER(ALL(DimDate), DimDate[Date] = lastDt)) VAR prev = CALCULATE(AVERAGE(VendorPerformance[OTIF12moPct]), FILTER(ALL(DimDate), DimDate[Date] = prevDt)) RETURN cur - prev
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Trend
+		lineageTag: e22e94d5-6cf7-4702-a408-2a92cb638a37
+
+	/// Change in batch rejection % versus 4 weeks (28 days) earlier. Negative = improving.
+	measure 'Batch Rejection % Δ 4 Weeks' = VAR lastDt = MAXX(VendorPerformance, RELATED(DimDate[Date])) VAR prevDt = lastDt - 28 VAR cur = CALCULATE(AVERAGE(VendorPerformance[BatchRejectionRatePct]), FILTER(ALL(DimDate), DimDate[Date] = lastDt)) VAR prev = CALCULATE(AVERAGE(VendorPerformance[BatchRejectionRatePct]), FILTER(ALL(DimDate), DimDate[Date] = prevDt)) RETURN cur - prev
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Trend
+		lineageTag: 06f6ba4b-a105-47fb-ac2b-364c5a2efaee
+
+	/// Vendor key. Joins to the DimVendor dimension.
+	column VendorID
+		dataType: string
+		isHidden
+		lineageTag: b6146706-fac8-41aa-9913-af1f4d5467d1
+		summarizeBy: none
+		sourceColumn: VendorID
+
+	/// Date key (yyyymmdd). Joins to the DimDate dimension.
+	column DateKey
+		dataType: int64
+		isHidden
+		lineageTag: 41109b33-0fcb-4ff5-bcc9-a86b25d98e02
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	/// On-time-in-full delivery rate, trailing 12 months.
+	column OTIF12moPct
+		dataType: double
+		lineageTag: 42bb68b1-483e-465f-8e74-b6485d130a76
+		sourceColumn: OTIF12moPct
+
+	/// Share of batches rejected for quality reasons.
+	column BatchRejectionRatePct
+		dataType: double
+		lineageTag: b3d791c0-3e1f-4062-b719-4d36b7fc0d99
+		sourceColumn: BatchRejectionRatePct
+
+	/// Share of batches produced right the first time.
+	column RightFirstTimePct
+		dataType: double
+		lineageTag: 85d8ee0f-356d-4634-b213-eb5f243dad4a
+		sourceColumn: RightFirstTimePct
+
+	/// Customer complaints per 1,000 batches.
+	column CustomerComplaintsPer1k
+		dataType: double
+		lineageTag: 39a29f3a-184c-4664-a6ad-c27eded09d03
+		sourceColumn: CustomerComplaintsPer1k
+
+	column LastRegulatoryInspection
+		dataType: string
+		lineageTag: dbfc27d1-0b20-400e-adf3-cfbce546070b
+		sourceColumn: LastRegulatoryInspection
+
+	/// Count of open regulatory actions; 0 is required to qualify.
+	column OpenRegulatoryActions
+		dataType: int64
+		lineageTag: 85a94c21-141d-43fd-a39c-9fb9fa510550
+		sourceColumn: OpenRegulatoryActions
+
+	column LastInternalAuditResult
+		dataType: string
+		lineageTag: 831b2236-5b15-4189-b67e-516f6477e47b
+		sourceColumn: LastInternalAuditResult
+
+	/// Current plant utilization; high utilization limits new capacity.
+	column CurrentUtilizationPct
+		dataType: double
+		lineageTag: 2963c86c-843c-4c55-adcf-76769ab32d3c
+		sourceColumn: CurrentUtilizationPct
+
+	/// Lead time to first production, in weeks.
+	column LeadTimeToFirstProductionWks
+		dataType: int64
+		lineageTag: 1fc01d56-d992-4ca1-9498-0d1dc324908d
+		sourceColumn: LeadTimeToFirstProductionWks
+
+	/// Cost index where the market average = 100; lower is cheaper.
+	column CostIndex
+		dataType: int64
+		lineageTag: c7d85b6a-9c7a-47e0-bf29-c117adc0e234
+		sourceColumn: CostIndex
+
+	/// Historical technology-transfer success rate.
+	column TechTransferSuccessPct
+		dataType: double
+		lineageTag: dc9c40a0-859e-4847-b84a-3416c6d47e41
+		sourceColumn: TechTransferSuccessPct
+
+	partition VendorPerformance = entity
+		mode: directLake
+		source
+			entityName: VendorPerformance
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+

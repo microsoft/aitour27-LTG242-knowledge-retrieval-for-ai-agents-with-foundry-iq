@@ -37,41 +37,34 @@ Fill in the sections below yourself, then:
 
 ### Session description
 
-Add your session description here. Keep it concise — 2-3 sentences about what attendees will learn and why it matters.
+Discover how Foundry IQ connects knowledge across diverse data sources while
+preserving access controls and maximizing retrieval quality. Explore
+AI-optimized ingestion pipelines and knowledge architectures that unify indexed
+and remote sources.
 
 ### 🚀 Getting started
 
 #### In a guided session
 
-If you're following along during a live session:
-
-1. Step 1
-2. Step 2
-3. Open [`instructions/`](instructions/README.md) when this session includes
-   attendee step-by-step guidance
+Guided session steps are pending.
 
 #### On your own
 
-If you're learning at your own pace:
-
-1. Clone this repository
-2. Set up your environment
-3. Follow the session guidance in [`instructions/`](instructions/README.md), or
-   use the linked docs-site entry point when this repository uses that pattern
+Self-paced session steps are pending.
 
 ### 🎯 Learning outcomes
 
 By the end of this session, you will be able to:
 
-- Outcome 1
-- Outcome 2
-- Outcome 3
+- Explain agentic knowledge bases and choose when to use built-in skills,
+  custom skills, indexers, and CU.
+- Describe how to preserve data ACLs in indexed content.
+- Explore MCP servers and Microsoft IQ integrations.
 
 ### 💻 Technologies used
 
-- Technology 1
-- Technology 2
-- Technology 3
+- Foundry IQ
+- Work IQ
 
 ### 📚 Continue your learning
 
@@ -102,17 +95,12 @@ For more information, visit the [Learn MCP Server repo](https://aka.ms/learnmcp)
 
 ### 👥 Content owners
 
-<!-- TODO: Add yourself as a content owner
-1. Change the src in the image tag to {your github url}.png
-2. Change INSERT NAME HERE to your name
-3. Change the github url in the final href to your url. -->
-
 <table>
 <tr>
-    <td align="center"><a href="http://github.com/yourGitHubHandle">
-        <img src="https://github.com/yourGitHubHandle.png" width="100px;" alt="INSERT NAME HERE"/><br />
-        <sub><b>INSERT NAME HERE</b></sub></a><br />
-            <a href="https://github.com/yourGitHubHandle" title="talk">📢</a>
+    <td align="center"><a href="https://github.com/pamelafox">
+        <img src="https://github.com/pamelafox.png" width="100px;" alt="Pamela Fox"/><br />
+        <sub><b>Pamela Fox</b></sub></a><br />
+            <a href="https://github.com/pamelafox" title="talk">📢</a>
     </td>
 </tr></table>
 

@@ -1,0 +1,20 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .campaign { background:linear-gradient(90deg,var(--tint) 0,var(--tint) 1.55in,#fff 1.55in); }
+  .campaign-head { align-items:start; display:grid; gap:18px; grid-template-columns:1.35in 1fr 2in; }
+  .campaign-head .brand { display:block; }
+  .campaign-head .supplier-name { font-size:15px; margin-top:8px; }
+  .campaign-head .heading { text-align:left; }
+  .worksheet-title { border-bottom:4px solid var(--primary); font-size:15px; font-weight:800; margin:14px 0 10px; padding-bottom:5px; text-transform:uppercase; }
+  .campaign-body { display:grid; gap:14px; grid-template-columns:1.35in 1fr; }
+  .campaign-side { display:grid; gap:12px; }
+  .campaign-main table { margin-top:12px; }
+{% endblock %}
+{% block document %}<article class="invoice campaign">
+  <header class="campaign-head">{{ c.brand() }}{{ c.heading() }}{{ c.terms() }}</header>
+  <div class="worksheet-title">Oral dose campaign worksheet</div><div class="campaign-body">
+    <aside class="campaign-side">{{ c.references() }}</aside>
+    <main class="campaign-main">{{ c.metadata() }}<div style="margin-top:12px">{{ c.parties() }}</div>{{ c.line_table('Campaign activity', 'Work center', 'Units / events', 'Campaign record') }}<div style="margin-top:10px">{{ c.totals('Campaign balance') }}</div></main>
+  </div>{{ c.footer() }}
+</article>{% endblock %}

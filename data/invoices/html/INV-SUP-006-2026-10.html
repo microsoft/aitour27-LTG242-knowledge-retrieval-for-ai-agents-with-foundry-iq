@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>INV-SUP-006-2026-10 - Summit Dose Manufacturing</title>
+  <style>
+    @page { size: Letter; margin: 0; }
+    * { box-sizing: border-box; }
+    :root {
+      --primary: #334c70;
+      --accent: #7196c2;
+      --tint: #f1f5fa;
+      --ink: #172238;
+      --muted: #65758a;
+      --rule: #d4dee6;
+    }
+    html, body { margin: 0; padding: 0; background: #fff; }
+    body { color: var(--ink); font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; font-size: 10px; line-height: 1.35; }
+    .invoice { min-height: 11in; padding: .42in .48in .34in; position: relative; }
+    .brand { align-items: center; display: flex; gap: 12px; }
+    .supplier-logo { display: block; height: 58px; max-width: 310px; object-fit: contain; object-position: left center; width: auto; }
+    .supplier-name { color: var(--primary); font-family: Georgia, serif; font-size: 19px; }
+    .subtitle { color: var(--muted); margin-top: 3px; }
+    .heading { text-align: right; }
+    .invoice-label { color: var(--primary); font-family: Georgia, serif; font-size: 27px; }
+    .invoice-id { color: var(--muted); font-weight: 700; margin-top: 3px; }
+    .hero-total { border-top: 3px solid var(--accent); margin-top: 10px; padding-top: 5px; }
+    .hero-total span { display: block; }
+    .hero-total .amount { color: var(--primary); font-size: 20px; font-weight: 800; }
+    .eyebrow { color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .meta { background: var(--tint); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .meta > div { border-right: 1px solid var(--rule); padding: 8px 10px; }
+    .meta > div:last-child { border-right: 0; }
+    .meta strong { display: block; font-size: 11px; margin-top: 3px; }
+    .parties { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .party { border: 1px solid var(--rule); min-height: 104px; padding: 10px 12px; }
+    .party-heading { align-items: center; display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .party-name { color: var(--primary); font-size: 12px; font-weight: 800; }
+    .party-line { color: #4e6073; margin-top: 2px; }
+    .customer-logo { height: 25px; object-fit: contain; width: 102px; }
+    .references { background: #f7f9fa; border-left: 4px solid var(--accent); padding: 8px 10px; }
+    .references ul { margin: 4px 0 0; padding-left: 16px; }
+    .references li { margin-top: 2px; }
+    .terms { display: grid; gap: 3px 12px; grid-template-columns: auto 1fr; }
+    .terms span:nth-child(odd) { color: var(--muted); }
+    .terms span:nth-child(even) { font-weight: 700; text-align: right; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background: var(--primary); color: #fff; font-size: 8px; letter-spacing: .08em; padding: 7px 6px; text-align: left; text-transform: uppercase; }
+    td { border-bottom: 1px solid var(--rule); padding: 8px 6px; vertical-align: top; }
+    tbody tr:nth-child(even) { background: #f8fafb; }
+    .line-id { color: var(--primary); font-weight: 800; }
+    .description { margin-top: 2px; }
+    .reference { color: #718095; font-size: 8.5px; margin-top: 3px; }
+    .number { text-align: right; white-space: nowrap; }
+    .totals { display: flex; justify-content: flex-end; }
+    .totals-box { border: 1px solid var(--rule); min-width: 260px; }
+    .totals-row { display: flex; justify-content: space-between; padding: 6px 9px; }
+    .totals-row + .totals-row { border-top: 1px solid var(--rule); }
+    .totals-row.final { background: var(--tint); border-top: 3px solid var(--accent); font-size: 14px; font-weight: 800; }
+    footer { align-items: center; border-top: 1px solid var(--rule); bottom: .25in; color: var(--muted); display: flex; font-size: 8px; justify-content: space-between; left: .48in; padding-top: 6px; position: absolute; right: .48in; }
+    .grid-2 { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+    .stack { display: grid; gap: 12px; }
+    .band { background: var(--primary); color: #fff; padding: 12px 14px; }
+    .panel { border: 1px solid var(--rule); padding: 10px 12px; }
+    .rule-title { border-bottom: 2px solid var(--accent); color: var(--primary); font-family: Georgia, serif; font-size: 15px; padding-bottom: 4px; }
+    
+  .campaign { background:linear-gradient(90deg,var(--tint) 0,var(--tint) 1.55in,#fff 1.55in); }
+  .campaign-head { align-items:start; display:grid; gap:18px; grid-template-columns:1.35in 1fr 2in; }
+  .campaign-head .brand { display:block; }
+  .campaign-head .supplier-name { font-size:15px; margin-top:8px; }
+  .campaign-head .heading { text-align:left; }
+  .worksheet-title { border-bottom:4px solid var(--primary); font-size:15px; font-weight:800; margin:14px 0 10px; padding-bottom:5px; text-transform:uppercase; }
+  .campaign-body { display:grid; gap:14px; grid-template-columns:1.35in 1fr; }
+  .campaign-side { display:grid; gap:12px; }
+  .campaign-main table { margin-top:12px; }
+
+  </style>
+</head>
+<body>
+  <article class="invoice campaign">
+  <header class="campaign-head"><div class="brand">
+  <img class="supplier-logo" src="file:///Users/pamelafox/aitour27-LTG242-knowledge-retrieval-for-ai-agents-with-foundry-iq/data/invoices/logos/sup-006.svg" alt="Summit Dose Manufacturing">
+</div><div class="heading">
+  <div class="invoice-label">Invoice</div>
+  <div class="invoice-id">INV-SUP-006-2026-10</div>
+  <div class="hero-total"><span class="eyebrow">Total due</span><span class="amount">$781,950.00</span></div>
+</div><div class="terms">
+  <span>Terms</span><span>Net 45</span><span>Currency</span><span>USD</span>
+  <span>Tax</span><span>Reverse charge</span><span>Remittance reference</span><span>SDM-CAPS-WT</span>
+</div></header>
+  <div class="worksheet-title">Oral dose campaign worksheet</div><div class="campaign-body">
+    <aside class="campaign-side"><div class="references"><span class="eyebrow">Supporting documents</span><ul><li>Campaign worksheet SDM-CW-1026</li><li>Cleaning validation CV-SDM-1026</li><li>Released quantity report RQ-SDM-1026</li></ul></div></aside>
+    <main class="campaign-main"><section class="meta">
+  <div><span class="eyebrow">Invoice date</span><strong>2026-10-29</strong></div>
+  <div><span class="eyebrow">Due date</span><strong>2026-12-13</strong></div>
+  <div><span class="eyebrow">Purchase order</span><strong>PO-SUP-006-2026-10</strong></div>
+  <div><span class="eyebrow">Service period</span><strong>2026-10-01 to 2026-10-29</strong></div>
+</section><div style="margin-top:12px"><section class="parties">
+  <div class="party">
+    <div class="party-heading"><span class="eyebrow">Bill to</span><img class="customer-logo" src="file:///Users/pamelafox/aitour27-LTG242-knowledge-retrieval-for-ai-agents-with-foundry-iq/caldova_logo.png" alt="Caldova"></div>
+    <div class="party-name">Caldova Accounts Payable</div>
+    <div class="party-line">1000 Discovery Parkway</div><div class="party-line">Cambridge, MA 02139</div>
+    <div class="party-line">Account WT-SDM-6204</div><div class="party-line">ap@caldova.example</div>
+  </div>
+  <div class="party">
+    <div class="party-heading"><span class="eyebrow">Remit to</span></div>
+    <div class="party-name">Summit Dose Manufacturing</div>
+    <div class="party-line">Industriestrasse 18</div><div class="party-line">4056 Basel</div><div class="party-line">Switzerland</div>
+    <div class="party-line">invoices@summitdose.example</div>
+  </div>
+</section></div><table aria-label="Invoice line items">
+  <thead><tr><th style="width:48%">Campaign activity</th><th style="width:17%">Work center</th><th class="number" style="width:11%">Units / events</th><th class="number" style="width:12%">Unit price</th><th class="number" style="width:12%">Amount</th></tr></thead>
+  <tbody><tr>
+    <td><div class="line-id">L001</div><div class="description">ALLER-CAP 25 mg released capsule production</div><div class="reference">Campaign record: BATCH-SD-1026-C25</div></td>
+    <td>unit production</td><td class="number">980,000</td><td class="number">$0.3100</td><td class="number">$303,800.00</td>
+  </tr><tr>
+    <td><div class="line-id">L002</div><div class="description">ALLER-CAP 50 mg released capsule production</div><div class="reference">Campaign record: BATCH-SD-1026-C50</div></td>
+    <td>unit production</td><td class="number">1,080,000</td><td class="number">$0.3100</td><td class="number">$334,800.00</td>
+  </tr><tr>
+    <td><div class="line-id">L003</div><div class="description">Approved non-routine cleaning validation protocol CV-SD-1026</div><div class="reference">Campaign record: CV-SD-1026</div></td>
+    <td>cleaning validation</td><td class="number">1</td><td class="number">$96,300.00</td><td class="number">$96,300.00</td>
+  </tr><tr>
+    <td><div class="line-id">L004</div><div class="description">Changeover fee between ALLER-CAP 25 mg and ALLER-CAP 50 mg in the same campaign week</div><div class="reference">Campaign record: CHG-SD-C25-C50-1026</div></td>
+    <td>changeover</td><td class="number">1</td><td class="number">$47,050.00</td><td class="number">$47,050.00</td>
+  </tr></tbody>
+</table><div style="margin-top:10px"><section class="totals"><div class="totals-box">
+  <div class="totals-row"><span>Subtotal</span><span>$781,950.00</span></div>
+  <div class="totals-row"><span>Tax</span><span>Reverse charge</span></div>
+  <div class="totals-row final"><span>Campaign balance</span><span>$781,950.00</span></div>
+</div></section></div></main>
+  </div><footer><span>Summit Dose Manufacturing | invoices@summitdose.example</span><span>INV-SUP-006-2026-10 | Page 1 of 1</span></footer>
+</article>
+</body>
+</html>

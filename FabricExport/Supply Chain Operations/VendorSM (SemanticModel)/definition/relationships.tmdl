@@ -1,0 +1,24 @@
+relationship Relationship
+	fromColumn: VendorPerformance.VendorID
+	toColumn: DimVendor.VendorID
+
+relationship 'Relationship 1'
+	fromColumn: VendorPerformance.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 'Relationship 2'
+	fromColumn: DimVendor.LocationID
+	toColumn: DimLocation.LocationID
+
+relationship 'Relationship 3'
+	fromColumn: DimVendor.FinancialStabilityRating
+	toColumn: DimFinancialRating.Rating
+
+relationship 'Relationship 4'
+	fromColumn: VendorPerformance.LastRegulatoryInspection
+	toColumn: DimInspectionResult.ResultCode
+
+relationship 'Relationship 5'
+	fromColumn: VendorPerformance.LastInternalAuditResult
+	toColumn: DimAuditResult.AuditResult
+

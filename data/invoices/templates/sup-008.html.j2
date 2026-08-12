@@ -1,0 +1,18 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .cold-chain { border-top:14px solid var(--primary); }
+  .cold-head { align-items:center; display:flex; justify-content:space-between; padding:10px 0; }
+  .cold-stamp { border:2px solid var(--accent); color:var(--primary); font-size:9px; font-weight:800; padding:8px; text-align:center; text-transform:uppercase; }
+  .route-strip { background:var(--tint); display:grid; gap:12px; grid-template-columns:2fr 1fr; padding:12px; }
+  .cold-chain .parties { margin-top:12px; }
+  .cold-chain table { margin-top:14px; }
+  .cold-chain th { background:#24566b; }
+  .cold-bottom { display:grid; gap:14px; grid-template-columns:1.2fr .8fr; margin-top:12px; }
+{% endblock %}
+{% block document %}<article class="invoice cold-chain">
+  <header class="cold-head">{{ c.brand() }}<div class="cold-stamp">Validated lane<br>2–8 C operations</div>{{ c.heading() }}</header>
+  <section class="route-strip">{{ c.metadata() }}{{ c.terms() }}</section>{{ c.parties() }}
+  {{ c.line_table('Shipment / event', 'Lane service', 'Shipments', 'POD / temperature ref') }}
+  <section class="cold-bottom">{{ c.references() }}{{ c.totals('Logistics balance') }}</section>{{ c.footer() }}
+</article>{% endblock %}

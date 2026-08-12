@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>FIR-KDA-1026 - ALLER auto-injector final inspection report</title><style>
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  :root { --ink:#18232a; --muted:#607078; --line:#cbd4d8; --paper:#fff; --teal:#16756f; --navy:#153451; --red:#a83a34; --amber:#c48218; --green:#31724c; }
+  html, body { margin:0; padding:0; background:#e7ecee; color:var(--ink); font-family:"Avenir Next", "Helvetica Neue", sans-serif; font-size:10px; letter-spacing:0; }
+  .page { width:8.5in; min-height:11in; margin:0 auto; padding:.43in .48in .38in; background:var(--paper); position:relative; overflow:hidden; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid var(--accent); padding-bottom:12px; margin-bottom:14px; }
+  .logo { width:178px; height:44px; object-fit:contain; object-position:left center; }
+  .doc { text-align:right; }
+  .doc h1 { margin:0; font-size:19px; line-height:1.08; color:var(--accent); font-weight:700; }
+  .doc .id { font-family:"SFMono-Regular", Menlo, monospace; font-size:10px; margin-top:5px; }
+  h2 { margin:14px 0 7px; font-size:11px; text-transform:uppercase; color:var(--accent); border-bottom:1px solid var(--line); padding-bottom:4px; }
+  h3 { margin:0 0 4px; font-size:10px; }
+  p { margin:0 0 6px; line-height:1.35; }
+  table { width:100%; border-collapse:collapse; font-size:9px; }
+  th { text-align:left; color:#fff; background:var(--accent); padding:5px 6px; font-weight:600; }
+  td { border-bottom:1px solid var(--line); padding:5px 6px; vertical-align:top; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .meta { display:grid; grid-template-columns:repeat(4, 1fr); border:1px solid var(--line); }
+  .meta > div { padding:6px 8px; border-right:1px solid var(--line); }
+  .meta > div:last-child { border-right:0; }
+  .label { display:block; color:var(--muted); font-size:7.5px; text-transform:uppercase; margin-bottom:2px; }
+  .value { font-weight:650; }
+  .metrics { display:grid; grid-template-columns:repeat(4, 1fr); gap:7px; margin:10px 0; }
+  .metric { border-top:3px solid var(--accent); background:#f3f6f6; padding:8px; min-height:53px; }
+  .metric b { display:block; font-size:17px; color:var(--accent); line-height:1; margin-top:4px; }
+  .figure { border:1px solid var(--line); background:#f8faf9; padding:9px 10px 8px; margin:9px 0; break-inside:avoid; }
+  .figure-title { font-weight:700; margin-bottom:7px; }
+  .bar-row { display:grid; grid-template-columns:175px 1fr 62px; align-items:center; gap:8px; margin:5px 0; }
+  .track { height:14px; background:#dfe7e8; position:relative; }
+  .bar { height:100%; background:var(--accent); }
+  .small { font-size:8px; color:var(--muted); }
+  .note { background:#f2f6f5; border-left:3px solid var(--accent); padding:8px 10px; margin:8px 0; }
+  .alert { background:#fbefed; border-left:3px solid var(--red); padding:8px 10px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .signatures { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:13px; }
+  .signature { border-top:1px solid var(--ink); padding-top:4px; }
+  .footer { position:absolute; left:.48in; right:.48in; bottom:.23in; display:flex; justify-content:space-between; color:var(--muted); font-size:7.5px; border-top:1px solid var(--line); padding-top:5px; }
+  ul { margin:4px 0 6px 17px; padding:0; }
+  li { margin:2px 0; }
+  .pill { display:inline-block; padding:2px 6px; border:1px solid currentColor; font-weight:700; font-size:8px; text-transform:uppercase; }
+  .decision { border:2px solid var(--accent); padding:10px 12px; display:flex; justify-content:space-between; align-items:center; margin:10px 0; }
+  .decision strong { font-size:16px; color:var(--accent); }
+  .device-map { width:100%; height:126px; display:block; background:#fff; border:1px solid var(--line); }
+  .capacity-track { display:flex; height:42px; background:#e1e7e8; margin:9px 0 5px; }
+  .capacity-included { background:#1e716b; color:#fff; display:flex; align-items:center; justify-content:center; }
+  .capacity-excess { background:#d8992b; color:#1e2428; display:flex; align-items:center; justify-content:center; }
+  .fishbone { width:100%; height:120px; display:block; background:#fff; border:1px solid var(--line); }
+  body.yield { --accent:#236b5c; }
+  body.inspection { --accent:#263d59; font-family:Optima, "Avenir Next", sans-serif; }
+  body.utilization { --accent:#156a89; font-family:"Avenir Next Condensed", "Avenir Next", sans-serif; }
+  body.assessment { --accent:#7a3030; font-family:Charter, Georgia, serif; }
+  body.assessment .doc h1, body.assessment h2 { letter-spacing:0; }
+</style></head>
+<body class="inspection"><main class="page">
+<header class="header"><img class="logo" src="file:///Users/pamelafox/aitour27-LTG242-knowledge-retrieval-for-ai-agents-with-foundry-iq/data/invoices/logos/sup-010.svg" alt="Keystone Device Assembly"><div class="doc"><h1>ALLER auto-injector final inspection report</h1><div class="id">FIR-KDA-1026</div><span class="pill">Controlled record</span></div></header>
+
+<section class="meta"><div><span class="label">Build</span><span class="value">BUILD-KD-1026-AI</span></div><div><span class="label">Inspection</span><span class="value">INSP-KD-1026</span></div><div><span class="label">Lots</span><span class="value">KD-1026-A, KD-1026-B</span></div><div><span class="label">Inspection period</span><span class="value">2026-10-21 to 2026-10-28</span></div></section>
+<section class="metrics"><div class="metric"><span class="label">Built</span><b>317,000</b></div><div class="metric"><span class="label">Accepted</span><b>310,000</b></div><div class="metric"><span class="label">Scrapped</span><b>7,000</b></div><div class="metric"><span class="label">Scrap rate</span><b>2.21%</b></div></section>
+<h2>Lot disposition</h2><table><thead><tr><th>Lot</th><th class="num">Built</th><th class="num">Accepted</th><th class="num">Scrapped</th><th>Status</th></tr></thead><tbody><tr><td>KD-1026-A</td><td class="num">159,000</td><td class="num">155,500</td><td class="num">3,500</td><td>Accepted quantity released</td></tr><tr><td>KD-1026-B</td><td class="num">158,000</td><td class="num">154,500</td><td class="num">3,500</td><td>Accepted quantity released</td></tr></tbody></table>
+<div class="grid2"><figure class="figure" aria-labelledby="defect-title"><figcaption id="defect-title" class="figure-title">Figure 1. Defect Pareto by quantity</figcaption><div class="bar-row" style="grid-template-columns:120px 1fr 36px"><span>COS-12 Housing surface mark</span><div class="track"><div class="bar" style="width:100.0%"></div></div><b>2,400</b></div><div class="bar-row" style="grid-template-columns:120px 1fr 36px"><span>ASM-07 Rear clip not fully seated</span><div class="track"><div class="bar" style="width:79.16666666666666%"></div></div><b>1,900</b></div><div class="bar-row" style="grid-template-columns:120px 1fr 36px"><span>NSH-03 Needle shield interference</span><div class="track"><div class="bar" style="width:66.66666666666666%"></div></div><b>1,600</b></div><div class="bar-row" style="grid-template-columns:120px 1fr 36px"><span>LBL-04 Label datum misalignment</span><div class="track"><div class="bar" style="width:45.83333333333333%"></div></div><b>1,100</b></div></figure><figure class="figure" aria-labelledby="map-title"><figcaption id="map-title" class="figure-title">Figure 2. Representative defect locations</figcaption><svg class="device-map" role="img" aria-labelledby="map-svg-title map-svg-desc" viewBox="0 0 310 126"><title id="map-svg-title">Auto-injector defect location diagram</title><desc id="map-svg-desc">Technical side view marking the rear clip, housing surface, needle shield, and label datum.</desc><rect x="52" y="42" width="205" height="43" rx="20" fill="#e8edf0" stroke="#263d59" stroke-width="2"/><rect x="90" y="49" width="92" height="29" fill="#fff" stroke="#607078"/><path d="M257 51 L285 63 L257 76 Z" fill="#b9c6cc" stroke="#263d59"/><rect x="35" y="51" width="25" height="26" rx="4" fill="#b9c6cc" stroke="#263d59"/><g fill="#a83a34" stroke="#fff" stroke-width="1"><circle cx="49" cy="63" r="7"/><circle cx="75" cy="48" r="7"/><circle cx="277" cy="63" r="7"/><circle cx="136" cy="75" r="7"/></g><g font-size="7" fill="#18232a"><text x="8" y="22">Rear clip</text><line x1="48" y1="51" x2="34" y2="25" stroke="#18232a"/><text x="57" y="15">Housing mark</text><line x1="75" y1="41" x2="84" y2="18" stroke="#18232a"/><text x="246" y="20">Needle shield</text><line x1="277" y1="56" x2="271" y2="24" stroke="#18232a"/><text x="112" y="112">Label datum</text><line x1="136" y1="82" x2="136" y2="104" stroke="#18232a"/></g></svg></figure></div>
+<div class="alert"><b>Inspection exception.</b> The 7,000 scrapped units equal 2.21% of the build and exceed the contractual 1.5% allowance. See NCR-KDA-1026-07.</div>
+
+<footer class="footer"><span>Keystone Device Assembly | Confidential quality record</span><span>FIR-KDA-1026 | Invoice INV-SUP-010-2026-10</span></footer>
+</main></body></html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ invoice.invoice_id }} - {{ invoice.supplier_name }}</title>
+  <style>
+    @page { size: Letter; margin: 0; }
+    * { box-sizing: border-box; }
+    :root {
+      --primary: {{ invoice.theme.primary }};
+      --accent: {{ invoice.theme.accent }};
+      --tint: {{ invoice.theme.tint }};
+      --ink: #172238;
+      --muted: #65758a;
+      --rule: #d4dee6;
+    }
+    html, body { margin: 0; padding: 0; background: #fff; }
+    body { color: var(--ink); font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; font-size: 10px; line-height: 1.35; }
+    .invoice { min-height: 11in; padding: .42in .48in .34in; position: relative; }
+    .brand { align-items: center; display: flex; gap: 12px; }
+    .supplier-logo { display: block; height: 58px; max-width: 310px; object-fit: contain; object-position: left center; width: auto; }
+    .supplier-name { color: var(--primary); font-family: Georgia, serif; font-size: 19px; }
+    .subtitle { color: var(--muted); margin-top: 3px; }
+    .heading { text-align: right; }
+    .invoice-label { color: var(--primary); font-family: Georgia, serif; font-size: 27px; }
+    .invoice-id { color: var(--muted); font-weight: 700; margin-top: 3px; }
+    .hero-total { border-top: 3px solid var(--accent); margin-top: 10px; padding-top: 5px; }
+    .hero-total span { display: block; }
+    .hero-total .amount { color: var(--primary); font-size: 20px; font-weight: 800; }
+    .eyebrow { color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .meta { background: var(--tint); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .meta > div { border-right: 1px solid var(--rule); padding: 8px 10px; }
+    .meta > div:last-child { border-right: 0; }
+    .meta strong { display: block; font-size: 11px; margin-top: 3px; }
+    .parties { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .party { border: 1px solid var(--rule); min-height: 104px; padding: 10px 12px; }
+    .party-heading { align-items: center; display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .party-name { color: var(--primary); font-size: 12px; font-weight: 800; }
+    .party-line { color: #4e6073; margin-top: 2px; }
+    .customer-logo { height: 25px; object-fit: contain; width: 102px; }
+    .references { background: #f7f9fa; border-left: 4px solid var(--accent); padding: 8px 10px; }
+    .references ul { margin: 4px 0 0; padding-left: 16px; }
+    .references li { margin-top: 2px; }
+    .terms { display: grid; gap: 3px 12px; grid-template-columns: auto 1fr; }
+    .terms span:nth-child(odd) { color: var(--muted); }
+    .terms span:nth-child(even) { font-weight: 700; text-align: right; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background: var(--primary); color: #fff; font-size: 8px; letter-spacing: .08em; padding: 7px 6px; text-align: left; text-transform: uppercase; }
+    td { border-bottom: 1px solid var(--rule); padding: 8px 6px; vertical-align: top; }
+    tbody tr:nth-child(even) { background: #f8fafb; }
+    .line-id { color: var(--primary); font-weight: 800; }
+    .description { margin-top: 2px; }
+    .reference { color: #718095; font-size: 8.5px; margin-top: 3px; }
+    .number { text-align: right; white-space: nowrap; }
+    .totals { display: flex; justify-content: flex-end; }
+    .totals-box { border: 1px solid var(--rule); min-width: 260px; }
+    .totals-row { display: flex; justify-content: space-between; padding: 6px 9px; }
+    .totals-row + .totals-row { border-top: 1px solid var(--rule); }
+    .totals-row.final { background: var(--tint); border-top: 3px solid var(--accent); font-size: 14px; font-weight: 800; }
+    footer { align-items: center; border-top: 1px solid var(--rule); bottom: .25in; color: var(--muted); display: flex; font-size: 8px; justify-content: space-between; left: .48in; padding-top: 6px; position: absolute; right: .48in; }
+    .grid-2 { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+    .stack { display: grid; gap: 12px; }
+    .band { background: var(--primary); color: #fff; padding: 12px 14px; }
+    .panel { border: 1px solid var(--rule); padding: 10px 12px; }
+    .rule-title { border-bottom: 2px solid var(--accent); color: var(--primary); font-family: Georgia, serif; font-size: 15px; padding-bottom: 4px; }
+    {% block supplier_css %}{% endblock %}
+  </style>
+</head>
+<body>
+  {% block document %}{% endblock %}
+</body>
+</html>

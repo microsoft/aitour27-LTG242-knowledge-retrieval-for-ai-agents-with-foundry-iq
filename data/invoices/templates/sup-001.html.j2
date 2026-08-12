@@ -1,0 +1,21 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .production-header { align-items:start; border-bottom:2px solid #bfd7e8; display:grid; gap:20px; grid-template-columns:1fr 2.2in; padding-bottom:14px; }
+  .production-meta { margin-top:12px; }
+  .production-parties { margin-top:14px; }
+  .production-details { margin-top:13px; }
+  .production-table { margin-top:15px; }
+  .production-totals { margin-top:11px; }
+{% endblock %}
+{% block document %}
+<article class="invoice production-summary">
+  <header class="production-header">{{ c.brand() }}{{ c.heading() }}</header>
+  <div class="production-meta">{{ c.metadata() }}</div>
+  <div class="production-parties">{{ c.parties() }}</div>
+  <section class="grid-2 production-details">{{ c.references() }}{{ c.terms() }}</section>
+  <div class="production-table">{{ c.line_table('Production line', 'Charge class', 'Released qty', 'Batch / record') }}</div>
+  <div class="production-totals">{{ c.totals('Production total') }}</div>
+  {{ c.footer() }}
+</article>
+{% endblock %}

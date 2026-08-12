@@ -1,0 +1,38 @@
+/// Regulatory inspection outcome reference (NAI/VAI/OAI) with severity ranking; OAI is disqualifying.
+table DimInspectionResult
+	lineageTag: 8f1bd52c-3cd3-40ea-93fa-3414d89c90b8
+	sourceLineageTag: [dbo].[DimInspectionResult]
+
+	column ResultCode
+		dataType: string
+		isKey
+		lineageTag: 01f468ba-e2dc-4cc1-9639-2931c4bad4bc
+		sourceColumn: ResultCode
+
+	column ResultName
+		dataType: string
+		lineageTag: 3f19704c-7a3b-4673-8eaa-8490a744c731
+		sourceColumn: ResultName
+		sortByColumn: SeverityRank
+
+	column Description
+		dataType: string
+		lineageTag: 7c84bdd7-ca0a-4c9c-a4c2-6a165874d922
+		sourceColumn: Description
+
+	column SeverityRank
+		dataType: int64
+		lineageTag: a8e4f3b4-e905-4747-837c-47ffaeb597ad
+		sourceColumn: SeverityRank
+
+	column IsDisqualifying
+		dataType: string
+		lineageTag: 9cd9e5b1-2585-4750-b9c2-7719ecc7df98
+		sourceColumn: IsDisqualifying
+
+	partition DimInspectionResult = entity
+		mode: directLake
+		source
+			entityName: DimInspectionResult
+			expressionSource: DL_Lakehouse
+

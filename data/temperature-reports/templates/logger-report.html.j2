@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ event.references.temperature_log }} - temperature logger report</title>
+  <style>
+    @page { margin: 0; size: Letter; }
+    * { box-sizing: border-box; }
+    body { color: #202a2f; font-family: "Helvetica Neue", Helvetica, sans-serif; margin: 0; }
+    .page { height: 11in; padding: .38in .46in .34in; position: relative; width: 8.5in; }
+    .top { align-items: center; border-bottom: 4px solid #23566b; display: flex; justify-content: space-between; padding-bottom: 10px; }
+    .device-brand { color: #23566b; font-size: 22px; font-weight: 300; letter-spacing: 0; }
+    .device-brand strong { font-weight: 800; }
+    .report-title { text-align: right; }
+    .report-title h1 { font-size: 17px; margin: 0 0 3px; }
+    .report-title div { color: #60747d; font-size: 10px; }
+    .identity { background: #eef7fa; display: grid; gap: 0; grid-template-columns: repeat(4, 1fr); margin-top: 12px; }
+    .field { border-bottom: 1px solid #cbdce2; border-right: 1px solid #cbdce2; min-height: 45px; padding: 7px 9px; }
+    .field:nth-child(4n) { border-right: 0; }
+    .label { color: #61757e; font-size: 7px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
+    .value { font-size: 10px; font-weight: 650; }
+    .alarm-bar { align-items: center; background: #9d342d; color: white; display: flex; justify-content: space-between; margin-top: 12px; padding: 8px 12px; }
+    .alarm-bar strong { font-size: 14px; }
+    .alarm-bar span { font-size: 9px; font-weight: 700; }
+    .stats { border: 1px solid #bccbd0; display: grid; grid-template-columns: 1.15fr 1fr 1fr; margin-top: 10px; }
+    .stat-group { border-right: 1px solid #bccbd0; padding: 8px 10px; }
+    .stat-group:last-child { border-right: 0; }
+    .stat-title { color: #23566b; font-size: 8px; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; }
+    .stat-row { display: flex; font-size: 8px; justify-content: space-between; line-height: 1.65; }
+    .stat-row strong { font-size: 9px; }
+    .chart-wrap { margin-top: 10px; }
+    .chart-title { align-items: baseline; display: flex; justify-content: space-between; margin-bottom: 3px; }
+    .chart-title strong { color: #23566b; font-size: 11px; }
+    .chart-title span { color: #65777e; font-size: 8px; }
+    svg { display: block; height: 286px; width: 100%; }
+    .event { background: #fff5f3; border-left: 4px solid #9d342d; display: grid; gap: 8px; grid-template-columns: 1fr 1fr 1fr; margin-top: 8px; padding: 8px 10px; }
+    .event .value { font-size: 9px; }
+    .notes { border-top: 1px solid #c8d2d6; font-size: 8px; line-height: 1.45; margin-top: 10px; padding-top: 8px; }
+    footer { bottom: .22in; color: #728086; display: flex; font-size: 7px; justify-content: space-between; left: .46in; position: absolute; right: .46in; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <div class="device-brand"><strong>Vigil</strong>Temp</div>
+    <div class="report-title"><h1>USB temperature logger report</h1><div>Automatically generated monitoring record</div></div>
+  </header>
+
+  <section class="identity">
+    <div class="field"><div class="label">Report ID</div><div class="value">{{ event.references.temperature_log }}</div></div>
+    <div class="field"><div class="label">Shipment</div><div class="value">{{ event.references.shipment }}</div></div>
+    <div class="field"><div class="label">Monitor serial</div><div class="value">{{ event.logger.serial_number }}</div></div>
+    <div class="field"><div class="label">Model</div><div class="value">{{ event.logger.model }}</div></div>
+    <div class="field"><div class="label">Origin</div><div class="value">Boston, MA</div></div>
+    <div class="field"><div class="label">Destination</div><div class="value">Frankfurt, Germany</div></div>
+    <div class="field"><div class="label">Started</div><div class="value">{{ event.logger.started_at|display_time }}</div></div>
+    <div class="field"><div class="label">Stopped</div><div class="value">{{ event.logger.stopped_at|display_time }}</div></div>
+  </section>
+
+  <div class="alarm-bar"><strong>HIGH ALARM: TRIGGERED</strong><span>Upper limit {{ '%.1f'|format(event.logger.high_limit_c) }} C &nbsp; | &nbsp; Event duration {{ summary.time_above }}</span></div>
+
+  <section class="stats">
+    <div class="stat-group">
+      <div class="stat-title">Monitor configuration</div>
+      <div class="stat-row"><span>Low alarm</span><strong>{{ '%.1f'|format(event.logger.low_limit_c) }} C</strong></div>
+      <div class="stat-row"><span>High alarm</span><strong>{{ '%.1f'|format(event.logger.high_limit_c) }} C</strong></div>
+      <div class="stat-row"><span>Sample interval</span><strong>{{ event.logger.sample_interval_minutes }} min</strong></div>
+      <div class="stat-row"><span>Calibration due</span><strong>{{ event.logger.calibration_due }}</strong></div>
+    </div>
+    <div class="stat-group">
+      <div class="stat-title">Recorded data</div>
+      <div class="stat-row"><span>Number of points</span><strong>{{ summary.reading_count }}</strong></div>
+      <div class="stat-row"><span>Minimum</span><strong>{{ '%.1f'|format(summary.minimum) }} C</strong></div>
+      <div class="stat-row"><span>Maximum</span><strong>{{ '%.1f'|format(summary.maximum) }} C</strong></div>
+      <div class="stat-row"><span>Average</span><strong>{{ '%.1f'|format(summary.average) }} C</strong></div>
+    </div>
+    <div class="stat-group">
+      <div class="stat-title">Alarm analysis</div>
+      <div class="stat-row"><span>High events</span><strong>1</strong></div>
+      <div class="stat-row"><span>Time above 8.0 C</span><strong>{{ summary.time_above }}</strong></div>
+      <div class="stat-row"><span>Peak recorded</span><strong>{{ event.excursion.started_at[:10] }} 09:30 UTC</strong></div>
+      <div class="stat-row"><span>Low events</span><strong>0</strong></div>
+    </div>
+  </section>
+
+  <section class="chart-wrap">
+    <div class="chart-title"><strong>Temperature profile</strong><span>All times UTC &nbsp; | &nbsp; Validated range 2.0-8.0 C</span></div>
+    <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img" aria-labelledby="chart-title chart-desc">
+      <title id="chart-title">Temperature readings for shipment {{ event.references.shipment }}</title>
+      <desc id="chart-desc">Temperature rose above 8 degrees Celsius for {{ summary.time_above }}, peaking at {{ summary.maximum }} degrees.</desc>
+      <rect x="{{ chart.plot.left }}" y="{{ chart.high_y }}" width="{{ chart.plot.width }}" height="{{ chart.low_y - chart.high_y }}" fill="#edf7f4"/>
+      <rect x="{{ chart.excursion_x }}" y="{{ chart.plot.top }}" width="{{ chart.excursion_width }}" height="{{ chart.plot.height }}" fill="#f7d9d5" opacity=".7"/>
+      {% for tick in chart.y_ticks %}<line x1="{{ chart.plot.left }}" y1="{{ tick.y }}" x2="{{ chart.plot.left + chart.plot.width }}" y2="{{ tick.y }}" stroke="#d9e1e4" stroke-width="1"/><text x="48" y="{{ tick.y + 3 }}" font-size="8" text-anchor="end" fill="#687980">{{ tick.value }} C</text>{% endfor %}
+      <line x1="{{ chart.plot.left }}" y1="{{ chart.high_y }}" x2="{{ chart.plot.left + chart.plot.width }}" y2="{{ chart.high_y }}" stroke="#9d342d" stroke-dasharray="5 4" stroke-width="1.5"/>
+      <line x1="{{ chart.plot.left }}" y1="{{ chart.low_y }}" x2="{{ chart.plot.left + chart.plot.width }}" y2="{{ chart.low_y }}" stroke="#23566b" stroke-dasharray="5 4" stroke-width="1"/>
+      <path d="{{ chart.path }}" fill="none" stroke="#23566b" stroke-linejoin="round" stroke-width="2.5"/>
+      {% for point in chart.points %}<circle cx="{{ point.x }}" cy="{{ point.y }}" r="{{ 3 if point.value > event.logger.high_limit_c else 1.8 }}" fill="{{ '#9d342d' if point.value > event.logger.high_limit_c else '#23566b' }}"/>{% endfor %}
+      {% for tick in chart.x_ticks %}<line x1="{{ tick.x }}" y1="{{ chart.plot.top + chart.plot.height }}" x2="{{ tick.x }}" y2="{{ chart.plot.top + chart.plot.height + 5 }}" stroke="#687980"/><text x="{{ tick.x }}" y="{{ chart.plot.top + chart.plot.height + 16 }}" font-size="7" text-anchor="middle" fill="#687980">{% for line in tick.label.split('\n') %}<tspan x="{{ tick.x }}" dy="{{ 0 if loop.first else 9 }}">{{ line }}</tspan>{% endfor %}</text>{% endfor %}
+      <text x="{{ chart.excursion_x + chart.excursion_width / 2 }}" y="12" font-size="8" font-weight="700" text-anchor="middle" fill="#9d342d">HIGH EXCURSION</text>
+    </svg>
+  </section>
+
+  <section class="event">
+    <div><div class="label">Event started</div><div class="value">{{ event.excursion.started_at|display_time }}</div></div>
+    <div><div class="label">Returned in range</div><div class="value">{{ event.excursion.ended_at|display_time }}</div></div>
+    <div><div class="label">Peak</div><div class="value">{{ '%.1f'|format(event.excursion.maximum_temperature_c) }} C at 15 Oct 09:30 UTC</div></div>
+  </section>
+
+  <div class="notes"><strong>Originator note:</strong> Logger stopped following receipt at the Frankfurt qualified storage facility. High-alarm event forwarded to Valence Quality Operations under investigation {{ event.references.investigation }}. Proof of delivery {{ event.references.proof_of_delivery }}.</div>
+  <footer><span>{{ event.logger.manufacturer }} {{ event.logger.model }} | Serial {{ event.logger.serial_number }}</span><span>{{ event.references.temperature_log }} | Page 1 of 1</span></footer>
+</main>
+</body>
+</html>

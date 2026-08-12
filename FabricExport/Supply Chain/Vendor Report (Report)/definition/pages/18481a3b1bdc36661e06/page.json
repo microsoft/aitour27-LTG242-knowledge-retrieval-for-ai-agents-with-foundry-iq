@@ -1,0 +1,230 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "18481a3b1bdc36661e06",
+  "displayName": "Page 1",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "autoPageGenerationConfig": {
+    "selectedFields": [
+      {
+        "Aggregation": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Vendors"
+            }
+          },
+          "Function": 2
+        }
+      }
+    ],
+    "visualContainerConfigurations": [
+      {
+        "name": "4978297d30260998880e",
+        "fields": [
+          {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Property": "LastRegulatoryInspection"
+            }
+          },
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "10810e1cc6a09770640b",
+        "fields": [
+          {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "DimLocation"
+                }
+              },
+              "Property": "Country"
+            }
+          },
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "8ba0eae8a424a6060dd0",
+        "fields": [
+          {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Property": "VendorName"
+            }
+          },
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "bad7f6a815501e9a22b7",
+        "fields": [
+          {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Property": "Location"
+            }
+          },
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "84dac638bb5097ca9889",
+        "fields": [
+          {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Property": "VendorID"
+            }
+          },
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "bb55c23da51ae90b9764",
+        "fields": [
+          {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Property": "AvailableCapacityKPerMonth"
+            }
+          },
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "54554ea7006bb0a502c7",
+        "fields": []
+      },
+      {
+        "name": "f95985f7b9a60077b500",
+        "fields": []
+      },
+      {
+        "name": "f989fd3a00605a3ede32",
+        "fields": []
+      },
+      {
+        "name": "199da0d7d8c27e43dc53",
+        "fields": []
+      },
+      {
+        "name": "ed9a206feae9a5157476",
+        "fields": []
+      },
+      {
+        "name": "2d8cb7044c171bc927a3",
+        "fields": []
+      },
+      {
+        "name": "385cf84710c280792a57",
+        "fields": []
+      },
+      {
+        "name": "6748c420e6d4b20d8369",
+        "fields": []
+      },
+      {
+        "name": "bc2fb4ea77ad00784560",
+        "fields": [
+          {
+            "Aggregation": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "Vendors"
+                }
+              },
+              "Function": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "ae836e0547237717eba7",
+        "fields": []
+      }
+    ],
+    "layout": {
+      "related": {
+        "version": 1
+      }
+    }
+  }
+}

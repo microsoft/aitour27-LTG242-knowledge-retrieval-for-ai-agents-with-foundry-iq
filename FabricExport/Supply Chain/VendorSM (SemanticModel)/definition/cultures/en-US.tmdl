@@ -1,0 +1,683 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "1.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "vendors": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors"
+			        }
+			      },
+			      "Terms": [
+			        {
+			          "suppliers": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.666Z"
+			          }
+			        },
+			        {
+			          "manufacturers": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.67Z"
+			          }
+			        },
+			        {
+			          "CMOs": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.671Z"
+			          }
+			        },
+			        {
+			          "contract manufacturers": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.672Z"
+			          }
+			        }
+			      ]
+			    },
+			    "vendors.vendorid": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "VendorID"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.vendorname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "VendorName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.locationid": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "LocationID"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.location": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "Location"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.availablecapacitykpermonth": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "AvailableCapacityKPerMonth"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.leadtimetofirstproductionwks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "LeadTimeToFirstProductionWks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.otif12mopct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "OTIF12moPct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.batchrejectionratepct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "BatchRejectionRatePct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.lastregulatoryinspection": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "LastRegulatoryInspection"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendors.costindex": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Vendors",
+			          "ConceptualProperty": "CostIndex"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance"
+			        }
+			      },
+			      "Terms": [
+			        {
+			          "performance": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.674Z"
+			          }
+			        },
+			        {
+			          "scorecard": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.675Z"
+			          }
+			        },
+			        {
+			          "metrics": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.677Z"
+			          }
+			        },
+			        {
+			          "KPIs": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.678Z"
+			          }
+			        }
+			      ]
+			    },
+			    "vendorperformance.vendorid": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "VendorID"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.otif12mopct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "OTIF12moPct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.batchrejectionratepct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "BatchRejectionRatePct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.rightfirsttimepct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "RightFirstTimePct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.customercomplaintsper1k": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "CustomerComplaintsPer1k"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.lastregulatoryinspection": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "LastRegulatoryInspection"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.openregulatoryactions": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "OpenRegulatoryActions"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.regulatoryinspections3yr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "RegulatoryInspections3yr"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.lastinternalauditresult": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "LastInternalAuditResult"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.osdexperienceyrs": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "OSDExperienceYrs"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.availablecapacitykpermonth": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "AvailableCapacityKPerMonth"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.currentutilizationpct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "CurrentUtilizationPct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.leadtimetofirstproductionwks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "LeadTimeToFirstProductionWks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.costindex": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "CostIndex"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.moqkunits": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "MOQKUnits"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.techtransfersuccesspct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "TechTransferSuccessPct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.financialstabilityrating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "FinancialStabilityRating"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.vendor count": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Vendor Count"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.avg otif %": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg OTIF %"
+			        }
+			      },
+			      "Terms": [
+			        {
+			          "on time in full": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.68Z"
+			          }
+			        },
+			        {
+			          "delivery reliability": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.682Z"
+			          }
+			        }
+			      ]
+			    },
+			    "vendorperformance.avg batch rejection %": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg Batch Rejection %"
+			        }
+			      },
+			      "Terms": [
+			        {
+			          "reject rate": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.684Z"
+			          }
+			        },
+			        {
+			          "quality failures": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.686Z"
+			          }
+			        }
+			      ]
+			    },
+			    "vendorperformance.avg right first time %": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg Right First Time %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.avg utilization %": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg Utilization %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.avg lead time (wks)": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg Lead Time (wks)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.avg cost index": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg Cost Index"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.avg tech transfer %": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Avg Tech Transfer %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "vendorperformance.total available capacity (k/mo)": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Total Available Capacity (K/mo)"
+			        }
+			      },
+			      "Terms": [
+			        {
+			          "spare capacity": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.688Z"
+			          }
+			        },
+			        {
+			          "available capacity": {
+			            "Type": "Noun",
+			            "State": "Authored",
+			            "LastModified": "2026-06-19T22:27:53.691Z"
+			          }
+			        }
+			      ]
+			    },
+			    "vendorperformance.total open reg actions": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "VendorPerformance",
+			          "ConceptualProperty": "Total Open Reg Actions"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimlocation": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimLocation"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimlocation.locationid": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimLocation",
+			          "ConceptualProperty": "LocationID"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimlocation.location": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimLocation",
+			          "ConceptualProperty": "Location"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimlocation.stateorregion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimLocation",
+			          "ConceptualProperty": "StateOrRegion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimlocation.country": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimLocation",
+			          "ConceptualProperty": "Country"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "diminspectionresult": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimInspectionResult"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "diminspectionresult.resultcode": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimInspectionResult",
+			          "ConceptualProperty": "ResultCode"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "diminspectionresult.resultname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimInspectionResult",
+			          "ConceptualProperty": "ResultName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "diminspectionresult.description": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimInspectionResult",
+			          "ConceptualProperty": "Description"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "diminspectionresult.severityrank": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimInspectionResult",
+			          "ConceptualProperty": "SeverityRank"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "diminspectionresult.isdisqualifying": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimInspectionResult",
+			          "ConceptualProperty": "IsDisqualifying"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimauditresult": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimAuditResult"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimauditresult.auditresult": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimAuditResult",
+			          "ConceptualProperty": "AuditResult"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimauditresult.resultrank": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimAuditResult",
+			          "ConceptualProperty": "ResultRank"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimauditresult.ispassing": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimAuditResult",
+			          "ConceptualProperty": "IsPassing"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimfinancialrating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimFinancialRating"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimfinancialrating.rating": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimFinancialRating",
+			          "ConceptualProperty": "Rating"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimfinancialrating.ratingrank": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimFinancialRating",
+			          "ConceptualProperty": "RatingRank"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    },
+			    "dimfinancialrating.investmentgrade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DimFinancialRating",
+			          "ConceptualProperty": "InvestmentGrade"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": []
+			    }
+			  }
+			}
+		contentType: json
+

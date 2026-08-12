@@ -1,0 +1,73 @@
+/// Vendor dimension: one row per contract manufacturer with location and headline overview metrics.
+table Vendors
+	lineageTag: 209eeb15-8330-413e-8179-e933b21b69f7
+	sourceLineageTag: [dbo].[Vendors]
+
+	/// Surrogate vendor key. Joins to VendorPerformance.
+	column VendorID
+		dataType: string
+		isKey
+		lineageTag: a3ea0b11-7baf-47c4-95e2-1029ce6722d1
+		summarizeBy: none
+		sourceColumn: VendorID
+
+	/// Contract manufacturer (CMO) name.
+	column VendorName
+		dataType: string
+		lineageTag: d3fb4e29-52b0-42eb-a512-1872c72dd3a8
+		sourceColumn: VendorName
+
+	column LocationID
+		dataType: string
+		isHidden
+		lineageTag: 26d3381a-c624-43ee-b89d-401dbe3b67f5
+		summarizeBy: none
+		sourceColumn: LocationID
+
+	/// Vendor site location as reported.
+	column Location
+		dataType: string
+		lineageTag: d0c5b333-c2e2-4dfa-86dd-4cd419f0224e
+		sourceColumn: Location
+
+	/// Available manufacturing capacity in thousands of units per month.
+	column AvailableCapacityKPerMonth
+		dataType: int64
+		lineageTag: 43ef8331-da17-49cc-a67b-09ca6e8c5166
+		sourceColumn: AvailableCapacityKPerMonth
+
+	/// Lead time to first production, in weeks.
+	column LeadTimeToFirstProductionWks
+		dataType: int64
+		lineageTag: 38013a58-6f09-4c1c-9af6-b310a3a27359
+		sourceColumn: LeadTimeToFirstProductionWks
+
+	/// On-time-in-full delivery rate, trailing 12 months.
+	column OTIF12moPct
+		dataType: double
+		lineageTag: 3e499004-65e2-4881-b418-2b321fca1851
+		sourceColumn: OTIF12moPct
+
+	/// Share of batches rejected for quality reasons.
+	column BatchRejectionRatePct
+		dataType: double
+		lineageTag: fdbda649-4398-4ca4-951a-2c9ed09d2d56
+		sourceColumn: BatchRejectionRatePct
+
+	column LastRegulatoryInspection
+		dataType: string
+		lineageTag: 3b987717-e2d4-4c1b-8d9c-3bdd331b2fe1
+		sourceColumn: LastRegulatoryInspection
+
+	/// Cost index where the market average = 100; lower is cheaper.
+	column CostIndex
+		dataType: int64
+		lineageTag: c581ae2b-7b06-4ca0-adf7-8ddbb652d071
+		sourceColumn: CostIndex
+
+	partition Vendors = entity
+		mode: directLake
+		source
+			entityName: Vendors
+			expressionSource: DL_Lakehouse
+

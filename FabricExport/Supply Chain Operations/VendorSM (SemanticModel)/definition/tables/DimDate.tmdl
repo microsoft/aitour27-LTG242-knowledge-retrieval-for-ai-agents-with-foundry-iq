@@ -1,0 +1,93 @@
+/// Date dimension at daily grain covering the last two years. Use for trends, time intelligence and recent-change analysis.
+table DimDate
+	lineageTag: 7330894e-4fdc-43e0-b9b6-ba3dd2691d8d
+	sourceLineageTag: [dbo].[DimDate]
+	dataCategory: Time
+
+	column DateKey
+		dataType: int64
+		isHidden
+		lineageTag: ecd25ddf-8e59-4e2e-896f-6440eb0dbe83
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	/// Calendar date of the record.
+	column Date
+		dataType: dateTime
+		isKey
+		lineageTag: cf5424f0-0b06-4e73-9189-bc17c808550f
+		sourceColumn: Date
+
+	column Year
+		dataType: int64
+		lineageTag: b0923d23-598c-426c-8902-531e277c4aa5
+		summarizeBy: none
+		sourceColumn: Year
+
+	column Quarter
+		dataType: int64
+		lineageTag: 089cf4e8-1a2a-4e93-bc1c-d5105a103ae8
+		summarizeBy: none
+		sourceColumn: Quarter
+
+	column QuarterName
+		dataType: string
+		lineageTag: 4f931c33-96cf-47e4-983d-425445610ee4
+		sourceColumn: QuarterName
+
+	column MonthNumber
+		dataType: int64
+		lineageTag: 9bc990b4-be70-4897-b7c7-1dd5f88e1e36
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+	column MonthName
+		dataType: string
+		lineageTag: ba24b5f4-d8c3-4553-ad55-915a955d0312
+		sourceColumn: MonthName
+		sortByColumn: MonthNumber
+
+	/// Month and year label (e.g. 'Jan 2025') for trend axes.
+	column MonthYear
+		dataType: string
+		lineageTag: c31a1908-9b85-40fb-9c15-e7db8aba916f
+		sourceColumn: MonthYear
+		sortByColumn: MonthKey
+
+	column MonthKey
+		dataType: int64
+		isHidden
+		lineageTag: c213c4c9-9183-46df-8e79-8075819ce83a
+		summarizeBy: none
+		sourceColumn: MonthKey
+
+	column WeekOfYear
+		dataType: int64
+		lineageTag: da717882-9667-4ba6-b933-a3619d5a358d
+		summarizeBy: none
+		sourceColumn: WeekOfYear
+
+	column DayOfWeekNumber
+		dataType: int64
+		lineageTag: b158332e-bff5-4325-bfef-d59e4350b6e4
+		summarizeBy: none
+		sourceColumn: DayOfWeekNumber
+
+	column DayName
+		dataType: string
+		lineageTag: 02e30413-02dd-42a9-ba9f-47385b506184
+		sourceColumn: DayName
+		sortByColumn: DayOfWeekNumber
+
+	column IsWeekend
+		dataType: string
+		lineageTag: 4830ad84-63a9-4af9-a10d-f9d31b965ff6
+		sourceColumn: IsWeekend
+
+	partition DimDate = entity
+		mode: directLake
+		source
+			entityName: DimDate
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+

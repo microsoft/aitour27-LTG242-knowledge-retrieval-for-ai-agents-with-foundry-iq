@@ -1,0 +1,54 @@
+<style>
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  :root { --ink:#18232a; --muted:#607078; --line:#cbd4d8; --paper:#fff; --teal:#16756f; --navy:#153451; --red:#a83a34; --amber:#c48218; --green:#31724c; }
+  html, body { margin:0; padding:0; background:#e7ecee; color:var(--ink); font-family:"Avenir Next", "Helvetica Neue", sans-serif; font-size:10px; letter-spacing:0; }
+  .page { width:8.5in; min-height:11in; margin:0 auto; padding:.43in .48in .38in; background:var(--paper); position:relative; overflow:hidden; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid var(--accent); padding-bottom:12px; margin-bottom:14px; }
+  .logo { width:178px; height:44px; object-fit:contain; object-position:left center; }
+  .doc { text-align:right; }
+  .doc h1 { margin:0; font-size:19px; line-height:1.08; color:var(--accent); font-weight:700; }
+  .doc .id { font-family:"SFMono-Regular", Menlo, monospace; font-size:10px; margin-top:5px; }
+  h2 { margin:14px 0 7px; font-size:11px; text-transform:uppercase; color:var(--accent); border-bottom:1px solid var(--line); padding-bottom:4px; }
+  h3 { margin:0 0 4px; font-size:10px; }
+  p { margin:0 0 6px; line-height:1.35; }
+  table { width:100%; border-collapse:collapse; font-size:9px; }
+  th { text-align:left; color:#fff; background:var(--accent); padding:5px 6px; font-weight:600; }
+  td { border-bottom:1px solid var(--line); padding:5px 6px; vertical-align:top; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .meta { display:grid; grid-template-columns:repeat(4, 1fr); border:1px solid var(--line); }
+  .meta > div { padding:6px 8px; border-right:1px solid var(--line); }
+  .meta > div:last-child { border-right:0; }
+  .label { display:block; color:var(--muted); font-size:7.5px; text-transform:uppercase; margin-bottom:2px; }
+  .value { font-weight:650; }
+  .metrics { display:grid; grid-template-columns:repeat(4, 1fr); gap:7px; margin:10px 0; }
+  .metric { border-top:3px solid var(--accent); background:#f3f6f6; padding:8px; min-height:53px; }
+  .metric b { display:block; font-size:17px; color:var(--accent); line-height:1; margin-top:4px; }
+  .figure { border:1px solid var(--line); background:#f8faf9; padding:9px 10px 8px; margin:9px 0; break-inside:avoid; }
+  .figure-title { font-weight:700; margin-bottom:7px; }
+  .bar-row { display:grid; grid-template-columns:175px 1fr 62px; align-items:center; gap:8px; margin:5px 0; }
+  .track { height:14px; background:#dfe7e8; position:relative; }
+  .bar { height:100%; background:var(--accent); }
+  .small { font-size:8px; color:var(--muted); }
+  .note { background:#f2f6f5; border-left:3px solid var(--accent); padding:8px 10px; margin:8px 0; }
+  .alert { background:#fbefed; border-left:3px solid var(--red); padding:8px 10px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .signatures { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:13px; }
+  .signature { border-top:1px solid var(--ink); padding-top:4px; }
+  .footer { position:absolute; left:.48in; right:.48in; bottom:.23in; display:flex; justify-content:space-between; color:var(--muted); font-size:7.5px; border-top:1px solid var(--line); padding-top:5px; }
+  ul { margin:4px 0 6px 17px; padding:0; }
+  li { margin:2px 0; }
+  .pill { display:inline-block; padding:2px 6px; border:1px solid currentColor; font-weight:700; font-size:8px; text-transform:uppercase; }
+  .decision { border:2px solid var(--accent); padding:10px 12px; display:flex; justify-content:space-between; align-items:center; margin:10px 0; }
+  .decision strong { font-size:16px; color:var(--accent); }
+  .device-map { width:100%; height:126px; display:block; background:#fff; border:1px solid var(--line); }
+  .capacity-track { display:flex; height:42px; background:#e1e7e8; margin:9px 0 5px; }
+  .capacity-included { background:#1e716b; color:#fff; display:flex; align-items:center; justify-content:center; }
+  .capacity-excess { background:#d8992b; color:#1e2428; display:flex; align-items:center; justify-content:center; }
+  .fishbone { width:100%; height:120px; display:block; background:#fff; border:1px solid var(--line); }
+  body.yield { --accent:#236b5c; }
+  body.inspection { --accent:#263d59; font-family:Optima, "Avenir Next", sans-serif; }
+  body.utilization { --accent:#156a89; font-family:"Avenir Next Condensed", "Avenir Next", sans-serif; }
+  body.assessment { --accent:#7a3030; font-family:Charter, Georgia, serif; }
+  body.assessment .doc h1, body.assessment h2 { letter-spacing:0; }
+</style>

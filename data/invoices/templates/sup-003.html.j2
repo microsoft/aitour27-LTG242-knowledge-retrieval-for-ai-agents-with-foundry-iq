@@ -1,0 +1,18 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .logistics .topbar { align-items:center; background:var(--primary); color:#fff; display:flex; justify-content:space-between; margin:-.42in -.48in 0; padding:.28in .48in; }
+  .logistics .topbar .supplier-name, .logistics .topbar .subtitle { color:#fff; }
+  .logistics .heading { background:var(--tint); padding:10px 14px; text-align:left; }
+  .logistics .invoice-label { font-family:"Avenir Next", sans-serif; font-size:16px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+  .manifest-grid { display:grid; gap:12px; grid-template-columns:2fr 1fr; margin-top:14px; }
+  .logistics table { margin-top:14px; }
+  .logistics th { background:#087f91; }
+{% endblock %}
+{% block document %}<article class="invoice logistics">
+  <header class="topbar">{{ c.brand() }}<div class="eyebrow" style="color:#fff">European packaging &amp; serialization</div></header>
+  <section class="manifest-grid"><div class="stack">{{ c.heading() }}{{ c.metadata() }}</div><div class="panel">{{ c.terms() }}</div></section>
+  <div style="margin-top:12px">{{ c.parties() }}</div><div style="margin-top:12px">{{ c.references() }}</div>
+  {{ c.line_table('Shipment / service', 'Operation', 'Serialized qty', 'Shipment or label ref') }}
+  <div style="margin-top:10px">{{ c.totals('Manifest total') }}</div>{{ c.footer() }}
+</article>{% endblock %}

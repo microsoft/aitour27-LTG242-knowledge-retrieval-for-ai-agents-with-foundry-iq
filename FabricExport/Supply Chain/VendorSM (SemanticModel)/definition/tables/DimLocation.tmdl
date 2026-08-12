@@ -1,0 +1,33 @@
+/// Location dimension: state/region and country for each vendor site.
+table DimLocation
+	lineageTag: 8e63ec06-1375-4f2c-9db4-4a42cf8ad17d
+	sourceLineageTag: [dbo].[DimLocation]
+
+	column LocationID
+		dataType: string
+		isKey
+		lineageTag: 8e976dc6-3881-4046-82c2-b28dc98e84d5
+		summarizeBy: none
+		sourceColumn: LocationID
+
+	column Location
+		dataType: string
+		lineageTag: ab2de0eb-ffa2-4091-8037-5c461757e2c1
+		sourceColumn: Location
+
+	column StateOrRegion
+		dataType: string
+		lineageTag: ddfe8dfa-49ed-444d-807d-220d892f93d5
+		sourceColumn: StateOrRegion
+
+	column Country
+		dataType: string
+		lineageTag: e8f5fdb4-bbef-4f24-accc-50f6724f7eed
+		sourceColumn: Country
+
+	partition DimLocation = entity
+		mode: directLake
+		source
+			entityName: DimLocation
+			expressionSource: DL_Lakehouse
+

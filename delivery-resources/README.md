@@ -1,46 +1,43 @@
 # Delivery resources
 
-<!-- AI TOUR TEMPLATE PLACEHOLDER: replace the required deck link before publication. Optional recording links can remain unavailable. -->
-
 Presenter, re-delivery, and train-the-trainer materials for this session.
 
 ## Core materials
 
 | Item | Link | Notes |
 |---|---|---|
-| Delivery deck |  | Required URL |
-| Session recording |  | Optional URL when available |
+| Delivery deck | Pending | A public URL is required before publication |
+| Session recording | Not available | Optional URL when available |
 | Attendee landing page | [Session README](../README.md) | Public starting point |
-| Workshop/lab instructions | [Instructions](../instructions/README.md) | Remove this row when not applicable |
 
 ## Delivery checklist
 
 - Review the session README
-- Review the attendee instructions
-- Open the deck
-- Review the presenter guidance below
-- Review live demo reproducibility guidance
+- Open the deck when its public URL is available
+- Review the presenter guidance when it is available
+- Review live demo reproducibility guidance when it is available
 - Validate any required environment or setup
 
 ## Session preparation
 
 - Review the attendee entry point from the root README.
-- Review the delivery deck.
-- Validate the required environment and setup.
+- Review the delivery deck when its public URL is available.
+- Validate the required environment and setup when the demo guidance is
+  available.
 
 ## Run of show
 
-Add timing, transitions, and delivery notes.
+Pending.
 
 ## Demo reproducibility
 
-If the session includes live demos, link to or include the steps, code, setup,
-and notes required to reproduce them.
+This session includes live demos. Reproduction steps, prerequisites, code and
+data locations, and setup notes are pending.
 
 ## Setup notes
 
-Use this section for short setup reminders. Link to detailed setup notes if needed.
+Pending.
 
 ## Support
 
-Content owner or contact:
+Content owner or contact: [Pamela Fox](https://github.com/pamelafox)

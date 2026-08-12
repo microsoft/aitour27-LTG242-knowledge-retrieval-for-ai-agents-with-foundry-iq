@@ -1,0 +1,19 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .materials-ledger { border-left:18px solid var(--primary); padding-left:.36in; }
+  .materials-ledger header { align-items:end; display:flex; justify-content:space-between; }
+  .ledger-title { color:var(--primary); font-family:Georgia,serif; font-size:14px; margin:14px 0 8px; }
+  .ledger-info { background:var(--tint); display:grid; gap:14px; grid-template-columns:1.3fr .7fr; padding:12px; }
+  .materials-ledger .parties { grid-template-columns:.9fr 1.1fr; margin-top:12px; }
+  .materials-ledger table { border:1px solid var(--rule); margin-top:14px; }
+  .materials-ledger td { border-right:1px solid var(--rule); }
+{% endblock %}
+{% block document %}<article class="invoice materials-ledger">
+  <header>{{ c.brand() }}{{ c.heading() }}</header>
+  <div class="ledger-title">API lot and materials ledger</div>
+  <section class="ledger-info">{{ c.metadata() }}{{ c.terms() }}</section>
+  <div style="margin-top:12px">{{ c.parties() }}</div>
+  {{ c.line_table('Lot / material entry', 'Ledger class', 'Lot quantity', 'Certificate / lot ref') }}
+  <section class="grid-2" style="margin-top:12px">{{ c.references() }}{{ c.totals('Ledger balance') }}</section>{{ c.footer() }}
+</article>{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "_base.html.j2" %}
+{% import "_components.html.j2" as c with context %}
+{% block supplier_css %}
+  .country { padding-left:1.45in; }
+  .country-rail { background:var(--primary); bottom:0; color:#fff; left:0; padding:.45in .18in; position:absolute; top:0; width:1.05in; }
+  .rail-signal { border:2px solid #fff; border-radius:50%; height:40px; margin:0 auto; position:relative; width:40px; }
+  .rail-signal::before { background:#fff; border-radius:50%; content:""; height:8px; left:14px; position:absolute; top:14px; width:8px; }
+  .rail-signal::after { border-bottom:2px solid #fff; border-top:2px solid #fff; content:""; height:18px; left:7px; position:absolute; top:9px; width:22px; }
+  .country-rail .vertical { font-size:11px; font-weight:800; letter-spacing:.12em; margin-top:18px; text-align:center; text-transform:uppercase; writing-mode:vertical-rl; }
+  .country header { align-items:start; display:flex; justify-content:space-between; }
+  .scope-title { border-bottom:2px solid var(--primary); color:var(--primary); font-family:Georgia,serif; font-size:18px; margin:14px 0 10px; padding-bottom:6px; }
+  .scope-grid { display:grid; gap:14px; grid-template-columns:1.25fr .75fr; }
+  .country .parties { grid-template-columns:1fr; }
+  .country table { margin-top:14px; }
+  .country th { background:#fff; border-bottom:3px solid var(--primary); color:var(--primary); }
+  .country .totals-box { min-width:300px; }
+{% endblock %}
+{% block document %}<article class="invoice country">
+  <aside class="country-rail"><div class="rail-signal"></div><div class="vertical">Regulatory country services</div></aside>
+  <header>{{ c.brand() }}{{ c.heading() }}</header>
+  <div class="scope-title">Country-scope professional services invoice</div>
+  <section class="scope-grid"><div class="stack">{{ c.metadata() }}{{ c.parties() }}</div><div class="stack">{{ c.terms() }}{{ c.references() }}</div></section>
+  {{ c.line_table('Country / submission service', 'Scope category', 'Countries / units', 'Submission evidence') }}
+  <div style="margin-top:11px">{{ c.totals('Services balance') }}</div>{{ c.footer() }}
+</article>{% endblock %}

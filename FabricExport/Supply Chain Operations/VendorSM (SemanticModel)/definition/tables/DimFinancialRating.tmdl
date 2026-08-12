@@ -1,0 +1,28 @@
+/// Financial stability rating reference (A+ down to B-) with rank and investment-grade flag.
+table DimFinancialRating
+	lineageTag: 244c9c9a-27b4-462b-b933-e246c40e3dfc
+	sourceLineageTag: [dbo].[DimFinancialRating]
+
+	column Rating
+		dataType: string
+		lineageTag: ff32fc14-454a-4cae-bc5c-3c22c34cc6ea
+		sourceColumn: Rating
+		sortByColumn: RatingRank
+
+	column RatingRank
+		dataType: int64
+		lineageTag: 0134596c-6285-440c-bc5f-d3f6748e0a22
+		sourceColumn: RatingRank
+
+	column InvestmentGrade
+		dataType: string
+		lineageTag: 4517f5df-d7ed-4e23-9ace-81ca219d81bc
+		sourceColumn: InvestmentGrade
+
+	partition DimFinancialRating = entity
+		mode: directLake
+		source
+			entityName: DimFinancialRating
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+

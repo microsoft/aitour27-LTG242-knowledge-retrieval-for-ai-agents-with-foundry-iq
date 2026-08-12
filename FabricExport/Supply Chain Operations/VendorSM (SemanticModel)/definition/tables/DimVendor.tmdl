@@ -1,0 +1,80 @@
+/// Vendor dimension: one row per contract manufacturer with location, experience, capacity, MOQ and financial rating.
+table DimVendor
+	lineageTag: 1cbce4e4-dfc8-4b88-b617-827ce59efcb8
+	sourceLineageTag: [dbo].[DimVendor]
+
+	/// Number of vendors.
+	measure 'Vendor Count' = DISTINCTCOUNT(DimVendor[VendorID])
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 7d3b1c6a-dc8f-40c5-bd73-27d6625175b3
+
+	/// Total available capacity (thousand units/month).
+	measure 'Total Available Capacity (K/mo)' = SUM(DimVendor[AvailableCapacityKPerMonth])
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 59ade657-e713-4148-8047-7a7e80e3a643
+
+	/// Surrogate vendor key. Joins to VendorPerformance.
+	column VendorID
+		dataType: string
+		lineageTag: 7b5111dd-86d4-411e-a180-0515723065b0
+		summarizeBy: none
+		sourceColumn: VendorID
+
+	/// Contract manufacturer (CMO) name.
+	column VendorName
+		dataType: string
+		lineageTag: 6fb5fe40-5289-44ad-a283-37bd5f8995cd
+		sourceColumn: VendorName
+
+	column LocationID
+		dataType: string
+		isHidden
+		lineageTag: e5711c60-8e40-456d-8f9d-6b9f15d49275
+		summarizeBy: none
+		sourceColumn: LocationID
+
+	/// Vendor site location as reported.
+	column Location
+		dataType: string
+		lineageTag: c81ae2a6-a80f-4788-9b91-8e928c4bd675
+		sourceColumn: Location
+
+	/// Years of oral solid dose (OSD) manufacturing experience.
+	column OSDExperienceYrs
+		dataType: int64
+		lineageTag: bf220f2b-3689-4c90-8866-d79481e6cdd5
+		sourceColumn: OSDExperienceYrs
+
+	/// Available manufacturing capacity in thousands of units per month.
+	column AvailableCapacityKPerMonth
+		dataType: int64
+		lineageTag: 53b683ce-fb0e-4ccc-91be-b6cdbcb0154d
+		sourceColumn: AvailableCapacityKPerMonth
+
+	/// Minimum order quantity in thousands of units.
+	column MOQKUnits
+		dataType: int64
+		lineageTag: 18fe1d5b-bf3a-4670-bf40-2552f1bd20e0
+		sourceColumn: MOQKUnits
+
+	/// Number of regulatory inspections in the last 3 years.
+	column RegulatoryInspections3yr
+		dataType: int64
+		lineageTag: 6185c8ab-3b55-4e7a-9f8a-4217dcfb5123
+		sourceColumn: RegulatoryInspections3yr
+
+	/// Financial stability rating (A+ to B-).
+	column FinancialStabilityRating
+		dataType: string
+		lineageTag: 01de137e-ce6e-4a95-8703-3c5f61f55b24
+		sourceColumn: FinancialStabilityRating
+
+	partition DimVendor = entity
+		mode: directLake
+		source
+			entityName: DimVendor
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
