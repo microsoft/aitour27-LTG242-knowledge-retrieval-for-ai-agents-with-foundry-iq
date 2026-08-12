@@ -89,11 +89,10 @@ The pharmaceutical agreement above is a domain-specific secondary source: its de
 
 ## Supplier network map
 
-**Base map:** [WorldMap.svg](https://commons.wikimedia.org/wiki/File:WorldMap.svg),
-original by David Kernow and vectorized by CodeOne. Wikimedia Commons identifies
-the Robinson-projection map as public domain because its source material came
-from the United States Central Intelligence Agency's World Factbook. Marker
-projection uses the map family's 10°E central meridian.
+**Base map:** [Natural Earth](https://www.naturalearthdata.com/) 1:110m land
+geometry, released to the public domain. The generator creates an equirectangular
+SVG from the same GeoJSON used to verify that every configured marker coordinate
+falls inside a land polygon.
 
 The supplier overlay is original Caldova demonstration content. Marker positions
 are projected from source-backed billing cities, the explicit BluePeak inspected

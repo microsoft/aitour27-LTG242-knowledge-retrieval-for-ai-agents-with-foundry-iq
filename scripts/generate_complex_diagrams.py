@@ -15,6 +15,8 @@ HTML_ROOT = DIAGRAM_ROOT / "html"
 PDF_ROOT = DIAGRAM_ROOT / "pdf"
 PROCUREMENT_PATH = ROOT / "data" / "procurement" / "source" / "procurement-chain.json"
 INVOICE_PATH = ROOT / "data" / "invoices" / "source" / "waypoint-supplier-invoices.json"
+LAND_PATH = DIAGRAM_ROOT / "assets" / "NaturalEarthLand.geojson"
+MAP_PATH = DIAGRAM_ROOT / "assets" / "NaturalEarthMap.svg"
 
 FABRIC_SUPPLIERS = [
     {"id": "V001", "name": "Annterra Pharma", "location": "New Jersey, USA", "lat": 40.0583, "lon": -74.4057, "dx": -115, "dy": -55, "status": "Stable", "role": "CALD-201 bidder · rank 2"},
@@ -51,31 +53,75 @@ CALDOVA_SITES = [
     {"id": "CAL-DC-ABE", "name": "Distribution Center", "location": "Allentown, PA", "lat": 40.6023, "lon": -75.4714},
 ]
 
-ROBINSON_X = (1.0, .9986, .9954, .99, .9822, .973, .96, .9427, .9216, .8962, .8679, .835, .7986, .7597, .7186, .6732, .6213, .5722, .5322)
-ROBINSON_Y = (0.0, .062, .124, .186, .248, .31, .372, .434, .4958, .5571, .6176, .6769, .7346, .7903, .8435, .8936, .9394, .9761, 1.0)
-MAP_CENTRAL_MERIDIAN = 10.0
-
-
 def project_site(site: dict[str, Any]) -> dict[str, Any]:
     latitude = max(-90.0, min(90.0, float(site["lat"])))
     longitude = max(-180.0, min(180.0, float(site["lon"])))
-    map_longitude = ((longitude - MAP_CENTRAL_MERIDIAN + 180) % 360) - 180
-    interval = min(int(abs(latitude) // 5), len(ROBINSON_X) - 2)
-    fraction = (abs(latitude) - interval * 5) / 5
-    x_coefficient = ROBINSON_X[interval] + fraction * (ROBINSON_X[interval + 1] - ROBINSON_X[interval])
-    y_coefficient = ROBINSON_Y[interval] + fraction * (ROBINSON_Y[interval + 1] - ROBINSON_Y[interval])
     return {
         **site,
-        "x": round(500 + map_longitude / 180 * 500 * x_coefficient, 1),
-        "y": round(260 - (1 if latitude >= 0 else -1) * y_coefficient * 260, 1),
+        "x": round((longitude + 180) / 360 * 1000, 1),
+        "y": round((90 - latitude) / 180 * 520, 1),
     }
+
+
+def polygons(geometry: dict[str, Any]) -> list[list[list[list[float]]]]:
+    coordinates = geometry["coordinates"]
+    return coordinates if geometry["type"] == "MultiPolygon" else [coordinates]
+
+
+def point_in_ring(longitude: float, latitude: float, ring: list[list[float]]) -> bool:
+    inside = False
+    previous = len(ring) - 1
+    for current, point in enumerate(ring):
+        current_longitude, current_latitude = point[:2]
+        previous_longitude, previous_latitude = ring[previous][:2]
+        if ((current_latitude > latitude) != (previous_latitude > latitude)) and longitude < (
+            (previous_longitude - current_longitude)
+            * (latitude - current_latitude)
+            / (previous_latitude - current_latitude)
+            + current_longitude
+        ):
+            inside = not inside
+        previous = current
+    return inside
+
+
+def site_is_on_land(site: dict[str, Any], land: dict[str, Any]) -> bool:
+    longitude = float(site["lon"])
+    latitude = float(site["lat"])
+    return any(
+        point_in_ring(longitude, latitude, rings[0])
+        and not any(point_in_ring(longitude, latitude, hole) for hole in rings[1:])
+        for feature in land["features"]
+        for rings in polygons(feature["geometry"])
+    )
+
+
+def render_world_map(land: dict[str, Any]) -> None:
+    paths = []
+    for feature in land["features"]:
+        for rings in polygons(feature["geometry"]):
+            commands = []
+            for ring in rings:
+                points = [
+                    (round((point[0] + 180) / 360 * 1000, 2), round((90 - point[1]) / 180 * 520, 2))
+                    for point in ring
+                ]
+                commands.append("M" + " ".join(f"{x},{y}" for x, y in points) + "Z")
+            paths.append(f'<path d="{" ".join(commands)}"/>')
+    MAP_PATH.write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520">'
+        '<g fill="#bcbcbc" fill-rule="evenodd">'
+        + "".join(paths)
+        + "</g></svg>",
+        encoding="utf-8",
+    )
 
 
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def validate(procurement: dict[str, Any], invoices: dict[str, Any]) -> None:
+def validate(procurement: dict[str, Any], invoices: dict[str, Any], land: dict[str, Any]) -> None:
     supplier_names = {item["name"] for item in procurement["suppliers"]}
     if supplier_names != {"Annterra Pharma", "Kristos Pharma", "Sabyn Formulations"}:
         raise ValueError("CALD-201 bidder set changed")
@@ -91,6 +137,13 @@ def validate(procurement: dict[str, Any], invoices: dict[str, Any]) -> None:
         raise ValueError("Waypoint supplier set changed")
     if len(FABRIC_SUPPLIERS) != 8 or len(WAYPOINT_SITES) != 16:
         raise ValueError("Diagram site register is incomplete")
+    offshore_sites = [
+        site["id"]
+        for site in FABRIC_SUPPLIERS + WAYPOINT_SITES + CALDOVA_SITES
+        if not site_is_on_land(site, land)
+    ]
+    if offshore_sites:
+        raise ValueError(f"Map locations are outside Natural Earth land polygons: {', '.join(offshore_sites)}")
 
 
 def environment() -> Environment:
@@ -128,14 +181,16 @@ def render_pdf(html_path: Path, output_name: str) -> None:
 def main() -> None:
     procurement = load_json(PROCUREMENT_PATH)
     invoices = load_json(INVOICE_PATH)
-    validate(procurement, invoices)
+    land = load_json(LAND_PATH)
+    validate(procurement, invoices, land)
+    render_world_map(land)
     common = {
         "procurement": procurement,
         "fabric_suppliers": [project_site(site) for site in FABRIC_SUPPLIERS],
         "waypoint_sites": [project_site(site) for site in WAYPOINT_SITES],
         "caldova_sites": [project_site(site) for site in CALDOVA_SITES],
         "logo_uri": (ROOT / "caldova_logo.png").as_uri(),
-        "world_map_uri": (DIAGRAM_ROOT / "assets" / "WorldMap.svg").as_uri(),
+        "world_map_uri": MAP_PATH.as_uri(),
     }
     outputs = [
         ("supplier-network.html.j2", "CAL-MAP-SUP-001", common),

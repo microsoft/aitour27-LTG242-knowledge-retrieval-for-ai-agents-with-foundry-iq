@@ -341,11 +341,12 @@ Three information-dense visuals support different diagram-retrieval tests:
   `V001`–`V007` vendor-performance dataset separate from the Waypoint
   `sup-001`–`sup-015` billing-profile layer, while showing BluePeak's inspected
   manufacturing site and Caldova's two purchase-order locations as separately
-  identified nodes. Markers use a Robinson projection centered at 10°E to match
-  the base map, from real city coordinates or representative state centers when the source supplies only a state. The
-  base is the public-domain [WorldMap.svg](https://commons.wikimedia.org/wiki/File:WorldMap.svg)
-  by David Kernow and CodeOne, via Wikimedia Commons. No identity crosswalk is
-  asserted between the datasets.
+  identified nodes. Markers and coastlines use the same equirectangular
+  coordinate system, from real city coordinates or representative state centers
+  when the source supplies only a state. The base map is generated from
+  public-domain [Natural Earth](https://www.naturalearthdata.com/) 1:110m land
+  data. Generation fails if any configured location falls outside the source
+  land polygons. No identity crosswalk is asserted between the datasets.
 - [CAL-MAP-EVD-001.pdf](complex-diagrams/pdf/CAL-MAP-EVD-001.pdf) tests
   cross-document relationship reasoning. It links policy and requisition
   authority to the RFP, three pre-existing agreements, three responses, the
