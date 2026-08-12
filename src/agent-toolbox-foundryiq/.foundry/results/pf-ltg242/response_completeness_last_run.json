@@ -1,0 +1,12 @@
+{
+  "evalId": "eval_c6be6e3b892e4c7f9710b4a3b8858c75",
+  "evalRunId": "evalrun_e6a0a325a228419ca068154e7a5f7786",
+  "runName": "Response Completeness - agent-toolbox-foundryiq v2",
+  "agentName": "agent-toolbox-foundryiq",
+  "agentVersion": "2",
+  "datasetId": "azureai://accounts/ai-account-uqu2yu2cnxuys/projects/ai-project-pf-ltg242/data/agent-toolbox-foundryiq-response-completeness-ground-truth/versions/1786574271",
+  "startedAt": 1786574273,
+  "status": "completed",
+  "completedAt": 1786574345,
+  "reportUrl": "https://ai.azure.com/nextgen/r/eogHKHDTSdCt3kJQcWz9lA,rg-pf-ltg242,,ai-account-uqu2yu2cnxuys,ai-project-pf-ltg242/build/evaluations/eval_c6be6e3b892e4c7f9710b4a3b8858c75/run/evalrun_e6a0a325a228419ca068154e7a5f7786"
+}

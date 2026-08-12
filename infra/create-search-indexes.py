@@ -33,6 +33,7 @@ DATA_ROOT = REPO_ROOT / "data"
 KB1_PDF_GLOB = "**/pdf/*.pdf"
 SEARCH_API_VERSION = "2026-05-01-preview"
 CONTAINER_NAME = "knowledge"
+EXTRACTED_IMAGES_CONTAINER_NAME = "extracted-images"
 KB1_BLOB_PREFIX = "kb1"
 SEARCH_INDEX_NAME = "session-documents"
 KNOWLEDGE_BASE_NAME = "knowledge-retrieval-kb"
@@ -235,6 +236,21 @@ def build_indexer_payloads(
             "@odata.type": "#Microsoft.Azure.Search.AIServicesByIdentity",
             "subdomainUrl": foundry_endpoint,
             "identity": None,
+        },
+        "knowledgeStore": {
+            "storageConnectionString": f"ResourceId={storage_resource_id}/;",
+            "projections": [
+                {
+                    "tables": [],
+                    "objects": [],
+                    "files": [
+                        {
+                            "storageContainer": EXTRACTED_IMAGES_CONTAINER_NAME,
+                            "source": "/document/normalized_images/*",
+                        }
+                    ],
+                }
+            ],
         },
         "indexProjections": {
             "selectors": [

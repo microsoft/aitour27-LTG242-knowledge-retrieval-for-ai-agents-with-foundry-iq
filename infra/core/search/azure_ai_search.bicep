@@ -62,10 +62,10 @@ resource storageContainer 'Microsoft.Storage/storageAccounts/blobServices/contai
 }
 
 resource searchToStorageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(storageAccount.id, searchService.id, 'Storage Blob Data Reader', uniqueString(deployment().name))
+  name: guid(storageAccount.id, searchService.id, 'Storage Blob Data Contributor', uniqueString(deployment().name))
   scope: storageAccount
   properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
     principalId: searchService.identity.principalId
     principalType: 'ServicePrincipal'
   }
