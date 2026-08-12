@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ document.report_id }} — {{ document.title }}</title>
+  <style>
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:#777; color:#202020; font-family:Arial,Helvetica,sans-serif; }
+    .page { width:816px; height:1056px; position:relative; overflow:hidden; background:#f8f7f2; break-after:page; page-break-after:always; }
+    .page:nth-child(3n+2) { filter:contrast(.98); }
+    .page::after { content:""; position:absolute; inset:0; pointer-events:none; opacity:.09; background:repeating-linear-gradient(0deg,transparent 0 3px,#666 4px); mix-blend-mode:multiply; }
+    .header { position:absolute; left:56px; right:48px; top:34px; height:66px; border-top:5px solid #303030; border-bottom:1px solid #555; display:flex; justify-content:space-between; align-items:center; }
+    .brand { display:flex; align-items:center; gap:14px; }
+    .brand img { max-width:116px; max-height:34px; filter:grayscale(1) contrast(1.3); }
+    .brand span { border-left:1px solid #777; padding-left:12px; font-size:10px; font-weight:bold; text-transform:uppercase; }
+    .docmeta { text-align:right; font:9px/1.4 "Courier New",monospace; }
+    .content { position:absolute; left:56px; right:48px; top:124px; bottom:58px; }
+    .footer { position:absolute; left:56px; right:48px; bottom:25px; border-top:1px solid #777; padding-top:5px; display:flex; justify-content:space-between; font:8px "Courier New",monospace; }
+    .fictional { font-weight:bold; }
+    h1 { margin:0 0 12px; font:700 30px/1.05 Georgia,serif; }
+    h2 { margin:0 0 12px; font:700 21px/1.1 Georgia,serif; border-bottom:2px solid #333; padding-bottom:5px; }
+    h3 { margin:0 0 6px; font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
+    p, li { margin-top:0; font-size:10px; line-height:1.38; }
+    ul, ol { margin-top:5px; padding-left:18px; }
+    li { margin-bottom:5px; }
+    .kicker { font:700 9px "Courier New",monospace; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+    .cover-box { border:3px double #222; padding:24px; margin-top:40px; }
+    .cover-class { margin-top:20px; padding:9px; border:2px solid #222; font:bold 10px "Courier New",monospace; text-align:center; }
+    .stamp { position:absolute; right:65px; top:465px; border:4px double #842a2a; color:#842a2a; padding:14px 18px; font:bold 20px "Courier New",monospace; transform:rotate(-4deg); opacity:.8; }
+    .field-grid { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid #555; }
+    .field { padding:8px 10px 8px 0; min-height:46px; border-bottom:1px solid #aaa; }
+    .field:nth-child(even) { border-left:1px solid #aaa; padding-left:10px; }
+    .field label { display:block; font:bold 8px "Courier New",monospace; text-transform:uppercase; color:#555; margin-bottom:3px; }
+    .field div { font-size:10px; line-height:1.3; }
+    .wide { grid-column:1/-1; border-left:0 !important; padding-left:0 !important; }
+    .summary-band { display:grid; grid-template-columns:repeat(3,1fr); border:2px solid #333; margin:15px 0; }
+    .summary-band div { padding:13px; border-right:1px solid #555; text-align:center; }
+    .summary-band div:last-child { border:0; }
+    .summary-band b { display:block; font:700 26px Georgia,serif; }
+    .note { border-left:6px solid #555; background:#e8e7e2; padding:11px 13px; margin:12px 0; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .id-register { display:grid; grid-template-columns:1fr 1fr; gap:0 20px; border-top:2px solid #222; }
+    .id-item { display:grid; grid-template-columns:42% 1fr; gap:7px; border-bottom:1px solid #aaa; padding:4px 0; }
+    .id-item b { font:7px "Courier New",monospace; text-transform:uppercase; }
+    .id-item span { font:7.4px "Courier New",monospace; overflow-wrap:anywhere; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    th { border-top:2px solid #222; border-bottom:2px solid #222; padding:6px; text-align:left; font:bold 8px "Courier New",monospace; text-transform:uppercase; }
+    td { border-bottom:1px solid #aaa; padding:6px; vertical-align:top; font-size:8.7px; line-height:1.28; }
+    .system { width:22%; font-weight:bold; }
+    .rating { width:18%; font:bold 8px "Courier New",monospace; }
+    .deficiency { border:2px solid #333; padding:12px 14px; margin-bottom:12px; page-break-inside:avoid; }
+    .def-head { display:flex; justify-content:space-between; align-items:start; border-bottom:1px solid #777; padding-bottom:6px; margin-bottom:7px; }
+    .def-head b { font:700 12px Georgia,serif; }
+    .class-major { border:2px solid #842a2a; color:#842a2a; padding:3px 8px; font:bold 9px "Courier New",monospace; }
+    .class-other { border:1px solid #333; padding:3px 8px; font:bold 9px "Courier New",monospace; }
+    .def-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .def-grid p { font-size:8.7px; margin-bottom:5px; }
+    .capa td:nth-child(2) { width:16%; }
+    .capa td:nth-child(3) { width:13%; font-family:"Courier New",monospace; }
+    .signatures { display:grid; grid-template-columns:1fr 1fr; gap:35px; margin-top:45px; }
+    .signature { border-top:1px solid #222; padding-top:7px; min-height:70px; }
+    .signature b { display:block; font:700 12px Georgia,serif; }
+    .attachment-title { display:flex; justify-content:space-between; align-items:end; border-bottom:3px double #222; padding-bottom:8px; margin-bottom:14px; }
+    .attachment-title h1 { font-size:24px; margin:0; }
+    .attachment-id { font:bold 10px "Courier New",monospace; }
+    .figure-wrap { border:1px solid #555; padding:18px; margin-top:18px; }
+    .flow { display:grid; grid-template-columns:1fr 40px 1fr 40px 1fr; align-items:center; margin:26px 0; }
+    .node { min-height:105px; border:2px solid #333; padding:12px; display:flex; flex-direction:column; justify-content:center; text-align:center; }
+    .node b { font:700 14px Georgia,serif; }
+    .node span { font:9px/1.3 "Courier New",monospace; margin-top:5px; }
+    .arrow { text-align:center; font-size:26px; }
+    .risk-node { border:4px double #842a2a; position:relative; }
+    .risk-node::after { content:"IDENTIFIED BREACH"; position:absolute; top:-12px; left:12px; background:#f8f7f2; color:#842a2a; padding:2px 5px; font:bold 8px "Courier New",monospace; }
+    .sample-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px; }
+    .sample { border-top:2px solid #333; padding-top:7px; text-align:center; }
+    .sample b { display:block; font:700 11px Georgia,serif; }
+    .positive { color:#842a2a; }
+    .facility-map { width:100%; height:590px; display:block; border:1px solid #555; background:#eef0eb; margin-top:8px; }
+    .facility-map text { fill:#202020; font-family:Arial,Helvetica,sans-serif; }
+    .facility-map .mono { font-family:"Courier New",monospace; }
+    .facility-map .zone { fill:#faf9f4; stroke:#555; stroke-width:1.2; }
+    .facility-map .support { fill:#e6ebe8; stroke:#697672; stroke-width:1; }
+    .facility-map .process { fill:#fff; stroke:#333; stroke-width:1.8; }
+    .facility-map .risk { fill:#f4e5df; stroke:#842a2a; stroke-width:3; }
+    .facility-map .hold { fill:#f3e7b8; stroke:#78631e; stroke-width:2; }
+    .facility-map .control { fill:#dce9e6; stroke:#2f625a; stroke-width:1.5; }
+    .facility-map .product-line { fill:none; stroke:#1f5d70; stroke-width:4; marker-end:url(#productArrow); }
+    .facility-map .person-line { fill:none; stroke:#526b3c; stroke-width:2.5; stroke-dasharray:7 4; marker-end:url(#personArrow); }
+    .facility-map .maintenance-line { fill:none; stroke:#8b642c; stroke-width:2.5; stroke-dasharray:2 4; marker-end:url(#maintenanceArrow); }
+    .facility-map .risk-line { fill:none; stroke:#842a2a; stroke-width:4; stroke-dasharray:9 4; marker-end:url(#riskArrow); }
+    .facility-map .evidence-line { fill:none; stroke:#5b556b; stroke-width:1.6; stroke-dasharray:4 3; marker-end:url(#evidenceArrow); }
+    .facility-map .product-stop { fill:none; stroke:#1f5d70; stroke-width:4; }
+    .facility-map .stop-bar { stroke:#842a2a; stroke-width:4; }
+    .facility-map .port { fill:#fff; stroke:#333; stroke-width:1.5; }
+    .facility-map .port-product { stroke:#1f5d70; }
+    .facility-map .port-person { stroke:#526b3c; }
+    .facility-map .port-maintenance { stroke:#8b642c; }
+    .facility-map .port-risk { stroke:#842a2a; }
+    .facility-map .port-evidence { stroke:#5b556b; }
+    .facility-map .finding { fill:#842a2a; stroke:#fff; stroke-width:2; }
+    .facility-map .finding-text { fill:#fff; font:bold 8px "Courier New",monospace; text-anchor:middle; }
+    .facility-map .label { font-size:9px; }
+    .facility-map .small { font-size:7.2px; }
+    .facility-map .tiny { font-size:6.3px; }
+    .facility-map .title { font:bold 10px Georgia,serif; }
+    .map-interpretation { display:grid; grid-template-columns:1.5fr 1fr; gap:12px; margin-top:9px; }
+    .map-interpretation p { font-size:8px; margin:0; line-height:1.28; }
+    .photo { width:100%; height:590px; object-fit:cover; filter:grayscale(.25) contrast(1.08); border:1px solid #333; }
+    .photo-meta { display:grid; grid-template-columns:1fr 1fr; border:1px solid #777; margin-top:12px; }
+    .photo-meta div { padding:8px; border-bottom:1px solid #aaa; font-size:9px; }
+    .photo-meta div:nth-child(even) { border-left:1px solid #aaa; }
+    .caption { margin-top:12px; border-left:5px solid #333; padding:7px 11px; font-size:10px; line-height:1.4; }
+    .synthetic { font:8px/1.35 "Courier New",monospace; color:#555; margin-top:10px; }
+  </style>
+</head>
+<body>
+{% macro chrome(page_number) -%}
+  <div class="header"><div class="brand"><img src="{{ caldova_logo_uri }}" alt="Caldova"><span>Global Supplier Quality</span></div><div class="docmeta"><b>{{ document.report_id }}</b>{{ document.version }}<br>{{ document.classification }}</div></div>
+  <div class="footer"><span class="fictional">{{ document.fictional_notice }}</span><span>Page {{ page_number }} of 10</span></div>
+{%- endmacro %}
+
+<section class="page">{{ chrome(1) }}<main class="content"><div class="cover-box"><div class="kicker">Supplier quality inspection</div><h1>{{ document.title }}</h1><p style="font-size:16px">{{ document.subtitle }}</p><div class="field-grid" style="margin-top:25px"><div class="field"><label>Inspected organization</label><div>{{ site.legal_name }}</div></div><div class="field"><label>Site</label><div>{{ site.site_name }}</div></div><div class="field"><label>Inspection dates</label><div>{{ inspection.start | date_en }} to {{ inspection.end | date_en }}</div></div><div class="field"><label>Report issued</label><div>{{ document.issued | date_en }}</div></div><div class="field"><label>Lead inspector</label><div>{{ inspection.lead_inspector }}</div></div><div class="field"><label>Site identifier</label><div>{{ site.site_id }}</div></div><div class="field wide"><label>Triggered by</label><div>{{ references.deviation }} · {{ references.affected_run }} · {{ references.connection }}</div></div></div><div class="cover-class">{{ document.classification }}</div></div><div class="stamp">FOR CAUSE<br>FINAL</div><div class="note" style="margin-top:90px"><b>Report status.</b> This is a fictional Caldova supplier-quality inspection report created for an AI retrieval demonstration. It is not issued by WHO or any medicines regulator and makes no regulatory certification claim.</div></main></section>
+
+<section class="page">{{ chrome(2) }}<main class="content"><div class="kicker">Part 1 · General information</div><h2>Site, inspection basis, and scope</h2><div class="field-grid"><div class="field"><label>Site address</label><div>{{ site.address }}</div></div><div class="field"><label>Employees</label><div>{{ site.employees }}</div></div><div class="field wide"><label>Operations</label><div>{{ site.operations }}</div></div><div class="field wide"><label>Products and campaigns in scope</label><div>{{ site.products_in_scope }}</div></div><div class="field"><label>Previous Caldova audit</label><div>{{ site.previous_audit }}</div></div><div class="field"><label>Inspection basis</label><div>{{ inspection.basis }}</div></div></div><h3 style="margin-top:18px">Objective</h3><p>{{ inspection.objective }}</p><div class="two-col"><div><h3>Scope</h3><ul>{% for item in inspection.scope %}<li>{{ item }}</li>{% endfor %}</ul></div><div><h3>Inspection team</h3><ul>{% for item in inspection.inspectors %}<li>{{ item }}</li>{% endfor %}</ul><h3>Site representatives</h3><ul>{% for item in inspection.site_representatives %}<li>{{ item }}</li>{% endfor %}</ul></div></div><div class="note"><b>Limitations.</b> {{ inspection.limitations }}</div></main></section>
+
+<section class="page">{{ chrome(3) }}<main class="content"><div class="kicker">Part 1 · Event and evidence</div><h2>Contamination event under inspection</h2><div class="summary-band"><div><b>{{ references.affected_run }}</b>Affected run</div><div><b>{{ references.connection }}</b>Implicated connection</div><div><b>{{ event_summary.organism }}</b>Organism</div></div><div class="field-grid"><div class="field"><label>Event date</label><div>{{ event_summary.event_date | date_en }}</div></div><div class="field"><label>Detected by</label><div>{{ event_summary.detected_by }}</div></div><div class="field wide"><label>Immediate action</label><div>{{ event_summary.immediate_action }}</div></div><div class="field wide"><label>Investigation root cause</label><div>{{ event_summary.root_cause }}</div></div></div><h3 style="margin-top:18px">Evidence confirmed during inspection</h3><ol>{% for item in event_summary.evidence %}<li>{{ item }}</li>{% endfor %}</ol><div class="note"><b>Commercial cross-reference.</b> {{ event_summary.financial_reference }}</div><h3>Records reviewed</h3><div class="two-col"><ul>{% for item in records_reviewed[:4] %}<li>{{ item }}</li>{% endfor %}</ul><ul>{% for item in records_reviewed[4:] %}<li>{{ item }}</li>{% endfor %}</ul></div><h3 style="margin-top:10px">Linked identifiers</h3><div class="id-register">{% for label, value in references.items() %}<div class="id-item"><b>{{ label | replace('_',' ') }}</b><span>{{ value }}</span></div>{% endfor %}</div></main></section>
+
+<section class="page">{{ chrome(4) }}<main class="content"><div class="kicker">Part 2 · Inspection observations</div><h2>GMP systems assessment</h2><table><thead><tr><th class="system">System</th><th>Inspection assessment</th><th class="rating">Rating</th></tr></thead><tbody>{% for item in system_findings %}<tr><td class="system">{{ item.system }}</td><td>{{ item.assessment }}</td><td class="rating">{{ item.rating }}</td></tr>{% endfor %}</tbody></table><div class="note"><b>Assessment convention.</b> “Acceptable” indicates no material deficiency in the sampled evidence. “Improvement required” identifies a weakness captured in an Other deficiency or recommendation. “Deficient” maps to a formal deficiency on the following pages.</div></main></section>
+
+<section class="page">{{ chrome(5) }}<main class="content"><div class="kicker">Part 3 · Deficiencies</div><h2>Major deficiencies</h2>{% for item in deficiencies if item.classification == 'Major' %}<section class="deficiency"><div class="def-head"><b>{{ item.id }} · {{ item.title }}</b><span class="class-major">{{ item.classification | upper }}</span></div><p>{{ item.statement }}</p><div class="def-grid"><div><p><b>Objective evidence:</b> {{ item.evidence }}</p><p><b>Potential risk:</b> {{ item.risk }}</p></div><div><p><b>Response due:</b> {{ item.due | date_en }}</p><p><b>Required response:</b> Root cause, immediate correction, systemic corrective action, accountable owner, due date, and proposed effectiveness check.</p></div></div></section>{% endfor %}<div class="note"><b>Classification basis.</b> A Major deficiency is a non-critical departure that has produced, or may produce, product not consistently meeting requirements, or a combination of departures indicating a significant systems failure. No Critical deficiency was identified in the inspected scope.</div></main></section>
+
+<section class="page">{{ chrome(6) }}<main class="content"><div class="kicker">Part 3 · Deficiencies</div><h2>Other deficiencies and conclusion</h2>{% for item in deficiencies if item.classification == 'Other' %}<section class="deficiency"><div class="def-head"><b>{{ item.id }} · {{ item.title }}</b><span class="class-other">{{ item.classification | upper }}</span></div><p>{{ item.statement }}</p><div class="def-grid"><div><p><b>Objective evidence:</b> {{ item.evidence }}</p><p><b>Potential risk:</b> {{ item.risk }}</p></div><div><p><b>Response due:</b> {{ item.due | date_en }}</p></div></div></section>{% endfor %}<div class="summary-band"><div><b>{{ classification_summary.critical }}</b>Critical</div><div><b>{{ classification_summary.major }}</b>Major</div><div><b>{{ classification_summary.other }}</b>Other</div></div><h3>Overall conclusion</h3><p>{{ classification_summary.overall }}</p><div class="note"><b>Supply status.</b> {{ classification_summary.supply_status }}</div></main></section>
+
+<section class="page">{{ chrome(7) }}<main class="content"><div class="kicker">Part 3 · Response and closure</div><h2>Corrective and preventive action commitments</h2><table class="capa"><thead><tr><th>Committed action</th><th>Owner</th><th>Due</th><th>Effectiveness evidence</th></tr></thead><tbody>{% for item in capa_plan %}<tr><td>{{ item.action }}</td><td>{{ item.owner }}</td><td>{{ item.due | date_short }}</td><td>{{ item.verification }}</td></tr>{% endfor %}</tbody></table><div class="note"><b>Closure condition.</b> Submission of a plan does not close a deficiency. Caldova Global Supplier Quality will verify implementation and effectiveness before changing conditional supply status.</div><h3 style="margin-top:20px">Attachments</h3><table><thead><tr><th style="width:16%">ID</th><th>Title</th><th>Source</th></tr></thead><tbody>{% for item in attachments %}<tr><td>{{ item.id }}</td><td>{{ item.title }}</td><td>{{ item.source }}</td></tr>{% endfor %}</tbody></table><div class="signatures">{% for item in signatures %}<div class="signature"><b>{{ item.name }}</b><span>{{ item.role }}</span><br><span>Date: {{ item.date | date_en }}</span></div>{% endfor %}</div></main></section>
+
+<section class="page">{{ chrome(8) }}<main class="content"><div class="attachment-title"><div><div class="attachment-id">ATTACHMENT A · FIGURE 1</div><h1>BR-04 facility, control, and contamination-risk map</h1></div></div><p>Inspector reconstruction from batch records, maintenance evidence, microbiology results, interviews, and piping walkdown. Spatial arrangement and support-room adjacency are synthetic, schematic, and not to scale.</p>
+<svg class="facility-map" viewBox="0 0 690 590" role="img" aria-label="Complex facility and contamination risk map for BluePeak BR-04">
+<defs><marker id="productArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1f5d70"/></marker><marker id="personArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#526b3c"/></marker><marker id="maintenanceArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8b642c"/></marker><marker id="riskArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#842a2a"/></marker><marker id="evidenceArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#5b556b"/></marker></defs>
+<rect class="support" x="12" y="12" width="666" height="58"/><text class="title" x="22" y="28">CAMPAIGN BP-1026 · RUN AND CAPACITY CONTEXT</text><rect class="process" x="22" y="37" width="134" height="24"/><text class="small mono" x="29" y="48">BP-1026-01 · BR-04</text><text class="tiny" x="29" y="57">5,600 logged hours</text><rect class="process" x="171" y="37" width="134" height="24"/><text class="small mono" x="178" y="48">BP-1026-02 · BR-07</text><text class="tiny" x="178" y="57">5,600 logged hours</text><rect class="risk" x="320" y="34" width="164" height="30"/><text class="small mono" x="328" y="47">BP-1026-03 · BR-04</text><text class="tiny" x="328" y="57">19 Dec 2026 · vessel day 17</text><rect class="hold" x="505" y="37" width="160" height="24"/><text class="small mono" x="513" y="48">DEV-BP-1026-SUPPLIER</text><text class="tiny" x="513" y="57">run isolated · path on hold</text>
+<rect class="zone" x="12" y="84" width="666" height="350"/><text class="title" x="22" y="101">SYNTHETIC FACILITY SCHEMATIC · HARBOR POINT BIOLOGICS CAMPUS · BPB-US-NH-01</text>
+<rect class="support" x="24" y="116" width="105" height="72"/><text class="title" x="32" y="133">Personnel entry</text><text class="small" x="32" y="147">Gowning / line clearance</text><text class="tiny" x="32" y="160">Interviewed operators</text><text class="tiny" x="32" y="171">understood response</text>
+<rect class="support" x="24" y="205" width="105" height="91"/><text class="title" x="32" y="220">Maintenance</text><text class="title" x="32" y="232">staging</text><text class="small mono" x="32" y="246">WO-BPB-1026-441</text><text class="tiny" x="32" y="258">hose set + gasket</text><text class="tiny" x="32" y="270">2/6 technicians lacked</text><text class="tiny" x="32" y="281">revision-6 assessment</text><circle class="finding" cx="113" cy="285" r="11"/><text class="finding-text" x="113" y="288">M2</text>
+<rect class="support" x="24" y="315" width="105" height="88"/><text class="title" x="32" y="332">Cleaning / waste</text><text class="small" x="32" y="347">Sampled controls</text><text class="tiny" x="32" y="360">acceptable; no incoming</text><text class="tiny" x="32" y="371">gasket or sanitation</text><text class="tiny" x="32" y="382">failure indicated</text>
+<rect class="process" x="160" y="116" width="145" height="170"/><text class="title" x="171" y="135">Bioreactor suite BR-04</text><text class="small mono" x="171" y="151">BR-04 · BP-1026-03</text><circle cx="232" cy="200" r="38" fill="#edf3f3" stroke="#333" stroke-width="2"/><text class="label mono" x="213" y="197">BR-04</text><text class="tiny" x="198" y="211">mammalian culture</text><circle cx="282" cy="246" r="7" fill="#fff" stroke="#2f625a" stroke-width="2"/><text class="tiny mono" x="190" y="269">S-UP-17 · NO GROWTH</text>
+<rect class="process" x="160" y="304" width="145" height="99"/><text class="title" x="171" y="322">Bioreactor suite BR-07</text><text class="small mono" x="171" y="338">BP-1026-02</text><text class="tiny" x="171" y="353">Separate campaign suite</text><text class="tiny" x="171" y="365">shown for context only</text>
+<rect class="risk" x="330" y="116" width="126" height="170"/><text class="title" x="341" y="135">Transfer gallery</text><path d="M348 183C366 158 416 158 435 183L435 224C415 249 368 249 348 224Z" fill="#fff" stroke="#842a2a" stroke-width="2"/><text class="label mono" x="376" y="196">TC-4</text><text class="tiny" x="359" y="209">pinched gasket</text><text class="tiny" x="352" y="221">restricted orientation</text><circle class="finding" cx="344" cy="273" r="11"/><text class="finding-text" x="344" y="276">M2</text><circle class="finding" cx="442" cy="273" r="11"/><text class="finding-text" x="442" y="276">M1</text>
+<rect class="hold" x="481" y="116" width="92" height="170"/><text class="title" x="491" y="133">Intermediate</text><text class="title" x="491" y="145">hold</text><ellipse cx="527" cy="204" rx="31" ry="45" fill="#fff" stroke="#78631e" stroke-width="2"/><text class="label mono" x="511" y="201">HT-04</text><text class="tiny" x="499" y="215">QUALITY HOLD</text><circle class="port port-risk" cx="492" cy="253" r="7"/><text class="tiny mono" x="501" y="258">S-DN-17</text><text class="tiny" x="501" y="269">POSITIVE</text>
+<rect class="support" x="594" y="116" width="70" height="170"/><text class="title" x="603" y="133">Bulk</text><text class="title" x="603" y="145">storage</text><text class="small" x="603" y="161">No released</text><text class="small" x="603" y="172">Caldova</text><text class="small" x="603" y="183">material</text><line x1="603" y1="197" x2="653" y2="247" stroke="#842a2a" stroke-width="3"/><line x1="653" y1="197" x2="603" y2="247" stroke="#842a2a" stroke-width="3"/>
+<rect class="control" x="330" y="304" width="126" height="99"/><text class="title" x="341" y="322">Integrity test gate</text><text class="small mono" x="341" y="338">PHT-BPB-1026-441</text><text class="tiny" x="341" y="353">result: BLANK</text><text class="tiny" x="341" y="365">reviewer: BLANK</text><text class="tiny" x="341" y="377">release should stop</text><circle class="finding" cx="442" cy="391" r="11"/><text class="finding-text" x="442" y="394">M1</text>
+<rect class="control" x="481" y="304" width="92" height="99"/><text class="title" x="491" y="322">Quality review</text><text class="small" x="491" y="338">entered during</text><text class="small" x="491" y="349">investigation, not</text><text class="small" x="491" y="360">before release</text><circle class="finding" cx="560" cy="391" r="11"/><text class="finding-text" x="560" y="394">O1</text>
+<rect class="control" x="594" y="304" width="70" height="99"/><text class="title" x="603" y="320">Self-</text><text class="title" x="603" y="332">inspection</text><text class="tiny" x="603" y="347">timeliness sampled</text><text class="tiny" x="603" y="358">evidence complete-</text><text class="tiny" x="603" y="369">ness not sampled</text><circle class="finding" cx="651" cy="391" r="11"/><text class="finding-text" x="651" y="394">O2</text>
+<circle class="port port-person" cx="129" cy="151" r="4"/><circle class="port port-person" cx="160" cy="151" r="4"/><path class="person-line" d="M134 151H155"/><circle class="port port-person" cx="129" cy="166" r="4"/><circle class="port port-person" cx="160" cy="337" r="4"/><path class="person-line" d="M134 166C148 166 143 337 155 337"/>
+<circle class="port port-maintenance" cx="129" cy="248" r="4"/><circle class="port port-maintenance" cx="330" cy="203" r="4"/><path class="maintenance-line" d="M134 248C230 248 250 203 325 203"/>
+<circle class="port port-product" cx="270" cy="200" r="4"/><circle class="port port-product" cx="330" cy="200" r="4"/><path class="product-line" d="M275 200H325"/><circle class="port port-product" cx="456" cy="200" r="4"/><circle class="port port-product" cx="481" cy="200" r="4"/><path class="product-line" d="M461 200H476"/><circle class="port port-product" cx="573" cy="200" r="4"/><path class="product-stop" d="M578 200H585"/><line class="stop-bar" x1="587" y1="190" x2="587" y2="210"/><text class="tiny mono" x="578" y="184">HOLD</text>
+<circle class="port port-risk" cx="432" cy="204" r="4"/><path class="risk-line" d="M437 204C450 222 467 244 487 253"/>
+<circle class="port port-evidence" cx="393" cy="286" r="4"/><circle class="port port-evidence" cx="393" cy="304" r="4"/><path class="evidence-line" d="M393 291V299"/><circle class="port port-evidence" cx="456" cy="353" r="4"/><circle class="port port-evidence" cx="481" cy="353" r="4"/><path class="evidence-line" d="M461 353H476"/><circle class="port port-evidence" cx="573" cy="353" r="4"/><circle class="port port-evidence" cx="594" cy="353" r="4"/><path class="evidence-line" d="M578 353H589"/>
+<rect class="support" x="12" y="450" width="666" height="128"/><text class="title" x="22" y="468">EVIDENCE, FINDING, AND CAPA CONTROL CHAIN</text><rect class="process" x="22" y="481" width="132" height="55"/><text class="small mono" x="30" y="496">S-UP-17</text><text class="tiny" x="30" y="509">upstream retained</text><text class="tiny" x="30" y="520">negative</text><rect class="risk" x="168" y="481" width="132" height="55"/><text class="small mono" x="176" y="496">S-DN-17</text><text class="tiny" x="176" y="509">downstream bioburden</text><text class="tiny" x="176" y="520">{{ event_summary.organism }}</text><rect class="risk" x="314" y="481" width="132" height="55"/><text class="small mono" x="322" y="496">BPB-MAJ-01 / 02</text><text class="tiny" x="322" y="509">integrity evidence +</text><text class="tiny" x="322" y="520">technician qualification</text><rect class="control" x="460" y="481" width="132" height="55"/><text class="small mono" x="468" y="496">CAPA-BPB-2027-003</text><text class="tiny" x="468" y="509">hard stop · witnessed test</text><text class="tiny" x="468" y="520">retrain · inspect · audit</text><rect class="hold" x="606" y="481" width="60" height="55"/><text class="small mono" x="615" y="496">SUPPLY</text><text class="tiny" x="615" y="509">conditional</text><text class="tiny" x="615" y="520">approval</text><circle class="port port-evidence" cx="154" cy="508" r="4"/><circle class="port port-evidence" cx="168" cy="508" r="4"/><path class="evidence-line" d="M159 508H163"/><circle class="port port-evidence" cx="300" cy="508" r="4"/><circle class="port port-evidence" cx="314" cy="508" r="4"/><path class="evidence-line" d="M305 508H309"/><circle class="port port-evidence" cx="446" cy="508" r="4"/><circle class="port port-evidence" cx="460" cy="508" r="4"/><path class="evidence-line" d="M451 508H455"/><circle class="port port-evidence" cx="592" cy="508" r="4"/><circle class="port port-evidence" cx="606" cy="508" r="4"/><path class="evidence-line" d="M597 508H601"/>
+<line x1="24" y1="554" x2="52" y2="554" class="product-line"/><text class="tiny" x="58" y="557">product / sample path</text><line x1="165" y1="554" x2="193" y2="554" class="person-line"/><text class="tiny" x="199" y="557">personnel path</text><line x1="287" y1="554" x2="315" y2="554" class="maintenance-line"/><text class="tiny" x="321" y="557">maintenance path</text><line x1="426" y1="554" x2="454" y2="554" class="risk-line"/><text class="tiny" x="460" y="557">suspected contamination route</text><circle class="finding" cx="612" cy="554" r="9"/><text class="finding-text" x="612" y="557">M1</text><text class="tiny" x="626" y="557">finding marker</text>
+</svg>
+<div class="map-interpretation"><p><b>Evidence interpretation.</b> The negative upstream retained sample, positive downstream sample, and recovered gasket defect support TC-4 as the most probable entry point. The map distinguishes observed process evidence from the synthetic room arrangement.</p><p><b>Control interpretation.</b> Missing pressure-hold evidence and late Quality review allowed the maintenance path to bypass a release gate. CAPA adds a hard stop, witnessed testing, practical reassessment, visual verification, and completeness sampling.</p></div></main></section>
+
+<section class="page">{{ chrome(9) }}<main class="content"><div class="attachment-title"><div><div class="attachment-id">ATTACHMENT B · PHOTOGRAPH 1</div><h1>TC-4 gasket seating condition</h1></div></div><img class="photo" src="{{ connection_photo_uri }}" alt="Close inspection view of uneven gasket seating at a sanitary connection"><div class="photo-meta"><div><b>Evidence ID:</b> IMG-BPB-TC4-01</div><div><b>Related deficiency:</b> BPB-MAJ-02</div><div><b>Location:</b> BR-04 transfer connection TC-4</div><div><b>Orientation:</b> Product-contact sanitary connection</div></div><div class="caption"><b>Observed condition.</b> The image illustrates uneven elastomer exposure around the sanitary joint, consistent with a gasket compressed out of its intended seat. Restricted access at the installed orientation made direct visual confirmation difficult without an inspection aid.</div><p class="synthetic">IMAGE DISCLOSURE: This is an original synthetic demonstration image generated for the fictional report. It is not a photograph of an actual BluePeak facility, product, person, or event.</p></main></section>
+
+<section class="page">{{ chrome(10) }}<main class="content"><div class="attachment-title"><div><div class="attachment-id">ATTACHMENT C · PHOTOGRAPH 2</div><h1>Pressure-hold verification station</h1></div></div><img class="photo" src="{{ pressure_photo_uri }}" alt="Pressure gauge and partially completed maintenance checklist with empty result and reviewer fields"><div class="photo-meta"><div><b>Evidence ID:</b> IMG-BPB-PHT-01</div><div><b>Related deficiency:</b> BPB-MAJ-01</div><div><b>Record:</b> PHT-BPB-1026-441</div><div><b>Equipment release:</b> WO-BPB-1026-441</div></div><div class="caption"><b>Control context.</b> The checklist appears substantially completed, but the test-result box and reviewer-confirmation line remain empty. The pressure gauge and test connection provide the means to verify closed-path integrity; without recorded results and review evidence, the work order should not have permitted equipment release.</div><p class="synthetic">IMAGE DISCLOSURE: This is an original synthetic demonstration image generated for the fictional report. It is not a photograph of an actual BluePeak facility, product, person, or event.</p></main></section>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AMD-MSA-KRI-2026-01 - Contract amendment</title>
+<style>
+  :root { --ink:#18252d; --muted:#61717b; --paper:#f8faf9; --line:#c9d4d7; --caldova:#006b62; --gold:#c49a43; --accent:#006b62; }
+  * { box-sizing:border-box; }
+  @page { size:Letter; margin:0; }
+  body { margin:0; color:var(--ink); font-family:"Aptos","Helvetica Neue",Arial,sans-serif; background:#d8dfe0; line-height:1.38; }
+  .page { position:relative; width:8.5in; min-height:11in; padding:.62in .66in .58in; margin:0 auto; background:var(--paper); page-break-after:always; overflow:hidden; }
+  .page:last-child { page-break-after:auto; }
+  .topline { height:5px; background:linear-gradient(90deg,var(--accent) 0 74%,var(--gold) 74%); margin:-.62in -.66in .28in; }
+  .head { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:.12in; margin-bottom:.22in; }
+  .brand { display:flex; gap:.12in; align-items:center; }
+  .brand img { width:.52in; height:.52in; object-fit:contain; }
+  .brand b { display:block; font-size:10pt; letter-spacing:.04em; text-transform:uppercase; color:var(--accent); }
+  .brand span,.meta { color:var(--muted); font-size:7.8pt; }
+  .meta { text-align:right; line-height:1.45; }
+  .footer { position:absolute; left:.66in; right:.66in; bottom:.25in; display:flex; justify-content:space-between; color:#6e7c84; font-size:7.2pt; border-top:1px solid var(--line); padding-top:.07in; }
+  h1,h2,h3 { margin:0; line-height:1.12; }
+  h1 { font-family:Georgia,serif; font-size:28pt; font-weight:500; letter-spacing:0; }
+  h2 { font-size:15pt; color:var(--accent); margin-bottom:.12in; }
+  h3 { font-size:10.5pt; text-transform:uppercase; letter-spacing:.05em; color:var(--accent); margin-bottom:.07in; }
+  p { font-size:9pt; margin:.05in 0 .12in; }
+  .kicker { color:var(--accent); font-size:8pt; text-transform:uppercase; letter-spacing:.12em; font-weight:700; margin-bottom:.08in; }
+  .lede { font-family:Georgia,serif; font-size:13pt; color:#35464f; max-width:6.6in; }
+  .hero { width:100%; height:2.3in; object-fit:cover; margin:.2in 0; border-bottom:6px solid var(--accent); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:.2in; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:.14in; }
+  .card { border:1px solid var(--line); border-top:4px solid var(--accent); padding:.15in; background:#fff; }
+  .callout { background:#eaf2f0; border-left:5px solid var(--accent); padding:.13in .16in; margin:.12in 0; }
+  .warning { background:#fff6df; border-left-color:#b47513; }
+  .metric { font-family:Georgia,serif; font-size:22pt; color:var(--accent); }
+  .label { font-size:7.4pt; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  table { width:100%; border-collapse:collapse; margin:.1in 0 .18in; font-size:8pt; }
+  th { background:var(--accent); color:#fff; text-align:left; padding:.07in .08in; font-weight:600; }
+  td { border-bottom:1px solid var(--line); padding:.065in .08in; vertical-align:top; }
+  tr:nth-child(even) td { background:#f0f4f3; }
+  ul,ol { margin:.06in 0 .14in; padding-left:.22in; font-size:8.7pt; }
+  li { margin:.035in 0; }
+  .flow { display:flex; align-items:stretch; gap:.08in; margin:.17in 0; }
+  .flow .step { flex:1; position:relative; background:#fff; border:1px solid var(--line); border-top:4px solid var(--accent); padding:.12in .1in; min-height:.82in; }
+  .flow .step:not(:last-child)::after { content:'›'; position:absolute; right:-.08in; top:.2in; color:var(--gold); font-size:24pt; z-index:2; }
+  .step b { display:block; color:var(--accent); font-size:8.5pt; }
+  .step span { font-size:7.2pt; color:var(--muted); }
+  .timeline { display:grid; grid-template-columns:1fr; gap:.08in; border-left:3px solid var(--accent); margin:.14in 0 .14in .08in; padding-left:.18in; }
+  .timeline div { position:relative; font-size:8pt; }
+  .timeline div::before { content:''; width:9px; height:9px; border-radius:50%; background:var(--gold); position:absolute; left:-.235in; top:.04in; }
+  .scorebar { height:.13in; background:#dce5e4; margin-top:.04in; }
+  .scorebar i { display:block; height:100%; background:var(--accent); }
+  .signature-grid { display:grid; grid-template-columns:1fr 1fr; gap:.35in; margin-top:.28in; }
+  .signature { border-top:1px solid var(--ink); padding-top:.07in; font-size:8pt; min-height:.65in; }
+  .small { font-size:7.4pt; color:var(--muted); }
+  .pill { display:inline-block; padding:.03in .08in; border:1px solid var(--accent); color:var(--accent); font-size:7pt; font-weight:700; text-transform:uppercase; }
+  .doc-chain { display:flex; gap:.05in; align-items:center; flex-wrap:wrap; margin:.12in 0; }
+  .doc-chain span { border:1px solid var(--line); padding:.06in .08in; background:#fff; font-size:7.2pt; }
+  .doc-chain b { color:var(--gold); }
+  .legal p { font-family:Georgia,serif; font-size:8.4pt; text-align:justify; }
+  .legal h2 { border-bottom:1px solid var(--line); padding-bottom:.05in; margin-top:.08in; }
+  .notice { font-size:7pt; color:#6f5721; background:#fff5d7; padding:.05in .08in; display:inline-block; }
+</style>
+</head>
+<body>
+<section class="page legal"><div class="topline"></div><header class="head"><div class="brand"><img src="file:///Users/pamelafox/aitour27-LTG242-knowledge-retrieval-for-ai-agents-with-foundry-iq/caldova_logo.png" alt="Caldova Pharmaceuticals logo"><div><b>Contract amendment</b><span>Caldova Pharmaceuticals / Kristos Pharma</span></div></div><div class="meta">AMD-MSA-KRI-2026-01<br>Amendment 01 · Page 1 of 3</div></header><footer class="footer"><span>Confidential · Controlled contract record</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><div class="kicker">Amendment to manufacturing services agreement</div><h1>CALD-201 award and supply schedule</h1><div class="grid2" style="margin-top:.22in"><div class="card"><div class="label">Underlying agreement</div><p><b>MSA-CAL-KRI-2024-017</b></p><p>Effective 09 December 2024</p></div><div class="card"><div class="label">Amendment effective</div><p><b>16 November 2026</b></p><p>Award reference RFP-CAL-OSD-2026-01 / RSP-KRI-2026-01</p></div></div><p>This Amendment is entered into by Caldova Pharmaceuticals, Inc. and Kristos Pharma. Capitalized terms not defined here retain the meaning in the underlying Agreement.</p><h2>1. Recitals</h2><p>A. Caldova issued RFP-CAL-OSD-2026-01 for technology transfer and commercial manufacture of CALD-201 50 mg film-coated tablets.</p><p>B. Kristos submitted RSP-KRI-2026-01 and passed the quality and regulatory gates required by CAL-POL-PUR-001.</p><p>C. Caldova completed a weighted evaluation and selected Kristos as the best total-value offer, subject to this signed Amendment and the applicable Quality Agreement.</p><h3>Award evaluation</h3><table><tr><th>Rank</th><th>Supplier</th><th>Weighted score</th><th>Year-one total</th><th>Decision</th></tr><tr><td>1</td><td>Kristos Pharma (V002)</td><td>90.10</td><td>$813,400.00</td><td>Selected</td></tr><tr><td>2</td><td>Annterra Pharma (V001)</td><td>87.40</td><td>$1,101,600.00</td><td>Not selected</td></tr><tr><td>3</td><td>Sabyn Formulations (V003)</td><td>80.10</td><td>$835,200.00</td><td>Not selected</td></tr></table><div class="callout"><b>Selection basis:</b> Kristos combined adequate reserved capacity, satisfactory audit status, no open quality actions, accepted commercial terms, and the lowest evaluated year-one cost.</div></section>
+<section class="page legal"><div class="topline"></div><header class="head"><div class="brand"><img src="file:///Users/pamelafox/aitour27-LTG242-knowledge-retrieval-for-ai-agents-with-foundry-iq/caldova_logo.png" alt="Caldova Pharmaceuticals logo"><div><b>Contract amendment</b><span>Caldova Pharmaceuticals / Kristos Pharma</span></div></div><div class="meta">AMD-MSA-KRI-2026-01<br>Changed terms · Page 2 of 3</div></header><footer class="footer"><span>Confidential · Controlled contract record</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><h2>2. Product and commercial schedule</h2><table><tr><th>Field</th><th>Amended commitment</th></tr><tr><td>Product</td><td>CALD-201 50 mg film-coated tablets · CAL-SPEC-OSD-201-01</td></tr><tr><td>Annual plan</td><td>4,800,000 tablets / 10 batches</td></tr><tr><td>Reserved monthly capacity</td><td>420,000 tablets</td></tr><tr><td>Released-tablet price</td><td>$0.11 firm for 12 months</td></tr><tr><td>Technology transfer</td><td>$295,000.00</td></tr><tr><td>Safety stock</td><td>4 weeks after commercial launch</td></tr><tr><td>Approved subcontractor</td><td>Piedmont Analytical Services, compendial microbiology testing only</td></tr></table><h2>3. Amendments</h2><ol><li>Adds CALD-201 50 mg film-coated tablets to the product schedule.</li><li>Reserves 420,000 tablets of monthly capacity for the 12-month firm supply period.</li><li>Fixes commercial product pricing at USD 0.108 per released tablet and technology transfer at USD 295,000.</li><li>Requires four weeks of finished-product safety stock after launch.</li><li>Adds technology-transfer milestones and a target first PPQ date of 15 March 2027.</li><li>Conditionally approves Piedmont Analytical Services only for compendial microbiology testing; further subcontracting requires written approval.</li></ol><h3>Technology-transfer milestone flow</h3><div class="flow"><div class="step"><b>20%</b><span>Kickoff and controlled-document index<br>23 November 2026</span></div><div class="step"><b>25%</b><span>Analytical method transfer complete<br>15 January 2027</span></div><div class="step"><b>25%</b><span>Engineering batch accepted<br>19 February 2027</span></div><div class="step"><b>20%</b><span>PPQ readiness approved<br>12 March 2027</span></div><div class="step"><b>10%</b><span>Final transfer report approved<br>31 March 2027</span></div></div><p><b>Milestone evidence.</b> Each invoice must identify the approved deliverable, approval date, and responsible Caldova owner. Payment does not waive acceptance criteria or quality requirements.</p><div class="callout warning"><b>Capacity control:</b> forecast volumes above 420,000 tablets in a month require written confirmation and do not reduce the four-week safety-stock obligation.</div></section>
+<section class="page legal"><div class="topline"></div><header class="head"><div class="brand"><img src="file:///Users/pamelafox/aitour27-LTG242-knowledge-retrieval-for-ai-agents-with-foundry-iq/caldova_logo.png" alt="Caldova Pharmaceuticals logo"><div><b>Contract amendment</b><span>Caldova Pharmaceuticals / Kristos Pharma</span></div></div><div class="meta">AMD-MSA-KRI-2026-01<br>Effect and signatures · Page 3 of 3</div></header><footer class="footer"><span>Confidential · Controlled contract record</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><h2>4. Quality and supply controls</h2><p>Kristos shall not begin engineering, PPQ, or commercial execution until the applicable protocols and quality responsibilities are approved. The Quality Agreement governs deviation notification, OOS investigations, change control, data integrity, batch disposition, complaints, and recalls.</p><p>Piedmont Analytical Services is conditionally approved only for the stated testing scope. Kristos remains fully responsible for subcontracted work, data, investigations, and timely delivery. Any location, method, or scope change requires Caldova's prior written approval.</p><h2>5. Unchanged terms</h2><p>Except as expressly changed by this Amendment, MSA-CAL-KRI-2024-017 remains unchanged and in full force. If a conflict exists, this Amendment controls for CALD-201. The purchase order provides quantities and dates but does not alter prices or quality obligations.</p><h2>6. Approvals</h2><p>The procurement exceeds USD 1,000,000 in anticipated annual commitment when capacity, transfer, and forecast exposure are considered. The executive recommendation and approvals below evidence compliance with CAL-POL-PUR-001.</p><div class="signature-grid"><div class="signature"><b>For Caldova Pharmaceuticals, Inc.</b><br>Mona Kane · Chief Supply Chain Officer<br>16 November 2026</div><div class="signature"><b>For Kristos Pharma</b><br>Alex Mercer · Chief Commercial Officer<br>16 November 2026</div><div class="signature">Andre Lawson<br>Chief Finance Officer<br>Approved 16 November 2026</div><div class="signature">Charlotte Waltson<br>VP of Procurement<br>Approved 16 November 2026</div></div><p class="notice">Typed names and approvals are fictional demonstration data and do not represent real signatures.</p></section>
+</body>
+</html>

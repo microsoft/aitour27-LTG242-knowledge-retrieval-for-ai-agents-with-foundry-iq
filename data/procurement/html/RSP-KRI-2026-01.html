@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RSP-KRI-2026-01 - Kristos Pharma</title>
+<style>
+  :root { --ink:#18252d; --muted:#61717b; --paper:#f8faf9; --line:#c9d4d7; --caldova:#006b62; --gold:#c49a43; --accent:#1557a0; }
+  * { box-sizing:border-box; }
+  @page { size:Letter; margin:0; }
+  body { margin:0; color:var(--ink); font-family:"Aptos","Helvetica Neue",Arial,sans-serif; background:#d8dfe0; line-height:1.38; }
+  .page { position:relative; width:8.5in; min-height:11in; padding:.62in .66in .58in; margin:0 auto; background:var(--paper); page-break-after:always; overflow:hidden; }
+  .page:last-child { page-break-after:auto; }
+  .topline { height:5px; background:linear-gradient(90deg,var(--accent) 0 74%,var(--gold) 74%); margin:-.62in -.66in .28in; }
+  .head { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:.12in; margin-bottom:.22in; }
+  .brand { display:flex; gap:.12in; align-items:center; }
+  .brand img { width:.52in; height:.52in; object-fit:contain; }
+  .brand b { display:block; font-size:10pt; letter-spacing:.04em; text-transform:uppercase; color:var(--accent); }
+  .brand span,.meta { color:var(--muted); font-size:7.8pt; }
+  .meta { text-align:right; line-height:1.45; }
+  .footer { position:absolute; left:.66in; right:.66in; bottom:.25in; display:flex; justify-content:space-between; color:#6e7c84; font-size:7.2pt; border-top:1px solid var(--line); padding-top:.07in; }
+  h1,h2,h3 { margin:0; line-height:1.12; }
+  h1 { font-family:Georgia,serif; font-size:28pt; font-weight:500; letter-spacing:0; }
+  h2 { font-size:15pt; color:var(--accent); margin-bottom:.12in; }
+  h3 { font-size:10.5pt; text-transform:uppercase; letter-spacing:.05em; color:var(--accent); margin-bottom:.07in; }
+  p { font-size:9pt; margin:.05in 0 .12in; }
+  .kicker { color:var(--accent); font-size:8pt; text-transform:uppercase; letter-spacing:.12em; font-weight:700; margin-bottom:.08in; }
+  .lede { font-family:Georgia,serif; font-size:13pt; color:#35464f; max-width:6.6in; }
+  .hero { width:100%; height:2.3in; object-fit:cover; margin:.2in 0; border-bottom:6px solid var(--accent); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:.2in; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:.14in; }
+  .card { border:1px solid var(--line); border-top:4px solid var(--accent); padding:.15in; background:#fff; }
+  .callout { background:#eaf2f0; border-left:5px solid var(--accent); padding:.13in .16in; margin:.12in 0; }
+  .warning { background:#fff6df; border-left-color:#b47513; }
+  .metric { font-family:Georgia,serif; font-size:22pt; color:var(--accent); }
+  .label { font-size:7.4pt; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  table { width:100%; border-collapse:collapse; margin:.1in 0 .18in; font-size:8pt; }
+  th { background:var(--accent); color:#fff; text-align:left; padding:.07in .08in; font-weight:600; }
+  td { border-bottom:1px solid var(--line); padding:.065in .08in; vertical-align:top; }
+  tr:nth-child(even) td { background:#f0f4f3; }
+  ul,ol { margin:.06in 0 .14in; padding-left:.22in; font-size:8.7pt; }
+  li { margin:.035in 0; }
+  .flow { display:flex; align-items:stretch; gap:.08in; margin:.17in 0; }
+  .flow .step { flex:1; position:relative; background:#fff; border:1px solid var(--line); border-top:4px solid var(--accent); padding:.12in .1in; min-height:.82in; }
+  .flow .step:not(:last-child)::after { content:'›'; position:absolute; right:-.08in; top:.2in; color:var(--gold); font-size:24pt; z-index:2; }
+  .step b { display:block; color:var(--accent); font-size:8.5pt; }
+  .step span { font-size:7.2pt; color:var(--muted); }
+  .timeline { display:grid; grid-template-columns:1fr; gap:.08in; border-left:3px solid var(--accent); margin:.14in 0 .14in .08in; padding-left:.18in; }
+  .timeline div { position:relative; font-size:8pt; }
+  .timeline div::before { content:''; width:9px; height:9px; border-radius:50%; background:var(--gold); position:absolute; left:-.235in; top:.04in; }
+  .scorebar { height:.13in; background:#dce5e4; margin-top:.04in; }
+  .scorebar i { display:block; height:100%; background:var(--accent); }
+  .signature-grid { display:grid; grid-template-columns:1fr 1fr; gap:.35in; margin-top:.28in; }
+  .signature { border-top:1px solid var(--ink); padding-top:.07in; font-size:8pt; min-height:.65in; }
+  .small { font-size:7.4pt; color:var(--muted); }
+  .pill { display:inline-block; padding:.03in .08in; border:1px solid var(--accent); color:var(--accent); font-size:7pt; font-weight:700; text-transform:uppercase; }
+  .doc-chain { display:flex; gap:.05in; align-items:center; flex-wrap:wrap; margin:.12in 0; }
+  .doc-chain span { border:1px solid var(--line); padding:.06in .08in; background:#fff; font-size:7.2pt; }
+  .doc-chain b { color:var(--gold); }
+  .legal p { font-family:Georgia,serif; font-size:8.4pt; text-align:justify; }
+  .legal h2 { border-bottom:1px solid var(--line); padding-bottom:.05in; margin-top:.08in; }
+  .notice { font-size:7pt; color:#6f5721; background:#fff5d7; padding:.05in .08in; display:inline-block; }
+</style>
+</head>
+<body>
+<section class="page"><div class="topline"></div><header class="head"><div><div style="font-family:Georgia,serif;font-size:17pt;color:var(--accent)">Kristos Pharma</div><span class="small">Contract manufacturing proposal · V002</span></div><div class="meta">RSP-KRI-2026-01<br>Offer · Page 1 of 4</div></header><footer class="footer"><span>Confidential supplier response</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><div class="kicker">Response to RFP-CAL-OSD-2026-01</div><h1>Balanced value with reserved capacity and controlled transfer</h1><p class="lede">Proposal for technology transfer and 12-month commercial manufacture of CALD-201 50 mg film-coated tablets.</p><div class="grid3" style="margin-top:.28in"><div class="card"><div class="label">Firm monthly capacity</div><div class="metric">420,000</div><p>tablets reserved</p></div><div class="card"><div class="label">Lead time</div><div class="metric">16</div><p>weeks</p></div><div class="card"><div class="label">Year-one total</div><div class="metric" style="font-size:18pt">$813,400.00</div><p>firm evaluated cost</p></div></div><div class="callout"><b>Legal entity / site:</b> Kristos Pharma, North Carolina, USA<br><b>Existing agreement:</b> MSA-CAL-KRI-2024-017, effective 09 December 2024<br><b>Offer date:</b> 08 October 2026 · Valid 120 days</div><h3>Executive commitment</h3><p>Kristos Pharma proposes to transfer Caldova's controlled process, reserve the capacity stated in this response, manufacture and release bulk tablets under cGMP, and provide the complete batch disposition package. Our offer accepts firm USD pricing, Net 60 payment, safety-stock obligations, and written approval for subcontracting, subject only to the stated exceptions.</p><div class="signature-grid"><div class="signature">Jamie Rowan<br>Vice President, Commercial Operations<br>Kristos Pharma · 08 October 2026</div><div class="signature">Proposal control<br>RSP-KRI-2026-01<br>Submitted to Efe Abugo</div></div></section>
+<section class="page"><div class="topline"></div><header class="head"><div><div style="font-family:Georgia,serif;font-size:17pt;color:var(--accent)">Kristos Pharma</div><span class="small">Contract manufacturing proposal · V002</span></div><div class="meta">RSP-KRI-2026-01<br>Capability · Page 2 of 4</div></header><footer class="footer"><span>Confidential supplier response</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><h2>1. Technical, quality, and capacity response</h2><div class="grid3"><div class="card"><div class="label">OSD experience</div><div class="metric">15</div><p>years</p></div><div class="card"><div class="label">Available capacity</div><div class="metric">520,000</div><p>tablets/month</p></div><div class="card"><div class="label">Current utilization</div><div class="metric">78%</div><p>at proposed site</p></div></div><h3 style="margin-top:.18in">Manufacturing flow and control evidence</h3><div class="flow"><div class="step"><b>Dispense</b><span>identity and weight verification</span></div><div class="step"><b>Granulate</b><span>controlled endpoint and hold time</span></div><div class="step"><b>Compress</b><span>weight, hardness, friability</span></div><div class="step"><b>Coat</b><span>appearance and weight gain</span></div><div class="step"><b>Release</b><span>CoA, CoC, executed record</span></div></div><table><tr><th>Indicator</th><th>Current evidence</th><th>Proposal relevance</th></tr><tr><td>OTIF</td><td>95.8%</td><td>Commercial delivery reliability</td></tr><tr><td>Batch rejection</td><td>1.1%</td><td>Quality and process consistency</td></tr><tr><td>Right first time</td><td>97.4%</td><td>Documentation and execution control</td></tr><tr><td>Inspection status</td><td>VAI</td><td>Regulatory history; 0 open actions</td></tr><tr><td>Caldova audit</td><td>Satisfactory</td><td>Mandatory quality gate</td></tr><tr><td>Transfer success</td><td>94%</td><td>Comparable program history</td></tr><tr><td>Financial rating</td><td>A</td><td>Continuity and resilience</td></tr></table><div class="callout"><b>Safety stock:</b> 4 weeks after launch. <b>Subcontractors:</b> Compendial microbiology testing by Piedmont Analytical Services; subject to Caldova approval.</div></section>
+<section class="page"><div class="topline"></div><header class="head"><div><div style="font-family:Georgia,serif;font-size:17pt;color:var(--accent)">Kristos Pharma</div><span class="small">Contract manufacturing proposal · V002</span></div><div class="meta">RSP-KRI-2026-01<br>Implementation · Page 3 of 4</div></header><footer class="footer"><span>Confidential supplier response</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><h2>2. Technology-transfer plan</h2><p>The transfer plan uses controlled inputs and gated approval. No PPQ activity begins until methods, master records, cleaning strategy, critical materials, and deviations are approved.</p><div class="timeline"><div><b>Week 0 · Kickoff</b><br>Governance, document index, risk register, and responsibility matrix.</div><div><b>Weeks 1-4 · Knowledge transfer</b><br>CAL-MBR-201-TT-01, CAL-SPEC-OSD-201-01, process history, methods, and material controls.</div><div><b>Weeks 5-8 · Site adaptation</b><br>Equipment mapping, gap assessment, draft batch records, cleaning and sampling plans.</div><div><b>Weeks 9-12 · Method and engineering readiness</b><br>Analytical transfer, engineering protocol, raw-material qualification, operator training.</div><div><b>Weeks 13-16 · Execution gate</b><br>Engineering batch review and PPQ readiness decision.</div></div><h3>Responsibilities</h3><table><tr><th>Workstream</th><th>Caldova</th><th>Kristos Pharma</th></tr><tr><td>Product knowledge</td><td>Specifications, history, methods, MBR inputs</td><td>Gap assessment and receiving-site procedures</td></tr><tr><td>Materials</td><td>Approve critical sources</td><td>Qualify, procure, sample, test, inventory</td></tr><tr><td>Validation</td><td>Approve strategy and protocols</td><td>Draft and execute approved protocols</td></tr><tr><td>Release</td><td>Final disposition for Caldova use</td><td>Site quality disposition and complete release package</td></tr></table><div class="callout warning"><b>Principal implementation risk:</b> Moderate capacity headroom and a VAI inspection history; no open actions and satisfactory Caldova audit status.</div><p><b>Exception:</b> Requests a 16-week minimum lead time for the first commercial campaign; no exception to Net 60 or firm pricing.</p></section>
+<section class="page"><div class="topline"></div><header class="head"><div><div style="font-family:Georgia,serif;font-size:17pt;color:var(--accent)">Kristos Pharma</div><span class="small">Contract manufacturing proposal · V002</span></div><div class="meta">RSP-KRI-2026-01<br>Commercial schedule · Page 4 of 4</div></header><footer class="footer"><span>Confidential supplier response</span><span>Fictional demonstration document. Not a real solicitation, offer, contract, or order.</span></footer><h2>3. Firm price and declarations</h2><table><tr><th>Line</th><th>Description</th><th>Quantity</th><th>Unit price</th><th>Extended</th></tr><tr><td>1</td><td>Technology-transfer package</td><td>1 lot</td><td>$295,000.00</td><td>$295,000.00</td></tr><tr><td>2</td><td>CALD-201 50 mg film-coated tablets</td><td>4,800,000 tablets</td><td>$0.11</td><td>$518,400.00</td></tr><tr><td colspan="4"><b>Year-one evaluated total</b></td><td><b>$813,400.00</b></td></tr></table><div class="grid2"><div class="card"><h3>Commercial terms</h3><ul><li>Currency: USD</li><li>Price validity: 12-month firm period</li><li>Payment: Net 60</li><li>MOQ: 125,000 tablets</li><li>Capacity reservation: 420,000 tablets/month</li></ul></div><div class="card"><h3>Offer disclosures</h3><p><b>Subcontractors:</b> Compendial microbiology testing by Piedmont Analytical Services; subject to Caldova approval.</p><p><b>Exceptions:</b> Requests a 16-week minimum lead time for the first commercial campaign; no exception to Net 60 or firm pricing.</p></div></div><h3 style="margin-top:.18in">Attestation</h3><p>We certify that this response is complete and accurate to the best of our knowledge; that no undisclosed conflict, inducement, or coordinated bid affected it; and that all commitments and exceptions are stated here or in referenced schedules.</p><div class="signature-grid"><div class="signature">Jamie Rowan<br>Vice President, Commercial Operations<br>Kristos Pharma</div><div class="signature">Morgan Lee<br>Head of Quality<br>Kristos Pharma</div></div><p class="notice">Synthetic signature blocks are typed for demo use and do not represent real persons or authorization.</p></section>
+</body>
+</html>
