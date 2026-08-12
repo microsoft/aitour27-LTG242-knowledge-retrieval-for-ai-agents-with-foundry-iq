@@ -81,6 +81,16 @@ resource searchToAIServicesRoleAssignment 'Microsoft.Authorization/roleAssignmen
   }
 }
 
+resource searchToAIServicesUserRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(aiServicesAccountName)) {
+  name: guid(aiServicesAccountName, searchService.id, 'Cognitive Services User', uniqueString(deployment().name))
+  scope: aiAccount
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'a97b65f3-24c7-4388-baec-2e87135dc908')
+    principalId: searchService.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
 resource aiServicesToSearchServiceRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(aiServicesAccountName) && !empty(aiProjectName)) {
   name: guid(searchService.id, aiServicesAccountName, aiProjectName, 'Search Service Contributor', uniqueString(deployment().name))
   scope: searchService

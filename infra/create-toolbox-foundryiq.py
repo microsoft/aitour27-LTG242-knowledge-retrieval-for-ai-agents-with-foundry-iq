@@ -14,20 +14,19 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=".env", override=True)
 
+KNOWLEDGE_BASE_NAME = "knowledge-retrieval-kb"
+
 
 def main() -> None:
     """Create a toolbox version and promote it as the default version."""
     endpoint = os.environ["FOUNDRY_PROJECT_ENDPOINT"]
     search_endpoint = os.environ["AZURE_AI_SEARCH_SERVICE_ENDPOINT"]
     toolbox_name = os.environ.get("CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME", "knowledge-retrieval-tools")
-    knowledge_base_name = os.environ.get(
-        "AZURE_AI_SEARCH_KNOWLEDGE_BASE_NAME", "knowledge-retrieval-kb"
-    )
     connection_name = os.environ.get(
         "AZURE_AI_SEARCH_KB_MCP_CONNECTION_NAME", "knowledge-base-mcp-connection"
     )
     knowledge_base_mcp_url = (
-        f"{search_endpoint.rstrip('/')}/knowledgebases/{knowledge_base_name}"
+        f"{search_endpoint.rstrip('/')}/knowledgebases/{KNOWLEDGE_BASE_NAME}"
         "/mcp?api-version=2026-05-01-preview"
     )
     credential = AzureDeveloperCliCredential(tenant_id=os.environ["AZURE_TENANT_ID"])

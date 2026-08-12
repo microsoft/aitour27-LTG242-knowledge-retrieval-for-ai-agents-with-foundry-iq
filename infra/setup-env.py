@@ -19,6 +19,7 @@ def main() -> None:
         "FOUNDRY_PROJECT_ENDPOINT",
         "AZURE_AI_PROJECT_ENDPOINT",
         "AZURE_AI_PROJECT_ID",
+        "AZURE_AI_ACCOUNT_NAME",
         "AZURE_AI_MODEL_DEPLOYMENT_NAME",
         "AZURE_OPENAI_ENDPOINT",
         "AZURE_OPENAI_CHATGPT_MODEL_NAME",
@@ -26,6 +27,7 @@ def main() -> None:
         "AZURE_OPENAI_EMBEDDING_MODEL_NAME",
         "AZURE_AI_SEARCH_SERVICE_ENDPOINT",
         "AZURE_AI_SEARCH_SERVICE_NAME",
+        "AZURE_STORAGE_ACCOUNT_NAME",
     )
     missing = [key for key in required_keys if not os.environ.get(key)]
     if missing:
@@ -34,8 +36,6 @@ def main() -> None:
     values = {key: os.environ[key] for key in required_keys}
     values.update(
         {
-            "AZURE_AI_SEARCH_INDEX_NAME": "session-documents",
-            "AZURE_AI_SEARCH_KNOWLEDGE_BASE_NAME": "knowledge-retrieval-kb",
             "AZURE_AI_SEARCH_KB_MCP_CONNECTION_NAME": "knowledge-base-mcp-connection",
             "CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME": "knowledge-retrieval-tools",
             "APPLICATIONINSIGHTS_CONNECTION_STRING": os.environ.get(

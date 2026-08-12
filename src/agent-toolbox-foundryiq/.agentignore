@@ -1,5 +1,6 @@
 .env
 .venv/
 .foundry/
+uv.lock
 __pycache__/
 *.pyc
