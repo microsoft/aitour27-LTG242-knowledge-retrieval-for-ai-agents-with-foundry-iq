@@ -1,4 +1,4 @@
-"""Evaluate hosted-agent response completeness against three ground-truth answers."""
+"""Evaluate hosted-agent response completeness against four ground-truth answers."""
 
 import json
 import os
@@ -22,6 +22,7 @@ AGENT_NAME = os.environ.get(
     "AGENT_AGENT_TOOLBOX_FOUNDRYIQ_NAME",
     "agent-toolbox-foundryiq",
 )
+EXPECTED_CASE_COUNT = 4
 
 load_dotenv(REPO_ROOT / ".env", override=True)
 
@@ -43,6 +44,16 @@ def write_json(path: Path, value: Any) -> None:
 
 def main() -> None:
     """Run Response Completeness against the latest hosted-agent version."""
+    dataset_rows = [
+        json.loads(line)
+        for line in DATASET_PATH.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    if len(dataset_rows) != EXPECTED_CASE_COUNT:
+        raise RuntimeError(
+            f"Expected {EXPECTED_CASE_COUNT} evaluation cases, found {len(dataset_rows)}."
+        )
+
     project_endpoint = os.environ["FOUNDRY_PROJECT_ENDPOINT"]
     model_deployment = os.environ["AZURE_AI_MODEL_DEPLOYMENT_NAME"]
     credential = AzureDeveloperCliCredential(
@@ -156,6 +167,10 @@ def main() -> None:
         )
         output_path = RESULTS_ROOT / evaluation.id / f"{eval_run.id}.json"
         write_json(output_path, [serialize(item) for item in output_items])
+        if len(output_items) != EXPECTED_CASE_COUNT:
+            raise RuntimeError(
+                f"Expected {EXPECTED_CASE_COUNT} output items, found {len(output_items)}."
+            )
         print(f"Saved {len(output_items)} output items to {output_path}")
         if getattr(eval_run, "report_url", None):
             print(f"Report: {eval_run.report_url}")

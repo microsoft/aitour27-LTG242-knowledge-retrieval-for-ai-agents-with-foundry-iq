@@ -2,12 +2,15 @@
 
 import asyncio
 import os
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
+from azure.core.exceptions import ResourceNotFoundError
 from azure.core.rest import HttpRequest
 from azure.identity.aio import AzureDeveloperCliCredential
+from azure.search.documents.aio import SearchClient
 from azure.search.documents.indexes.aio import SearchIndexClient, SearchIndexerClient
 from azure.search.documents.indexes.models import (
     AzureOpenAIVectorizerParameters,
@@ -30,7 +33,14 @@ load_dotenv(dotenv_path=".env", override=True)
 
 REPO_ROOT = Path(__file__).parents[1]
 DATA_ROOT = REPO_ROOT / "data"
-KB1_PDF_GLOB = "**/pdf/*.pdf"
+KB1_PDF_DIRECTORIES = (
+    "invoices/pdf",
+    "temperature-reports/pdf",
+    "operational-reports/pdf",
+    "quality-certificate/pdf",
+    "gmp-inspection-report/pdf",
+)
+KB1_EXPECTED_PDF_COUNT = 25
 SEARCH_API_VERSION = "2026-05-01-preview"
 CONTAINER_NAME = "knowledge"
 EXTRACTED_IMAGES_CONTAINER_NAME = "extracted-images"
@@ -40,13 +50,21 @@ KNOWLEDGE_BASE_NAME = "knowledge-retrieval-kb"
 EMBEDDING_DIMENSIONS = 3072
 SEMANTIC_CONFIGURATION_NAME = "semantic-configuration"
 VECTOR_PROFILE_NAME = "vector-search-profile"
+INDEXER_POLL_SECONDS = 10
 
 
 def find_kb1_pdfs() -> list[Path]:
     """Return the generated Stage 1 PDFs in a stable upload order."""
-    pdfs = sorted(DATA_ROOT.glob(KB1_PDF_GLOB))
-    if not pdfs:
-        raise FileNotFoundError(f"No Stage 1 PDFs match {DATA_ROOT / KB1_PDF_GLOB}.")
+    pdfs = sorted(
+        pdf_path
+        for relative_directory in KB1_PDF_DIRECTORIES
+        for pdf_path in (DATA_ROOT / relative_directory).glob("*.pdf")
+    )
+    if len(pdfs) != KB1_EXPECTED_PDF_COUNT:
+        raise RuntimeError(
+            f"Expected {KB1_EXPECTED_PDF_COUNT} KB 1 PDFs across "
+            f"{KB1_PDF_DIRECTORIES}, found {len(pdfs)}."
+        )
     return pdfs
 
 
@@ -315,16 +333,49 @@ async def upload_kb1_pdfs(
     credential: Any,
     pdfs: list[Path],
 ) -> int:
-    """Upload Stage 1 PDFs to the folder scoped to the KB 1 blob indexer."""
+    """Replace the PDFs in the folder scoped to the KB 1 blob indexer."""
     account_url = f"https://{storage_account_name}.blob.core.windows.net"
     async with BlobServiceClient(account_url=account_url, credential=credential) as service:
         container = service.get_container_client(CONTAINER_NAME)
+        stale_blobs = [
+            blob.name
+            async for blob in container.list_blobs(name_starts_with=f"{KB1_BLOB_PREFIX}/")
+        ]
+        for blob_name in stale_blobs:
+            await container.delete_blob(blob_name)
+
+        extracted_images = service.get_container_client(EXTRACTED_IMAGES_CONTAINER_NAME)
+        try:
+            image_blobs = [blob.name async for blob in extracted_images.list_blobs()]
+            for blob_name in image_blobs:
+                await extracted_images.delete_blob(blob_name)
+        except ResourceNotFoundError:
+            pass
+
         for pdf_path in pdfs:
             relative_path = pdf_path.relative_to(DATA_ROOT).as_posix()
             blob = container.get_blob_client(f"{KB1_BLOB_PREFIX}/{relative_path}")
             with pdf_path.open("rb") as pdf_file:
                 await blob.upload_blob(pdf_file, overwrite=True)
     return len(pdfs)
+
+
+async def clear_index_documents(endpoint: str, index_name: str, credential: Any) -> int:
+    """Delete projected chunks so removed source documents cannot remain searchable."""
+    async with SearchClient(
+        endpoint=endpoint,
+        index_name=index_name,
+        credential=credential,
+    ) as search_client:
+        try:
+            results = await search_client.search(search_text="*", select=["chunk_id"])
+            documents = [{"chunk_id": result["chunk_id"]} async for result in results]
+        except ResourceNotFoundError:
+            return 0
+
+        for offset in range(0, len(documents), 1000):
+            await search_client.delete_documents(documents=documents[offset : offset + 1000])
+        return len(documents)
 
 
 async def put_preview_resource(
@@ -343,6 +394,35 @@ async def put_preview_resource(
         HttpRequest("PUT", resource_url, headers={"Content-Type": "application/json"}, json=payload)
     )
     response.raise_for_status()
+
+
+async def wait_for_indexer(
+    client: SearchIndexerClient,
+    indexer_name: str,
+    started_after: datetime,
+) -> tuple[int, int]:
+    """Wait for the current indexer execution and return item/failure counts."""
+    while True:
+        indexer_status = await client.get_indexer_status(indexer_name)
+        result = indexer_status.last_result
+        if result is None or result.start_time is None or result.start_time < started_after:
+            await asyncio.sleep(INDEXER_POLL_SECONDS)
+            continue
+
+        execution_status = getattr(result.status, "value", result.status)
+        if execution_status == "success":
+            if result.failed_item_count:
+                raise RuntimeError(
+                    f"Indexer '{indexer_name}' completed with "
+                    f"{result.failed_item_count} failed items."
+                )
+            return result.item_count, result.failed_item_count
+        if execution_status not in {"inProgress", "reset"}:
+            raise RuntimeError(
+                f"Indexer '{indexer_name}' ended with status '{execution_status}': "
+                f"{result.error_message or 'No error message was returned.'}"
+            )
+        await asyncio.sleep(INDEXER_POLL_SECONDS)
 
 
 async def create_knowledge_base(
@@ -431,6 +511,11 @@ async def main_async() -> None:
         )
         async with SearchIndexClient(endpoint=endpoint, credential=credential) as index_client:
             await index_client.create_or_update_index(index)
+            removed_chunks = await clear_index_documents(
+                endpoint,
+                SEARCH_INDEX_NAME,
+                credential,
+            )
             await create_knowledge_base(
                 index_client,
                 index_name=SEARCH_INDEX_NAME,
@@ -453,10 +538,19 @@ async def main_async() -> None:
         async with SearchIndexerClient(endpoint=endpoint, credential=credential) as indexer_client:
             for collection, (name, payload) in pipeline.items():
                 await put_preview_resource(indexer_client, endpoint, collection, name, payload)
-            await indexer_client.run_indexer(pipeline["indexers"][0])
+            indexer_name = pipeline["indexers"][0]
+            await indexer_client.reset_indexer(indexer_name)
+            started_after = datetime.now(UTC) - timedelta(seconds=5)
+            await indexer_client.run_indexer(indexer_name)
+            indexed_items, failed_items = await wait_for_indexer(
+                indexer_client,
+                indexer_name,
+                started_after,
+            )
 
         print(
-            f"Uploaded {uploaded} PDFs and started '{pipeline['indexers'][0]}' "
+            f"Uploaded {uploaded} PDFs, removed {removed_chunks} stale chunks, "
+            f"and indexed {indexed_items} items with {failed_items} failures "
             f"for knowledge base '{KNOWLEDGE_BASE_NAME}'."
         )
     finally:

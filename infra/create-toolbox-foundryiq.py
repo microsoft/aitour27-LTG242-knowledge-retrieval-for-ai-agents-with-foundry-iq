@@ -7,7 +7,6 @@ from azure.ai.projects.models import (
     CodeInterpreterToolboxTool,
     MCPToolboxTool,
     ToolboxTool,
-    WebSearchToolboxTool,
 )
 from azure.identity import AzureDeveloperCliCredential
 from dotenv import load_dotenv
@@ -31,14 +30,11 @@ def main() -> None:
     )
     credential = AzureDeveloperCliCredential(tenant_id=os.environ["AZURE_TENANT_ID"])
     tools: list[ToolboxTool] = [
-        WebSearchToolboxTool(
-            name="web_search",
-            description="Search the public web for current information.",
-            search_context_size="medium",
-        ),
         CodeInterpreterToolboxTool(
             name="code_interpreter",
-            description="Run Python for calculations and structured data analysis.",
+            description=(
+                "Run Python for grounded calculations and requested charts or visual artifacts."
+            ),
         ),
         MCPToolboxTool(
             server_label="knowledge-base",
@@ -54,7 +50,7 @@ def main() -> None:
     version = project.toolboxes.create_version(
         name=toolbox_name,
         tools=tools,
-        description="Retrieval, web search, and code interpreter tools for the hosted agent.",
+        description="Knowledge retrieval and code interpreter tools for invoice investigation.",
     )
     project.toolboxes.update(name=toolbox_name, default_version=version.version)
     print(f"Set toolbox '{toolbox_name}' default version to {version.version}.")

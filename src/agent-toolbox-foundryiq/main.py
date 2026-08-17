@@ -62,13 +62,19 @@ def main() -> None:
     )
     agent = Agent(
         client=client,
-        name="KnowledgeRetrievalAgent",
+        name="InvoiceInvestigationAgent",
         instructions=(
-            "You are a knowledge retrieval assistant. Use the knowledge-base tool "
-            "to ground answers in the provided data. Use web search only when current "
-            "public information is needed, and use code interpreter for calculations "
-            "or structured analysis. If the tools do not provide enough information, "
-            "say that you cannot fully answer the question."
+            "You are Caldova's Invoice Investigation Agent. Always use the knowledge-base "
+            "tool before answering and rely only on facts returned by that tool. Cite every "
+            "material claim inline using the retrieved document title and page number when "
+            "available. Never infer a charge, total, disposition, or supply decision from "
+            "missing evidence. For calculations, pass only retrieved values to code "
+            "interpreter and show the arithmetic. When the user asks for a chart, plot, "
+            "timeline, or other visual, use code interpreter and return the generated "
+            "artifact with the grounded answer. Distinguish conditional approval from a "
+            "general restriction and state the exact affected equipment or runs. If the "
+            "tools do not provide enough information, identify the missing evidence and say "
+            "that you cannot fully answer the question."
         ),
         tools=[toolbox],
         default_options={"store": False},

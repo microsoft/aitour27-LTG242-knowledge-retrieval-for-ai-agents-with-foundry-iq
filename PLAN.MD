@@ -123,9 +123,9 @@ surrogates.
 
 | Configuration | Indexed content | Security or additional source | Corresponding agent | Agent tools | Demo purpose |
 |---|---|---|---|---|---|
-| **KB 1: Invoice evidence** | Target: 25 PDFs. The 23 generated files comprise 15 invoices, 2 temperature reports, and 6 operational reports; 1 Spanish certificate and 1 scanned GMP inspection report remain to be generated. | None | **Invoice Investigation Agent** | Knowledge retrieval and Code Interpreter | Answer evidence-heavy invoice questions across searchable, multilingual, and scanned documents; calculate exposure and generate charts |
-| **KB 2: Confidential sourcing** | Target: 11 PDFs comprising a purchasing policy, 9 procurement-chain documents, and `CAL-MAP-EVD-001.pdf`; all remain to be generated. | ADLS Gen2 POSIX-like ACL metadata enforced with the caller's Microsoft Entra token | **Sourcing Review Agent** | ACL-aware knowledge retrieval and Code Interpreter | Show that the same sourcing question returns different evidence and analysis for users with different access |
-| **KB 3: Supplier intelligence** | Target: the KB 2 corpus plus the planned `CAL-MAP-SUP-001.pdf` | PostgreSQL through a custom MCP server | **Supplier Intelligence Agent** | Knowledge retrieval, MCP, and Code Interpreter | Combine signed sourcing documents with current structured supplier performance and visualize the comparison |
+| **KB 1: Invoice evidence** | Complete: 25 PDFs comprising 15 invoices, 2 temperature reports, 6 operational reports, 1 Spanish certificate, and 1 scanned GMP inspection report. | None | **Invoice Investigation Agent** | Knowledge retrieval and Code Interpreter | Answer evidence-heavy invoice questions across searchable, multilingual, and scanned documents; calculate exposure and generate charts |
+| **KB 2: Confidential sourcing** | Generated: 11 PDFs comprising a purchasing policy, 9 procurement-chain documents, and `CAL-MAP-EVD-001.pdf`. | ADLS Gen2 POSIX-like ACL metadata enforced with the caller's Microsoft Entra token | **Sourcing Review Agent** | ACL-aware knowledge retrieval and Code Interpreter | Show that the same sourcing question returns different evidence and analysis for users with different access |
+| **KB 3: Supplier intelligence** | Generated document assets: the KB 2 corpus plus `CAL-MAP-SUP-001.pdf`. | PostgreSQL through a custom MCP server | **Supplier Intelligence Agent** | Knowledge retrieval, MCP, and Code Interpreter | Combine signed sourcing documents with current structured supplier performance and visualize the comparison |
 
 KB 3 intentionally builds on KB 2. This makes the progression easy to explain:
 first secure the indexed documents, then federate current operational facts
@@ -133,10 +133,9 @@ without copying them into the index.
 
 #### KB 1 content and questions
 
-The Invoice Investigation Agent should retrieve across all 25 target documents
-in one index after the two remaining assets are generated. Code Interpreter
-should receive only the grounded facts needed for a calculation or
-visualization.
+The Invoice Investigation Agent retrieves across all 25 target documents in one
+index. Code Interpreter receives only the grounded facts needed for a
+calculation or visualization.
 
 | Query | Expected grounded response | Code Interpreter output |
 |---|---|---|
@@ -144,6 +143,15 @@ visualization.
 | “Was lot `LOT-MD-1026-A` released, and should Caldova pay the $125,600 yield adjustment?” | The Spanish certificate releases the lot. Actual released quantity was 7,200 kg and overall yield was 87.8%, within the approved 85-92% range. The adjustment used an 8,000 kg forecast and should be rejected. | Generate a stage-by-stage yield chart and show the $125,600 avoided charge. |
 | “Should Caldova approve BluePeak's $111,000 contamination-investigation charge? Cite the cause, inspection evidence, supply restriction, and corrective actions.” | Reject the pass-through fee because the supplier-maintained `TC-4` connection was reassembled with a pinched gasket and lacked a documented pressure-hold result. The scanned report identifies two major deficiencies and conditionally blocks new `BR-04` runs pending controls and verified CAPA. | Produce a compact evidence timeline or cause-and-effect graphic. |
 | “Review the supplier invoices and associated evidence. Which disputed charges should Caldova reject, and what is the total avoided cost?” | Synthesize the supported decisions across the invoice and evidence packets, cite each decision, and calculate the total only from retrieved supported amounts. | Generate a bar chart of disputed and approved amounts by supplier. |
+
+#### Verified KB 1 status (agent version 3, toolbox version 4)
+
+- The live Search index contains exactly the intended 25 KB 1 document titles and no sourcing, policy, or map documents.
+- All four headline questions return grounded answers with inline document and page citations where page metadata is available.
+- The temperature, yield, BluePeak, and aggregate prompts each produce the planned Code Interpreter visual.
+- Multilingual retrieval returns the Spanish certificate facts, and multimodal/OCR retrieval returns facts from the scanned GMP inspection report.
+- The four-case `builtin.response_completeness` evaluation completed with passing scores of 5, 4, 5, and 5. The yield case's only noted omission was the exact 87.8% figure in that evaluation response; a direct validation prompt returned it correctly.
+- Raw hosted responses currently contain inline citation text but no machine-readable citation annotations (`annotations` is empty).
 
 #### KB 2 ACL design and questions
 
@@ -370,15 +378,15 @@ End the session at 15:00.
 - [ ] Confirm the speaker for Scenario 3. **TBD**
 - [ ] Confirm the speaker for Productionizing. **TBD**
 - [ ] Confirm the speaker for Next Steps and the Evaluation Slide. **TBD**
-- [ ] Build the Invoice Investigation Agent with KB 1 and Code Interpreter.
+- [x] Build the Invoice Investigation Agent with KB 1 and Code Interpreter.
 - [ ] Build the Sourcing Review Agent with KB 2, ACL-aware retrieval, and Code Interpreter.
 - [ ] Build the Supplier Intelligence Agent with KB 3, read-only PostgreSQL MCP tools, and Code Interpreter.
 - [ ] Create the Productionizing architecture-decision slides. Exact diagrams and decision details: **TBD**
 - [x] Define the three knowledge-base boundaries, agents, tools, and headline questions.
-- [ ] Generate KB 1's Spanish certificate and scanned GMP inspection report, bringing the corpus from 23 to 25 PDFs.
-- [ ] Upload KB 1's 25 target PDFs without uploading JSON, HTML, templates, or image assets.
-- [ ] Configure and validate hybrid, multilingual, OCR, and multimodal retrieval for the KB 1 questions.
-- [ ] Generate KB 2's 11 policy, procurement-chain, and evidence-map PDFs.
+- [x] Generate KB 1's Spanish certificate and scanned GMP inspection report, bringing the corpus from 23 to 25 PDFs.
+- [x] Upload KB 1's 25 target PDFs without uploading JSON, HTML, templates, or image assets.
+- [x] Configure and validate hybrid, multilingual, OCR, and multimodal retrieval for the KB 1 questions.
+- [x] Generate KB 2's 11 policy, procurement-chain, and evidence-map PDFs.
 - [ ] Upload KB 2's 11 PDFs to ADLS Gen2 and apply the evaluator, approver, and supplier ACL model through Microsoft Entra groups.
 - [ ] Configure the ADLS Gen2 indexer, permission-filter index field, ACL metadata synchronization, and caller-token query enforcement using the applicable preview API.
 - [ ] Validate the bidder-comparison query as a procurement evaluator and at least one supplier principal.
