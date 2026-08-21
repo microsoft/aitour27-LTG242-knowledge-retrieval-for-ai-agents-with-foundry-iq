@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/pamelafox/aitour27-caldova-data.git",
+  "commit": "7f9d83bcd7a1647d5c23ecc7ccdd5becb912dea5",
+  "corpora": [
+    "invoice-investigation",
+    "procurement",
+    "policy-and-diagrams"
+  ],
+  "pdfCount": 37
+}

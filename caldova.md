@@ -201,9 +201,14 @@ The source mentions a separate 7% manufacturing-capacity-gap scenario as an adja
 - SharePoint sites and document libraries.
 - Dynamics 365 supplier or business records.
 
-## Candidate source: Fabric vendor analytics sample
+## Historical source: Fabric vendor analytics sample
 
-The `FabricExport/` folder contains a supplied Fabric sample for Caldova's contract-manufacturer sourcing scenario. Its status as the official dataset for LTG242 is not yet confirmed. It provides structured operational data that complements the unstructured contracts, RFP responses, and policies proposed for Foundry IQ.
+The original session draft used a seven-vendor Fabric export. That export has
+been superseded by the canonical supplier assets in
+[`pamelafox/aitour27-caldova-data`](https://github.com/pamelafox/aitour27-caldova-data).
+The historical details below explain earlier planning decisions but are not the
+current session data contract. Current implementations should use `SupplierSM`,
+`SupplierDataAgent`, and the shared `sup-001` through `sup-018` registry.
 
 The export contains two generations of the sample:
 
@@ -280,7 +285,7 @@ The distinction between baseline and latest generated values matters when explai
 
 ### Current star schema
 
-The current `VendorSM` semantic model uses Direct Lake and a seven-table star schema:
+The legacy `VendorSM` semantic model used Direct Lake and a seven-table star schema:
 
 | Table | Grain and purpose |
 | --- | --- |
@@ -307,7 +312,7 @@ Descriptions explain each business field to Copilot. Authored synonyms map natur
 
 ### Vendor Data Agent behavior
 
-The v3.0 notebook creates and publishes `VendorDataAgent` over the semantic model. Its instructions establish this recommendation policy:
+The legacy v3.0 notebook created and published `VendorDataAgent` over the semantic model. Its instructions established this recommendation policy:
 
 1. Use the `Latest ...` measures for current performance.
 2. Use the four-week change measures to describe improvement or decline.
@@ -343,9 +348,9 @@ The v3.0 Fabric notebook:
 
 1. Creates or reuses an `EnterpriseLakehouse`.
 2. Writes the seven Delta tables.
-3. creates a Direct Lake semantic model named `VendorSM`.
+3. created a Direct Lake semantic model named `VendorSM`.
 4. Adds relationships, measures, descriptions, synonyms, sort behavior, and date-table metadata.
-5. Creates and publishes `VendorDataAgent`.
+5. created and published `VendorDataAgent`.
 6. Creates the Power BI report.
 
 Important requirements and caveats:
@@ -369,13 +374,13 @@ The Fabric sample is well suited to the **live structured vendor-analytics sourc
 This gives the talk a concrete progression:
 
 1. **Indexed knowledge:** What do Caldova's approved documents say, and who may read them?
-2. **Federated operational data:** What is each vendor's current performance and qualification state in Fabric?
+2. **Federated operational data:** What is each supplier's current performance and qualification state in Fabric?
 3. **Working context:** What is the sourcing manager doing and deciding now?
 
 Candidate cross-source questions include:
 
-- Which qualifying vendor has enough current capacity, and what contract terms would Caldova need to accept?
-- Which vendors are improving operationally, and do their RFP responses satisfy Caldova's quality requirements?
+- Which qualifying supplier has enough current capacity, and what contract terms would Caldova need to accept?
+- Which suppliers are improving operationally, and do their RFP responses satisfy Caldova's quality requirements?
 - Why was Telsin previously disqualified, what has changed recently, and which approved documents are needed before reconsideration?
 - Which supplier has the strongest current delivery performance, and what open actions appear in the sourcing manager's work context?
 
@@ -444,26 +449,18 @@ Waypoint is well suited to a compact hybrid-retrieval demo:
 
 This architecture does not require Fabric IQ. Fabric, Azure SQL, PostgreSQL, or another approved relational service could hold the structured facts. The key talk concept is the retrieval split: stable document knowledge is indexed, while current transaction facts are queried at request time.
 
-## Comparing the candidate sources
+## Unified sample-data source
 
-| Consideration | Fabric vendor analytics | Waypoint contract and invoice corpus |
-| --- | --- | --- |
-| Primary story | Supplier sourcing and performance comparison | Contract compliance and invoice assurance |
-| Supplier count | Seven CMOs | 15 pharmaceutical suppliers and service partners |
-| Structured facts | Capacity, cost, quality, regulatory, and performance trends | Suppliers, invoices, line items, findings, and evidence links |
-| Documents | None in the export | 15 contracts and three policies, plus rendered invoices |
-| Time-series data | Two years of synthesized weekly trends | Point-in-time invoice scenarios |
-| Foundry IQ fit | Requires separate documents | Documents are already aligned to structured records |
-| Fabric dependency | Built for Fabric and a Fabric Data Agent | None; relational implementation is open |
-| Best LTG242 beat | Shortlist a supplier using current performance | Explain an invoice decision with cited evidence |
+The authoritative sample-data repository now combines the document corpus,
+canonical supplier registry, Fabric analytics model, medicinal-product ontology,
+and provisioning workflows. The registry uses `sup-001` through `sup-018`
+consistently across structured data. Procurement bidders Aster Ridge, Summit
+Dose, and Atlas Regional retain those same IDs in their RFP responses,
+agreements, analytics, and ontology relationships.
 
-The two sources use incompatible supplier universes. Fabric uses `V001` through `V007` for Annterra, Kristos, Sabyn, Vexara, Telsin, Orova, and Meridax. Waypoint uses `sup-001` through `sup-015`, beginning with Aster Ridge. Do not join them by ID or imply that similarly positioned suppliers are the same company.
-
-Until the official source is confirmed, preserve both options:
-
-- **Fabric-only sourcing demo:** Use Fabric for current vendor comparison and create or select separate RFP and contract documents.
-- **Waypoint-only invoice demo:** Use Waypoint's relational facts, contracts, policies, and invoices without introducing Fabric IQ.
-- **Combined narrative:** Keep sourcing analytics and invoice assurance as separate chapters, or create and document an explicit supplier crosswalk. Do not invent that crosswalk during a live demo.
+Use stable PDFs from the named corpora for indexed knowledge and use `SupplierSM`,
+the ontology, or narrow MCP tools for current structured facts. No supplier
+crosswalk is required.
 
 ## Caldova RFP reference facts
 
@@ -634,10 +631,9 @@ These figures come from the confidential planning storyline. Confirm approval be
 ## Open validation items
 
 - Confirm which Caldova names, logos, images, proof points, and documents are approved for public AI Tour use.
-- Confirm whether the Fabric export, the Waypoint corpus, or both are official sources for LTG242.
+- Confirm that the canonical sample-data repository and its fictional supplier
+  identities are approved for public LTG242 use.
 - Confirm whether the canonical RFP template and demo repo can be used or adapted.
-- Confirm whether `Aster Ridge Biomanufacturing` and other Waypoint supplier names are approved for LTG242.
-- If both data sources are used in one workflow, define and document a supplier crosswalk; otherwise keep their supplier universes separate.
 - Confirm the public terminology and current capabilities for Foundry IQ, Work IQ, Fabric IQ, MCP integration, ACL ingestion, and deployment models.
 - Confirm whether the remote source should be Dynamics 365, a supplier system, an invoice system, or another approved service.
 - Confirm the exact ACL groups and tenant boundaries to demonstrate.

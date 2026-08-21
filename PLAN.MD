@@ -113,10 +113,11 @@ content, identity, and permission setup to the demo.
 
 #### Indexed-corpus boundary
 
-Index the generated PDFs under `data/**/pdf/`, not the JSON source records,
-HTML previews, templates, or image assets. This keeps the demo representative
-of enterprise document ingestion and prevents the knowledge base from
-answering OCR, multilingual, or diagram questions from easier structured
+Select PDF groups from `sample-data/corpora.json` and index the committed files
+under `sample-data/pdfs/`, not the JSON source records, HTML previews, templates,
+or image assets in the upstream sample-data repository. This keeps the demo
+representative of enterprise document ingestion and prevents the knowledge base
+from answering OCR, multilingual, or diagram questions from easier structured
 surrogates.
 
 #### Knowledge bases and agents
@@ -167,9 +168,9 @@ synchronized ACL metadata.
 |---|---|
 | Procurement evaluation team | Policy, RFP, all three responses, all agreements, evidence map, amendment, and purchase order |
 | Finance or executive approver | Policy, RFP, evaluation evidence, agreements, amendment, and purchase order; bidder responses only if explicitly granted |
-| Annterra representative | RFP, Annterra response, and Annterra agreement |
-| Kristos representative | RFP, Kristos response, Kristos agreement, and any awarded documents intentionally shared with Kristos |
-| Sabyn representative | RFP, Sabyn response, and Sabyn agreement |
+| Aster Ridge representative | RFP, Aster Ridge response, and Aster Ridge agreement |
+| Summit Dose representative | RFP, Summit Dose response, Summit Dose agreement, and any awarded documents intentionally shared with Summit Dose |
+| Atlas Regional representative | RFP, Atlas Regional response, and Atlas Regional agreement |
 
 Run the same prompt as at least two principals:
 
@@ -177,8 +178,8 @@ Run the same prompt as at least two principals:
 > selected, what are the key tradeoffs, and what evidence supports the answer?
 > Create a weighted-score chart.
 
-The procurement evaluator should retrieve all three bids and support the
-Kristos award. A supplier principal must not retrieve competitors' responses
+The procurement evaluator should retrieve all three bids and support the Summit
+Dose award. A supplier principal must not retrieve competitors' responses
 or confidential evaluation evidence; the agent should state that it cannot
 make a complete comparison from the accessible evidence rather than infer the
 missing bids. Code Interpreter must operate only on the ACL-filtered retrieved
@@ -187,9 +188,9 @@ facts.
 #### KB 3 PostgreSQL and MCP design
 
 The remote database should contain current, structured facts that change more
-often than signed sourcing documents. Use the existing Fabric supplier
-identifiers `V001`-`V007`; do not create a crosswalk to Waypoint identifiers
-`sup-001`-`sup-015`.
+often than signed sourcing documents. Use the canonical `sup-001` through
+`sup-018` identifiers shared by the sample-data supplier registry, procurement
+documents, Fabric model, and ontology.
 
 Recommended relational tables:
 
@@ -210,7 +211,7 @@ arbitrary SQL.
 
 Headline query:
 
-> Compare Kristos's commitments in the `CALD-201` RFP response, agreement
+> Compare Summit Dose's commitments in the `CALD-201` RFP response, agreement
 > amendment, and purchase order with its current performance, capacity, audit
 > actions, and approved subcontractors. What has changed or needs attention?
 > Graph the relevant trends.
@@ -228,7 +229,7 @@ data is created.
 2. **Scenario 2:** Use the Sourcing Review Agent to ask the same bidder-
    comparison question as a procurement evaluator and a supplier principal.
 3. **Scenario 3:** Use the Supplier Intelligence Agent to combine the signed
-   Kristos documents with current PostgreSQL facts through MCP and graph the
+   Summit Dose documents with current PostgreSQL facts through MCP and graph the
    trends.
 
 Every answer shown on stage should include citations. For cross-source answers,
@@ -282,7 +283,7 @@ agreements, evaluations, and award documents.
 **Suggested graphics/demo beats**
 
 1. Ask the bidder-comparison question as a procurement evaluator.
-2. Show the complete comparison, Kristos recommendation, citations, and weighted-score chart.
+2. Show the complete comparison, Summit Dose recommendation, citations, and weighted-score chart.
 3. Ask the identical question as a supplier representative.
 4. Show the reduced evidence set and the agent's explicit statement that it cannot make a complete comparison.
 
@@ -309,8 +310,8 @@ why frequently changing relational facts are federated rather than indexed.
 
 **Suggested graphics/demo beats**
 
-1. Start with Kristos's commitments in the indexed response, amendment, and purchase order.
-2. Add current Kristos facts from PostgreSQL through narrow MCP tools.
+1. Start with Summit Dose's commitments in the indexed response, amendment, and purchase order.
+2. Add current Summit Dose facts from PostgreSQL through narrow MCP tools.
 3. Ask what changed or needs attention and show source labels and as-of dates.
 4. Have Code Interpreter graph the relevant performance, capacity, or quality trend.
 
@@ -390,9 +391,9 @@ End the session at 15:00.
 - [ ] Upload KB 2's 11 PDFs to ADLS Gen2 and apply the evaluator, approver, and supplier ACL model through Microsoft Entra groups.
 - [ ] Configure the ADLS Gen2 indexer, permission-filter index field, ACL metadata synchronization, and caller-token query enforcement using the applicable preview API.
 - [ ] Validate the bidder-comparison query as a procurement evaluator and at least one supplier principal.
-- [ ] Seed PostgreSQL with current `V001`-`V007` supplier master, performance, capacity, audit, quality-event, and subcontractor data.
+- [ ] Seed PostgreSQL with current canonical supplier master, performance, capacity, audit, quality-event, and subcontractor data.
 - [ ] Implement and validate the narrow read-only MCP tools for KB 3.
-- [ ] Lock the expected Kristos differences and graph after the PostgreSQL seed data is final.
+- [ ] Lock the expected Summit Dose differences and graph after the PostgreSQL seed data is final.
 - [ ] Add a slide-only comparison of indexed ADLS Gen2, MCP federation, and Work IQ.
 - [ ] Confirm the multi-tenant and network-isolation architecture details. **TBD**
 - [ ] Confirm the serverless and dedicated deployment comparison details. **TBD**

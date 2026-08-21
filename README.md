@@ -52,6 +52,25 @@ Guided session steps are pending.
 
 Self-paced session steps are pending.
 
+#### Sample data
+
+The finished Caldova PDF corpora used by this session are committed under
+[`sample-data/`](sample-data) so provisioning, CI, and lab environments do not
+need a second repository checkout. The snapshot comes from
+[`pamelafox/aitour27-caldova-data`](https://github.com/pamelafox/aitour27-caldova-data),
+which remains the source of truth for the documents, structured data, generation
+assets, and Fabric definitions.
+
+Do not edit the local snapshot directly. Maintainers should make changes in the
+upstream repository, check out the reviewed commit locally, and refresh this
+repository with:
+
+```bash
+uv run --locked python scripts/sync_sample_data.py --source ../aitour27-caldova-data
+```
+
+Commit the updated PDFs, corpus manifest, and provenance file together.
+
 ### 🎯 Learning outcomes
 
 By the end of this session, you will be able to:

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="430" height="92" viewBox="0 0 430 92" role="img" aria-labelledby="title desc">
-  <title id="title">Aster Ridge Biomanufacturing</title>
-  <desc id="desc">Aster Ridge mountain and tablet wordmark</desc>
-  <rect x="2" y="8" width="76" height="76" rx="2" fill="#143f63"/>
-  <path d="M15 62 34 34l11 15 9-12 14 25Z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
-  <rect x="31" y="62" width="19" height="8" rx="4" fill="#34a0a4"/>
-  <text x="94" y="43" fill="#143f63" font-family="Avenir Next, Avenir, sans-serif" font-size="25" font-weight="700">ASTER RIDGE</text>
-  <text x="95" y="65" fill="#617184" font-family="Avenir Next, Avenir, sans-serif" font-size="12" letter-spacing="2">BIOMANUFACTURING</text>
-</svg>

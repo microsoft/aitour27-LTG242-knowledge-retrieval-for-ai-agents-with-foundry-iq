@@ -1,6 +1,7 @@
 """Create the Stage 1 Azure AI Search index and Foundry IQ knowledge base."""
 
 import asyncio
+import json
 import os
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -32,14 +33,10 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env", override=True)
 
 REPO_ROOT = Path(__file__).parents[1]
-DATA_ROOT = REPO_ROOT / "data"
-KB1_PDF_DIRECTORIES = (
-    "invoices/pdf",
-    "temperature-reports/pdf",
-    "operational-reports/pdf",
-    "quality-certificate/pdf",
-    "gmp-inspection-report/pdf",
-)
+SAMPLE_DATA_ROOT = REPO_ROOT / "sample-data"
+CORPORA_PATH = SAMPLE_DATA_ROOT / "corpora.json"
+PROVENANCE_PATH = SAMPLE_DATA_ROOT / "provenance.json"
+KB1_CORPUS_NAME = "invoice-investigation"
 KB1_EXPECTED_PDF_COUNT = 25
 SEARCH_API_VERSION = "2026-05-01-preview"
 CONTAINER_NAME = "knowledge"
@@ -53,19 +50,33 @@ VECTOR_PROFILE_NAME = "vector-search-profile"
 INDEXER_POLL_SECONDS = 10
 
 
-def find_kb1_pdfs() -> list[Path]:
-    """Return the generated Stage 1 PDFs in a stable upload order."""
-    pdfs = sorted(
-        pdf_path
-        for relative_directory in KB1_PDF_DIRECTORIES
-        for pdf_path in (DATA_ROOT / relative_directory).glob("*.pdf")
-    )
-    if len(pdfs) != KB1_EXPECTED_PDF_COUNT:
+def find_kb1_pdfs() -> tuple[list[Path], dict[str, Any]]:
+    """Return the manifest-selected Stage 1 PDFs and upstream provenance."""
+    try:
+        corpora = json.loads(CORPORA_PATH.read_text(encoding="utf-8"))
+        provenance = json.loads(PROVENANCE_PATH.read_text(encoding="utf-8"))
+        relative_paths = corpora[KB1_CORPUS_NAME]
+    except (FileNotFoundError, KeyError, json.JSONDecodeError) as error:
         raise RuntimeError(
-            f"Expected {KB1_EXPECTED_PDF_COUNT} KB 1 PDFs across "
-            f"{KB1_PDF_DIRECTORIES}, found {len(pdfs)}."
+            "The sample-data snapshot is missing or invalid. "
+            "Run 'uv run python scripts/sync_sample_data.py'."
+        ) from error
+
+    if not isinstance(relative_paths, list) or not all(
+        isinstance(relative_path, str) for relative_path in relative_paths
+    ):
+        raise RuntimeError(f"Corpus '{KB1_CORPUS_NAME}' must be a list of PDF paths.")
+    if len(relative_paths) != len(set(relative_paths)):
+        raise RuntimeError(f"Corpus '{KB1_CORPUS_NAME}' contains duplicate paths.")
+
+    pdfs = [SAMPLE_DATA_ROOT / relative_path for relative_path in relative_paths]
+    missing = [str(pdf.relative_to(REPO_ROOT)) for pdf in pdfs if not pdf.is_file()]
+    if len(pdfs) != KB1_EXPECTED_PDF_COUNT or missing:
+        raise RuntimeError(
+            f"Expected {KB1_EXPECTED_PDF_COUNT} PDFs in corpus '{KB1_CORPUS_NAME}', "
+            f"found {len(pdfs)} with missing files: {missing or 'none'}."
         )
-    return pdfs
+    return pdfs, provenance
 
 
 def build_index(
@@ -353,8 +364,7 @@ async def upload_kb1_pdfs(
             pass
 
         for pdf_path in pdfs:
-            relative_path = pdf_path.relative_to(DATA_ROOT).as_posix()
-            blob = container.get_blob_client(f"{KB1_BLOB_PREFIX}/{relative_path}")
+            blob = container.get_blob_client(f"{KB1_BLOB_PREFIX}/{pdf_path.name}")
             with pdf_path.open("rb") as pdf_file:
                 await blob.upload_blob(pdf_file, overwrite=True)
     return len(pdfs)
@@ -498,7 +508,7 @@ async def main_async() -> None:
         f"/providers/Microsoft.Storage/storageAccounts/{storage_account_name}"
     )
     foundry_endpoint = f"https://{ai_account_name}.services.ai.azure.com"
-    pdfs = find_kb1_pdfs()
+    pdfs, provenance = find_kb1_pdfs()
     credential = AzureDeveloperCliCredential(tenant_id=os.environ["AZURE_TENANT_ID"])
 
     try:
@@ -551,7 +561,9 @@ async def main_async() -> None:
         print(
             f"Uploaded {uploaded} PDFs, removed {removed_chunks} stale chunks, "
             f"and indexed {indexed_items} items with {failed_items} failures "
-            f"for knowledge base '{KNOWLEDGE_BASE_NAME}'."
+            f"for knowledge base '{KNOWLEDGE_BASE_NAME}'. Source: "
+            f"{provenance.get('repository', 'unknown')} at "
+            f"{provenance.get('commit', 'unknown')}, corpus '{KB1_CORPUS_NAME}'."
         )
     finally:
         await credential.close()
