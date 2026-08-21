@@ -1,0 +1,359 @@
+{
+  "provenance": {
+    "waypoint_commit": "045637b6eea72550ce3aad61bfac851356ca824a",
+    "note": "Los identificadores comerciales y la cantidad liberada proceden del corpus Waypoint. El centro español, los resultados analíticos, las personas y las fechas de laboratorio son extensiones ficticias para la demostración LTG242."
+  },
+  "document": {
+    "certificate_id": "COA-MD-1026-A",
+    "title": "Certificado de análisis",
+    "version": "1.0",
+    "language": "Español",
+    "classification": "Copia controlada",
+    "page_notice": "DOCUMENTO FICTICIO PARA DEMOSTRACIÓN"
+  },
+  "issuer": {
+    "legal_name": "Meridian API Works Iberia, S.L.",
+    "site_name": "Centro de fabricación y control de calidad Alcalá",
+    "address": [
+      "Avenida de la Innovación Farmacéutica 18",
+      "28805 Alcalá de Henares, Madrid",
+      "España"
+    ],
+    "laboratory_id": "LAB-MAW-ES-02",
+    "commercial_supplier": "Meridian API Works",
+    "commercial_address": "9 Tuas Biomedical Grove, Singapore 637609, Singapore"
+  },
+  "customer": {
+    "name": "Caldova Pharmaceuticals",
+    "account": "WT-MAW-4421",
+    "purchase_order": "PO-SUP-004-2026-10"
+  },
+  "references": {
+    "invoice": "INV-SUP-004-2026-10",
+    "invoice_line": "INV-SUP-004-2026-10-L001",
+    "lot": "LOT-MD-1026-A",
+    "yield_worksheet": "YLD-MAW-1026",
+    "manufacturing_record": "MAW-API-1026",
+    "raw_material_packet": "RM-MAW-1026",
+    "specification": "ESP-AUR-API-7-04",
+    "sampling_plan": "MUE-API-014",
+    "analytical_record": "REG-ANA-1026-441"
+  },
+  "material": {
+    "name": "AUR-API-7",
+    "description": "Principio activo farmacéutico",
+    "batch_size_kg": 7200,
+    "packaging": "144 bidones de fibra con doble bolsa interior de polietileno, 50 kg netos por bidón",
+    "storage": "Conservar en recipiente bien cerrado, protegido de la luz y la humedad, entre 15 °C y 25 °C."
+  },
+  "dates": {
+    "manufacturing_start": "2026-10-03",
+    "manufacturing_end": "2026-10-18",
+    "sampling": "2026-10-18",
+    "analysis_start": "2026-10-19",
+    "analysis_end": "2026-10-23",
+    "issued": "2026-10-24",
+    "retest": "2028-10-03"
+  },
+  "sample": {
+    "sample_id": "MUE-MD-1026-A-01",
+    "quantity": "500 g",
+    "sampled_by": "Lucía Serrano",
+    "sampling_location": "Sala de envasado API-2",
+    "condition_on_receipt": "Envase íntegro; muestra homogénea; sin anomalías visibles"
+  },
+  "tests": [
+    {
+      "sequence": 1,
+      "test": "Aspecto",
+      "method": "MAW-MET-001",
+      "acceptance": "Polvo cristalino blanco o casi blanco",
+      "result": "Polvo cristalino blanco",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 2,
+      "test": "Identificación por espectrofotometría IR",
+      "method": "MAW-MET-014",
+      "acceptance": "El espectro concuerda con el patrón de referencia",
+      "result": "Concordante",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 3,
+      "test": "Valoración por HPLC (base anhidra)",
+      "method": "MAW-MET-021",
+      "acceptance": "98,0 %–102,0 %",
+      "result": "99,4 %",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 4,
+      "test": "Impureza individual máxima",
+      "method": "MAW-MET-022",
+      "acceptance": "≤ 0,20 %",
+      "result": "0,12 %",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 5,
+      "test": "Impurezas totales",
+      "method": "MAW-MET-022",
+      "acceptance": "≤ 0,50 %",
+      "result": "0,31 %",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 6,
+      "test": "Contenido de agua por Karl Fischer",
+      "method": "MAW-MET-031",
+      "acceptance": "≤ 0,50 %",
+      "result": "0,18 %",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 7,
+      "test": "Etanol residual",
+      "method": "MAW-MET-044",
+      "acceptance": "≤ 5000 ppm",
+      "result": "124 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 8,
+      "test": "Acetato de etilo residual",
+      "method": "MAW-MET-044",
+      "acceptance": "≤ 5000 ppm",
+      "result": "48 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 9,
+      "test": "Plomo",
+      "method": "MAW-MET-052",
+      "acceptance": "≤ 0,50 ppm",
+      "result": "< 0,05 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 10,
+      "test": "Cadmio",
+      "method": "MAW-MET-052",
+      "acceptance": "≤ 0,50 ppm",
+      "result": "< 0,02 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 11,
+      "test": "Recuento total de microorganismos aerobios",
+      "method": "MAW-MET-061",
+      "acceptance": "≤ 100 UFC/g",
+      "result": "< 10 UFC/g",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 12,
+      "test": "Mohos y levaduras",
+      "method": "MAW-MET-061",
+      "acceptance": "≤ 100 UFC/g",
+      "result": "< 10 UFC/g",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 13,
+      "test": "Escherichia coli",
+      "method": "MAW-MET-062",
+      "acceptance": "Ausencia en 1 g",
+      "result": "Ausente en 1 g",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 14,
+      "test": "Tamaño de partícula D10",
+      "method": "MAW-MET-071",
+      "acceptance": "15–35 µm",
+      "result": "24 µm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 15,
+      "test": "Tamaño de partícula D50",
+      "method": "MAW-MET-071",
+      "acceptance": "55–85 µm",
+      "result": "68 µm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 16,
+      "test": "Tamaño de partícula D90",
+      "method": "MAW-MET-071",
+      "acceptance": "≤ 180 µm",
+      "result": "142 µm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 17,
+      "test": "Densidad aparente",
+      "method": "MAW-MET-073",
+      "acceptance": "0,35–0,55 g/ml",
+      "result": "0,44 g/ml",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 18,
+      "test": "Densidad compactada",
+      "method": "MAW-MET-073",
+      "acceptance": "0,45–0,70 g/ml",
+      "result": "0,57 g/ml",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 19,
+      "test": "Índice de Hausner",
+      "method": "MAW-MET-073",
+      "acceptance": "≤ 1,35",
+      "result": "1,30",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 20,
+      "test": "Ángulo de reposo",
+      "method": "MAW-MET-074",
+      "acceptance": "≤ 40°",
+      "result": "34,6°",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 21,
+      "test": "Rotación óptica específica",
+      "method": "MAW-MET-081",
+      "acceptance": "+18,0° a +22,0°",
+      "result": "+20,4°",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 22,
+      "test": "pH de la solución al 1 %",
+      "method": "MAW-MET-083",
+      "acceptance": "5,0–7,0",
+      "result": "6,2",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 23,
+      "test": "Residuo de ignición",
+      "method": "MAW-MET-085",
+      "acceptance": "≤ 0,10 %",
+      "result": "0,04 %",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 24,
+      "test": "Cloruros",
+      "method": "MAW-MET-086",
+      "acceptance": "≤ 200 ppm",
+      "result": "74 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 25,
+      "test": "Sulfatos",
+      "method": "MAW-MET-087",
+      "acceptance": "≤ 300 ppm",
+      "result": "116 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 26,
+      "test": "Metanol residual",
+      "method": "MAW-MET-044",
+      "acceptance": "≤ 3000 ppm",
+      "result": "86 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 27,
+      "test": "Acetona residual",
+      "method": "MAW-MET-044",
+      "acceptance": "≤ 5000 ppm",
+      "result": "212 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 28,
+      "test": "Diclorometano residual",
+      "method": "MAW-MET-044",
+      "acceptance": "≤ 600 ppm",
+      "result": "38 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 29,
+      "test": "Tolueno residual",
+      "method": "MAW-MET-044",
+      "acceptance": "≤ 890 ppm",
+      "result": "27 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 30,
+      "test": "Arsénico",
+      "method": "MAW-MET-052",
+      "acceptance": "≤ 1,50 ppm",
+      "result": "0,08 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 31,
+      "test": "Mercurio",
+      "method": "MAW-MET-052",
+      "acceptance": "≤ 0,30 ppm",
+      "result": "0,01 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 32,
+      "test": "Níquel",
+      "method": "MAW-MET-052",
+      "acceptance": "≤ 2,00 ppm",
+      "result": "0,19 ppm",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 33,
+      "test": "Cobre",
+      "method": "MAW-MET-052",
+      "acceptance": "≤ 3,00 ppm",
+      "result": "0,42 ppm",
+      "status": "Conforme"
+    }
+  ],
+  "disposition": {
+    "status": "LIBERADO",
+    "conclusion": "La muestra analizada cumple todos los requisitos de la especificación ESP-AUR-API-7-04. El lote LOT-MD-1026-A queda aprobado para su suministro a Caldova Pharmaceuticals.",
+    "comments": "Los resultados corresponden exclusivamente a la muestra identificada en este certificado. No se observaron desviaciones analíticas ni resultados fuera de especificación.",
+    "language_statement": "Este certificado se emite en español, lengua controlada del laboratorio. Puede facilitarse una traducción inglesa no certificada previa solicitud."
+  },
+  "attachments": [
+    "Cromatograma de valoración e impurezas — CRO-MD-1026-A",
+    "Resumen de disolventes residuales — RSD-MD-1026-A",
+    "Registro de cadena de custodia — CDC-MD-1026-A"
+  ],
+  "authorization": {
+    "analyst": {
+      "name": "Dr. Mateo Rivas",
+      "role": "Analista sénior de control de calidad",
+      "reviewed_on": "2026-10-23"
+    },
+    "reviewer": {
+      "name": "Elena Vázquez",
+      "role": "Responsable de laboratorio",
+      "reviewed_on": "2026-10-24"
+    },
+    "approver": {
+      "name": "Dra. Sofía Navarro",
+      "role": "Directora de garantía de calidad",
+      "approved_on": "2026-10-24"
+    }
+  }
+}

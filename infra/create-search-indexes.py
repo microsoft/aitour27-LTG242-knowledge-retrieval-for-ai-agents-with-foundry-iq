@@ -238,7 +238,7 @@ def build_indexer_payloads(
                 "chunkingProperties": {
                     "method": "semantic",
                     "unit": "tokens",
-                    "maximumLength": 500,
+                    "maximumLength": 2000,
                 },
                 "extractionOptions": ["images", "locationMetadata"],
                 "inputs": [{"name": "file_data", "source": "/document/file_data"}],

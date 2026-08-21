@@ -1,0 +1,249 @@
+{
+  "provenance": {
+    "waypoint_commit": "045637b6eea72550ce3aad61bfac851356ca824a",
+    "note": "Canonical supplier, invoice, batch, run, deviation, and cost identifiers come from Waypoint and the linked operational evidence. All inspection details, observations, people, site facts, CAPA commitments, diagram content, and photographs are fictional demonstration material."
+  },
+  "document": {
+    "report_id": "GMP-INS-BPB-2027-01",
+    "title": "Good manufacturing practices inspection report",
+    "subtitle": "For-cause supplier quality inspection",
+    "classification": "Caldova confidential — supplier quality",
+    "version": "Final 1.0",
+    "issued": "2027-01-22",
+    "fictional_notice": "FICTIONAL DEMONSTRATION RECORD — NOT A REGULATORY INSPECTION"
+  },
+  "inspection": {
+    "type": "For-cause GMP inspection",
+    "authority": "Caldova Pharmaceuticals, Global Supplier Quality",
+    "basis": "Quality agreement BPB-CAL-QA-2025 and supplier oversight procedure CAL-SQP-014",
+    "start": "2027-01-11",
+    "end": "2027-01-13",
+    "opening_meeting": "2027-01-11 08:30",
+    "closing_meeting": "2027-01-13 15:45",
+    "lead_inspector": "Priya Nanduri, Director, Global Supplier Quality",
+    "inspectors": [
+      "Priya Nanduri — Lead inspector, Global Supplier Quality",
+      "Evan Cole — Principal Engineer, Biologics Manufacturing",
+      "Marisol Vega — Senior Manager, Quality Systems"
+    ],
+    "site_representatives": [
+      "Hannah Wells — Site Quality Head",
+      "Marcus Lin — Director of Manufacturing",
+      "Devon Price — Maintenance and Reliability Manager"
+    ],
+    "objective": "Assess the site's investigation of the BP-1026-03 contamination event, determine whether the implicated transfer-path maintenance controls meet GMP and quality-agreement expectations, and evaluate whether containment and proposed corrective actions adequately protect Caldova product.",
+    "scope": [
+      "Bioreactor suite BR-04 and associated transfer path to hold tank HT-04",
+      "Transfer connection TC-4, hose-set maintenance, assembly, and pressure-hold verification",
+      "Environmental and in-process microbiological monitoring for campaign BP-1026",
+      "Deviation, CAPA, training, change-control, and maintenance records relevant to the event",
+      "Supplier quality governance for contracted Caldova manufacturing"
+    ],
+    "limitations": "The inspection did not include unrelated suites, financial systems, clinical operations, or a full reinspection of all site GMP systems. Conclusions apply to the sampled systems and records."
+  },
+  "site": {
+    "legal_name": "BluePeak Biologics, Inc.",
+    "site_name": "Harbor Point Biologics Campus",
+    "address": "410 Harbor Point Parkway, Portsmouth, New Hampshire 03801, United States",
+    "site_id": "BPB-US-NH-01",
+    "employees": 486,
+    "operations": "Mammalian cell-culture drug-substance manufacturing, harvest, intermediate hold, and bulk drug-substance storage",
+    "products_in_scope": "Caldova campaign BP-1026; runs BP-1026-01, BP-1026-02, and BP-1026-03",
+    "previous_audit": "Routine Caldova qualification audit, 14–16 April 2025; two minor observations closed 30 June 2025",
+    "licenses": "Site-reported federal and state registrations reviewed; no independent regulatory certification is asserted by this fictional report"
+  },
+  "references": {
+    "invoice": "INV-SUP-009-2026-Q4",
+    "invoice_line": "INV-SUP-009-2026-Q4-L004",
+    "purchase_order": "PO-SUP-009-2026-Q4",
+    "batch": "BATCH-BP-1026",
+    "affected_run": "BP-1026-03",
+    "suite": "BR-04",
+    "deviation": "DEV-BP-1026-SUPPLIER",
+    "deviation_packet": "DEV-BPB-1026",
+    "utilization_log": "UTL-BPB-1026",
+    "capacity": "CAP-BP-2026-Q4",
+    "connection": "TC-4",
+    "hold_tank": "HT-04",
+    "maintenance_order": "WO-BPB-1026-441",
+    "pressure_test": "PHT-BPB-1026-441",
+    "capa": "CAPA-BPB-2027-003"
+  },
+  "event_summary": {
+    "event_date": "2026-12-19",
+    "organism": "Ralstonia pickettii",
+    "detected_by": "In-process bioburden sample, vessel day 17",
+    "immediate_action": "Run isolated; transfer path and hold tank placed on quality hold.",
+    "root_cause": "A supplier-maintained transfer-hose connection was reassembled with a pinched gasket after preventive maintenance, compromising the closed path.",
+    "evidence": [
+      "Positive sample localized downstream of transfer connection TC-4",
+      "Retained upstream sample remained negative",
+      "Gasket inspection found a visible compression fold",
+      "Maintenance closeout omitted the required post-assembly pressure-hold result"
+    ],
+    "financial_reference": "$111,000 contamination-investigation charge on invoice line INV-SUP-009-2026-Q4-L004; commercial disposition is handled separately"
+  },
+  "records_reviewed": [
+    "Batch production records BP-1026-01 through BP-1026-03",
+    "Deviation DEV-BP-1026-SUPPLIER and supporting microbiology data",
+    "Work order WO-BPB-1026-441 and pressure-hold form PHT-BPB-1026-441",
+    "Transfer hose assembly SOP BPB-MNT-117, revision 6",
+    "Closed-system integrity SOP BPB-PRD-204, revision 4",
+    "Training matrices for BR-04 manufacturing and maintenance personnel",
+    "Environmental monitoring trends for BR-04, October–December 2026",
+    "Change controls and CAPA effectiveness checks sampled from 2026"
+  ],
+  "system_findings": [
+    {
+      "system": "Pharmaceutical quality system",
+      "assessment": "The site initiated deviation controls promptly and notified Caldova within the quality-agreement timeline. Investigation governance was weakened by late Quality involvement in maintenance evidence review and by an initial root-cause statement issued before the connection was disassembled.",
+      "rating": "Improvement required"
+    },
+    {
+      "system": "Personnel and training",
+      "assessment": "Operators interviewed understood line clearance and aseptic response expectations. Two of six maintenance technicians had not completed the revision-6 practical assessment for sanitary gasket installation before performing independent work.",
+      "rating": "Deficient"
+    },
+    {
+      "system": "Premises and equipment",
+      "assessment": "BR-04 was orderly and appropriately segregated. TC-4 is positioned below an overhead return bend, limiting direct visual confirmation of gasket seating after assembly. No inspection mirror or borescope step was specified.",
+      "rating": "Deficient"
+    },
+    {
+      "system": "Production and in-process controls",
+      "assessment": "Manufacturing records showed expected upstream controls and timely isolation. The closed transfer path was released to service without documented evidence that the required pressure-hold acceptance criterion had been met.",
+      "rating": "Deficient"
+    },
+    {
+      "system": "Laboratory control",
+      "assessment": "Microbiology methods, controls, and sample traceability reviewed were acceptable. Localization of the positive result downstream of TC-4 and the negative retained upstream sample were scientifically coherent with the identified breach.",
+      "rating": "Acceptable"
+    },
+    {
+      "system": "Documentation and data governance",
+      "assessment": "The maintenance system permitted closure of WO-BPB-1026-441 while the linked pressure-hold result field was blank. The audit trail recorded the omission but did not trigger supervisory escalation.",
+      "rating": "Deficient"
+    },
+    {
+      "system": "Materials, sanitation, and hygiene",
+      "assessment": "Gasket receipt, storage, status labeling, cleaning, and personnel gowning controls sampled were acceptable. No evidence indicated incoming gasket material failure or deficient room sanitation.",
+      "rating": "Acceptable"
+    },
+    {
+      "system": "Qualification, validation, and maintenance",
+      "assessment": "The transfer path had an approved qualification basis, but maintenance verification was treated as a record-completion activity rather than a mandatory equipment-release gate. The control did not prevent use after incomplete testing.",
+      "rating": "Deficient"
+    },
+    {
+      "system": "Complaints, recalls, contracts, and self-inspection",
+      "assessment": "No released Caldova material was implicated and no recall was initiated. Contract-notification controls operated as designed. The 2026 self-inspection sampled maintenance timeliness but did not test evidence completeness or release interlocks.",
+      "rating": "Improvement required"
+    }
+  ],
+  "deficiencies": [
+    {
+      "id": "BPB-MAJ-01",
+      "classification": "Major",
+      "title": "Closed transfer path released without required integrity-test evidence",
+      "statement": "The site released transfer path TC-4 for manufacturing use after maintenance order WO-BPB-1026-441 although pressure-hold record PHT-BPB-1026-441 contained no result, reviewer confirmation, or objective evidence that the acceptance criterion was met.",
+      "evidence": "Blank pressure-hold result; work-order closure audit trail; run BP-1026-03 equipment-release entry.",
+      "risk": "Loss of closed-system integrity and microbial contamination of in-process product.",
+      "due": "2027-02-05"
+    },
+    {
+      "id": "BPB-MAJ-02",
+      "classification": "Major",
+      "title": "Maintenance qualification did not ensure reliable sanitary-gasket installation",
+      "statement": "The practical qualification program did not prevent technicians without current revision-6 assessment from independently assembling product-contact connections, and the procedure lacked a compensating visual-verification method for TC-4's restricted orientation.",
+      "evidence": "Training matrix sample; technician interviews; direct observation of TC-4 access; compressed gasket recovered from the connection.",
+      "risk": "Recurring assembly defects may remain undetected until process monitoring identifies contamination.",
+      "due": "2027-02-12"
+    },
+    {
+      "id": "BPB-OTH-01",
+      "classification": "Other",
+      "title": "Quality review entered too late in the maintenance evidence workflow",
+      "statement": "Quality review occurred during deviation investigation rather than before post-maintenance equipment release for this high-risk product-contact connection.",
+      "evidence": "Workflow configuration and role-permission review.",
+      "risk": "Incomplete evidence may not be challenged before manufacturing use.",
+      "due": "2027-02-19"
+    },
+    {
+      "id": "BPB-OTH-02",
+      "classification": "Other",
+      "title": "Self-inspection sampling did not test maintenance-record completeness",
+      "statement": "The 2026 self-inspection checked overdue work orders but did not sample mandatory linked test results or failed release conditions.",
+      "evidence": "Self-inspection plan SIA-BPB-2026 and checklist review.",
+      "risk": "Systemic record-completeness weaknesses may remain undetected.",
+      "due": "2027-03-05"
+    }
+  ],
+  "classification_summary": {
+    "critical": 0,
+    "major": 2,
+    "other": 2,
+    "overall": "GMP compliance cannot be considered fully satisfactory for the inspected transfer-path controls until major deficiencies are corrected and effectiveness is verified.",
+    "supply_status": "Conditional approval: no new Caldova BR-04 run may begin until interim controls for gasket verification, witnessed pressure-hold testing, and Quality release are documented and accepted by Caldova."
+  },
+  "capa_plan": [
+    {
+      "action": "Revise equipment-release workflow so required pressure-hold results and Quality approval are hard-stop fields.",
+      "owner": "Hannah Wells",
+      "due": "2027-02-05",
+      "verification": "Challenge test in validated maintenance system using a deliberately incomplete record"
+    },
+    {
+      "action": "Replace TC-4 gasket and hose set; execute witnessed pressure-hold test before return to service.",
+      "owner": "Devon Price",
+      "due": "2027-01-27",
+      "verification": "Approved protocol, raw pressure data, and Quality release"
+    },
+    {
+      "action": "Retrain and practically reassess all technicians who assemble sanitary product-contact connections.",
+      "owner": "Devon Price",
+      "due": "2027-02-12",
+      "verification": "Direct observation using seeded gasket-position defects"
+    },
+    {
+      "action": "Add mirror or borescope confirmation and second-person verification for restricted-orientation connections.",
+      "owner": "Marcus Lin",
+      "due": "2027-02-12",
+      "verification": "Three consecutive compliant assemblies at TC-4"
+    },
+    {
+      "action": "Expand self-inspection sampling to linked evidence completeness and release-interlock effectiveness.",
+      "owner": "Hannah Wells",
+      "due": "2027-03-05",
+      "verification": "Independent audit of 20 post-maintenance equipment releases"
+    }
+  ],
+  "attachments": [
+    {
+      "id": "Attachment A",
+      "title": "BR-04 process flow and contamination-risk pathway",
+      "source": "Inspector reconstruction from batch record, piping walkdown, sample locations, and deviation evidence"
+    },
+    {
+      "id": "Attachment B",
+      "title": "Inspection photograph — TC-4 gasket seating",
+      "source": "Synthetic demonstration image generated for this fictional report"
+    },
+    {
+      "id": "Attachment C",
+      "title": "Inspection photograph — pressure-hold verification station",
+      "source": "Synthetic demonstration image generated for this fictional report"
+    }
+  ],
+  "signatures": [
+    {
+      "name": "Priya Nanduri",
+      "role": "Lead inspector, Caldova Global Supplier Quality",
+      "date": "2027-01-22"
+    },
+    {
+      "name": "Hannah Wells",
+      "role": "Site Quality Head, BluePeak Biologics; receipt acknowledged",
+      "date": "2027-01-22"
+    }
+  ]
+}

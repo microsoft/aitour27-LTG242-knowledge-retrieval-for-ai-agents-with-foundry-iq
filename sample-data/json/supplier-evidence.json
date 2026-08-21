@@ -1,0 +1,109 @@
+{
+  "provenance": {
+    "waypoint_commit": "045637b6eea72550ce3aad61bfac851356ca824a",
+    "note": "Canonical identifiers and invoice facts come from Waypoint. Measurements, events, findings, people, and dispositions in this file are fictional extensions for the LTG242 retrieval demonstration."
+  },
+  "packets": [
+    {
+      "kind": "yield",
+      "supplier_id": "sup-004",
+      "supplier_name": "Meridian API Works",
+      "invoice_id": "INV-SUP-004-2026-10",
+      "invoice_line_id": "INV-SUP-004-2026-10-L004",
+      "invoice_amount": 125600.0,
+      "evidence_id": "YLD-MAW-1026",
+      "assessment_id": "YTA-MAW-1026-04",
+      "title": "AUR-API-7 lot yield worksheet",
+      "lot_id": "LOT-MD-1026-A",
+      "related_ids": ["MAW-API-1026", "RM-MAW-1026", "YIELD-MD-Q4-FORECAST", "COA-MD-1026-A"],
+      "dates": {"manufacturing_start": "2026-10-03", "manufacturing_end": "2026-10-18", "reviewed": "2026-11-06"},
+      "material": "AUR-API-7",
+      "stages": [
+        {"name": "Precursor RM-72 charged", "input_kg": 8200, "output_kg": 8200, "yield_percent": 100.0},
+        {"name": "Reaction and phase separation", "input_kg": 8200, "output_kg": 7780, "yield_percent": 94.9},
+        {"name": "Crystallization and isolation", "input_kg": 7780, "output_kg": 7415, "yield_percent": 95.3},
+        {"name": "Drying, milling, and release", "input_kg": 7415, "output_kg": 7200, "yield_percent": 97.1}
+      ],
+      "overall": {"charged_kg": 8200, "released_kg": 7200, "yield_percent": 87.8, "approved_range_low": 85.0, "approved_range_high": 92.0},
+      "forecast": {"forecast_released_kg": 8000, "variance_kg": 800, "rate_per_kg": 157.0, "claimed_adjustment": 125600.0},
+      "assessment": {
+        "finding": "The adjustment used forecast output rather than the released quantity recorded in the lot worksheet and certificate of analysis.",
+        "root_cause": "The quarterly forecast workbook remained linked to the billing model after actual lot release data became available.",
+        "impact": "The released lot met its approved yield range. The 7,200 kg released quantity was already billed on invoice line L001.",
+        "decision": "Reject yield true-up",
+        "approved_amount": 0.0,
+        "actions": ["Replace forecast workbook link with released-lot feed", "Require finance and quality review for post-release adjustments", "Reconcile the Q4 forecast workbook against all released lots"]
+      }
+    },
+    {
+      "kind": "inspection",
+      "supplier_id": "sup-010",
+      "supplier_name": "Keystone Device Assembly",
+      "invoice_id": "INV-SUP-010-2026-10",
+      "invoice_line_id": "INV-SUP-010-2026-10-L004",
+      "invoice_amount": 86450.0,
+      "evidence_id": "FIR-KDA-1026",
+      "assessment_id": "NCR-KDA-1026-07",
+      "title": "ALLER auto-injector final inspection report",
+      "build_id": "BUILD-KD-1026-AI",
+      "inspection_id": "INSP-KD-1026",
+      "related_ids": ["KDA-BT-1026", "ECO-KDA-771", "ECO-KD-447", "SCRAP-KD-1026-EXCESS"],
+      "dates": {"inspection_start": "2026-10-21", "inspection_end": "2026-10-28", "reviewed": "2026-11-09"},
+      "lots": [
+        {"lot_id": "KD-1026-A", "built": 159000, "accepted": 155500, "scrapped": 3500},
+        {"lot_id": "KD-1026-B", "built": 158000, "accepted": 154500, "scrapped": 3500}
+      ],
+      "defects": [
+        {"code": "COS-12", "name": "Housing surface mark", "quantity": 2400, "severity": "Minor"},
+        {"code": "ASM-07", "name": "Rear clip not fully seated", "quantity": 1900, "severity": "Major"},
+        {"code": "NSH-03", "name": "Needle shield interference", "quantity": 1600, "severity": "Major"},
+        {"code": "LBL-04", "name": "Label datum misalignment", "quantity": 1100, "severity": "Minor"}
+      ],
+      "summary": {"built": 317000, "accepted": 310000, "scrapped": 7000, "scrap_percent": 2.21, "allowance_percent": 1.5, "allowed_scrap": 4755, "excess_scrap": 2245},
+      "assessment": {
+        "finding": "Documented scrap exceeded the 1.5% contractual allowance by 2,245 units.",
+        "root_cause": "Fixture wear and an incomplete clip-seating setup check caused the major assembly defects; label datum drift caused a smaller secondary loss.",
+        "sponsor_cause_review": "Build traveler KDA-BT-1026 and approved ECO-KD-447 contain no sponsor-directed condition that caused the excess scrap.",
+        "decision": "Disallow excess scrap charge",
+        "approved_amount": 0.0,
+        "actions": ["Replace clip-seating fixture wear block", "Add first-piece clip height verification", "Trend label datum capability for the next three lots"]
+      }
+    },
+    {
+      "kind": "utilization",
+      "supplier_id": "sup-009",
+      "supplier_name": "BluePeak Biologics",
+      "invoice_id": "INV-SUP-009-2026-Q4",
+      "invoice_line_id": "INV-SUP-009-2026-Q4-L004",
+      "invoice_amount": 111000.0,
+      "evidence_id": "UTL-BPB-1026",
+      "assessment_id": "DEV-BPB-1026",
+      "title": "Q4 bioreactor utilization and run log",
+      "capacity_id": "CAP-BP-2026-Q4",
+      "run_id": "RUN-BP-2026-Q4",
+      "batch_id": "BATCH-BP-1026",
+      "related_ids": ["BPB-QCAP-2026", "DEV-BP-1026-SUPPLIER"],
+      "dates": {"period_start": "2026-10-01", "period_end": "2026-12-31", "reviewed": "2027-01-08"},
+      "capacity": {"reserved_hours": 18000, "included_hours": 12000, "utilized_hours": 16800, "excess_hours": 4800, "utilization_percent": 93.3, "excess_rate": 118.0, "excess_amount": 566400.0},
+      "runs": [
+        {"run": "BP-1026-01", "suite": "BR-04", "start": "2026-10-04", "end": "2026-10-27", "hours": 5600, "status": "Accepted"},
+        {"run": "BP-1026-02", "suite": "BR-07", "start": "2026-11-03", "end": "2026-11-26", "hours": 5600, "status": "Accepted"},
+        {"run": "BP-1026-03", "suite": "BR-04", "start": "2026-12-02", "end": "2026-12-25", "hours": 5600, "status": "Accepted with deviation"}
+      ],
+      "deviation": {
+        "event_date": "2026-12-19",
+        "detected_by": "In-process bioburden sample, vessel day 17",
+        "organism": "Ralstonia pickettii",
+        "affected_run": "BP-1026-03",
+        "immediate_action": "Run isolated; transfer path and hold tank placed on quality hold.",
+        "investigation_cost": 111000.0,
+        "root_cause": "A supplier-maintained transfer-hose connection was reassembled with a pinched gasket after preventive maintenance, compromising the closed path.",
+        "evidence": ["Positive sample localized downstream of transfer connection TC-4", "Retained upstream sample remained negative", "Gasket inspection found a visible compression fold", "Maintenance closeout omitted the required post-assembly pressure-hold result"],
+        "sponsor_cause_review": "No sponsor material, instruction, or change contributed to the connection failure.",
+        "decision": "Supplier responsible; reject pass-through investigation fee",
+        "approved_amount": 0.0,
+        "actions": ["Replace TC-4 gasket and affected hose set", "Add witnessed pressure-hold verification after hose maintenance", "Retrain maintenance technicians on gasket installation and closeout"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "metadata": {
+    "document_id": "CAL-POL-PUR-001",
+    "title": "Purchasing policy",
+    "subtitle": "Responsible decisions. Reliable supply. Better outcomes for patients.",
+    "version": "1.0",
+    "classification": "Internal",
+    "approved_on": "12 August 2026",
+    "effective_from": "01 September 2026",
+    "next_review": "01 September 2027",
+    "policy_owner": "Charlotte Waltson, VP of Procurement",
+    "policy_administrator": "Wonda Howard, Sourcing Manager",
+    "approvers": [
+      "Charlotte Waltson, VP of Procurement",
+      "Mona Kane, Chief Supply Chain Officer",
+      "Andre Lawson, Chief Finance Officer"
+    ]
+  },
+  "navigation": [
+    "Purpose",
+    "Principles",
+    "Governance",
+    "Supplier lifecycle",
+    "Annexes"
+  ],
+  "leadership_statement": "Every purchasing decision affects the continuity, quality, and affordability of medicines. Caldova buys with discipline so that the right materials and services reach our teams at the right quality, place, time, and total cost, without compromising patients, people, or the planet.",
+  "purpose": "This policy establishes the global framework for purchasing materials, equipment, works, and services at Caldova Pharmaceuticals. It defines who may commit Caldova funds, how suppliers are selected and governed, and how quality, continuity, ethics, sustainability, and value are considered throughout the supplier lifecycle.",
+  "scope_includes": [
+    "All Caldova employees and contingent workers who request, source, approve, receive, or pay for goods and services.",
+    "All direct and indirect purchases, including active ingredients, excipients, packaging, contract manufacturing, laboratory services, logistics, technology, facilities, and professional services.",
+    "All suppliers, contractors, consultants, distributors, and subcontractors acting for or delivering to Caldova."
+  ],
+  "scope_exclusions": [
+    "Employee payroll, taxes, grants, and regulated patient-support payments governed by separate controls.",
+    "Emergency actions needed to protect life or product, provided they are documented and reviewed within two business days."
+  ],
+  "principles": [
+    {
+      "number": "01",
+      "title": "Patients and quality first",
+      "body": "Quality, safety, regulatory status, and reliable supply are mandatory gates. A lower price never offsets an unacceptable patient or product risk."
+    },
+    {
+      "number": "02",
+      "title": "Fair and open competition",
+      "body": "Caldova gives qualified suppliers a fair opportunity and uses objective, documented criteria. Requirements must not be shaped to favor a supplier."
+    },
+    {
+      "number": "03",
+      "title": "Clear accountability",
+      "body": "The requester defines the need, Purchasing leads the market process, Quality approves GMP-relevant sources, and authorized leaders approve commitments."
+    },
+    {
+      "number": "04",
+      "title": "Best total value",
+      "body": "Decisions consider lifecycle cost, quality, service, capacity, innovation, risk, sustainability, and commercial terms rather than unit price alone."
+    },
+    {
+      "number": "05",
+      "title": "Integrity by design",
+      "body": "Conflicts, gifts, confidential information, sanctions, fraud, and bribery risks are disclosed and controlled before a decision is made."
+    },
+    {
+      "number": "06",
+      "title": "Resilient and responsible supply",
+      "body": "Caldova builds continuity, respects human rights, reduces environmental impact, and expects suppliers to extend these standards through their supply chains."
+    }
+  ],
+  "roles": [
+    {
+      "role": "Business requester",
+      "accountability": "Defines the outcome, specification, timing, funding, and acceptance criteria; confirms receipt without directing the award."
+    },
+    {
+      "role": "Purchasing",
+      "accountability": "Selects the sourcing route, manages competition and negotiation, documents the recommendation, and maintains the commercial record."
+    },
+    {
+      "role": "Quality and Regulatory",
+      "accountability": "Classifies GxP risk, qualifies regulated suppliers and sites, approves quality agreements, and can stop or restrict supply."
+    },
+    {
+      "role": "Finance and Legal",
+      "accountability": "Validate funding, financial controls, tax, sanctions, contract terms, privacy, and legal risk according to the engagement."
+    },
+    {
+      "role": "Approval authority",
+      "accountability": "Confirms business need, value, risk, and policy compliance within delegated authority before Caldova is committed."
+    }
+  ],
+  "approval_thresholds": [
+    {
+      "minimum": 0,
+      "display": "Below $25,000",
+      "competition": "Catalog, benchmark, or one documented quote",
+      "approval": "Budget owner"
+    },
+    {
+      "minimum": 25000,
+      "display": "$25,000–$99,999",
+      "competition": "At least two comparable written quotes",
+      "approval": "Budget owner + Purchasing"
+    },
+    {
+      "minimum": 100000,
+      "display": "$100,000–$249,999",
+      "competition": "At least three qualified bidders",
+      "approval": "Functional VP + Purchasing"
+    },
+    {
+      "minimum": 250000,
+      "display": "$250,000–$999,999",
+      "competition": "Formal RFP or documented category strategy",
+      "approval": "VP of Procurement + Functional VP"
+    },
+    {
+      "minimum": 1000000,
+      "display": "$1,000,000 and above",
+      "competition": "Formal RFP and executive recommendation",
+      "approval": "CSCO + CFO"
+    }
+  ],
+  "sourcing_methods": [
+    {
+      "name": "Competitive request",
+      "use": "Default for comparable goods or services when the requirement and evaluation criteria can be stated clearly."
+    },
+    {
+      "name": "Negotiated category strategy",
+      "use": "Used for established categories with current market evidence, approved panels, and documented leverage or continuity objectives."
+    },
+    {
+      "name": "Single or sole source",
+      "use": "Allowed only for documented technical exclusivity, validated continuity need, intellectual property, approved standardization, or an unavailable competitive market."
+    },
+    {
+      "name": "Emergency purchase",
+      "use": "Used to protect patients, people, regulated product, or operations when delay creates greater harm; retrospective review is mandatory."
+    }
+  ],
+  "qualification_tiers": [
+    {
+      "tier": "Critical",
+      "examples": "GMP materials, contract manufacturing, product testing, primary packaging, cold chain",
+      "controls": "Quality audit, regulatory review, financial and continuity assessment, quality agreement, executive risk acceptance"
+    },
+    {
+      "tier": "Managed",
+      "examples": "High-spend technology, engineering, facilities, logistics, professional services",
+      "controls": "Business, privacy, security, financial, ESG, and continuity checks proportionate to risk"
+    },
+    {
+      "tier": "Standard",
+      "examples": "Low-risk catalog goods and routine services",
+      "controls": "Identity, sanctions, tax, banking, code acknowledgment, and basic performance review"
+    }
+  ],
+  "scorecard": [
+    {"criterion": "Quality and patient safety", "weight": 30, "gate": true},
+    {"criterion": "Capacity, delivery, and service", "weight": 20, "gate": false},
+    {"criterion": "Total cost and commercial terms", "weight": 15, "gate": false},
+    {"criterion": "Regulatory, ethics, and governance", "weight": 15, "gate": true},
+    {"criterion": "Continuity and financial resilience", "weight": 10, "gate": false},
+    {"criterion": "Environmental and social impact", "weight": 10, "gate": false}
+  ],
+  "qualification_rules": [
+    "A critical supplier cannot be awarded without Quality approval, regardless of spend or competition result.",
+    "An unresolved critical audit finding, disqualifying regulatory status, sanctions match, or refusal to accept required conduct standards stops onboarding.",
+    "A supplier must score at least 70 of 100 overall and pass every mandatory gate unless an approved exception states the owner, controls, and expiry date.",
+    "Due diligence must identify the contracted legal entity, manufacturing or service locations, beneficial ownership where required, and material subcontractors."
+  ],
+  "lifecycle": [
+    {"stage": "Discover", "detail": "Confirm need, specification, budget, category strategy, incumbent facts, and market options."},
+    {"stage": "Qualify", "detail": "Classify risk; assess quality, regulatory, ethics, security, finance, resilience, and sustainability."},
+    {"stage": "Select", "detail": "Run the approved sourcing method, evaluate against published criteria, negotiate, and document the recommendation."},
+    {"stage": "Contract and onboard", "detail": "Complete approvals, contract, quality agreement, master data, banking verification, and operational readiness."},
+    {"stage": "Monitor and renew", "detail": "Review performance and risk, close corrective actions, reassess before renewal, and plan orderly exit where needed."}
+  ],
+  "monitoring": [
+    "Critical suppliers: quarterly performance review and annual risk reassessment; audit frequency set by Quality risk.",
+    "Managed suppliers: at least annual performance and risk review, with category-specific evidence.",
+    "Standard suppliers: event-driven monitoring and review before material scope or ownership changes.",
+    "All suppliers: continuous sanctions screening and prompt escalation of quality, cyber, ethics, labor, environmental, financial, or continuity events."
+  ],
+  "capa_steps": [
+    "Record the deviation and immediate containment.",
+    "Classify impact and assign an accountable owner.",
+    "Agree root-cause analysis, corrective actions, evidence, and due dates.",
+    "Verify effectiveness before closure.",
+    "Escalate repeated, overdue, or material failures to restriction, suspension, or termination."
+  ],
+  "ethics_rules": [
+    "Disclose actual, potential, or perceived conflicts before participating in a sourcing decision.",
+    "Do not solicit or accept gifts, travel, entertainment, favors, or employment discussions that could influence or appear to influence judgment.",
+    "Protect supplier bids, trade secrets, personal data, and Caldova information; share only for an authorized business need.",
+    "Never split purchases, backdate documents, bypass approvals, alter evaluations, or ask a supplier to begin work before authorization.",
+    "Report suspected fraud, bribery, retaliation, bid coordination, human-rights abuse, falsification, or quality concealment through Caldova Speak Up."
+  ],
+  "responsible_supply": [
+    {"topic": "People", "commitment": "Respect human rights, prohibit forced and child labor, provide safe work, and maintain effective grievance channels."},
+    {"topic": "Planet", "commitment": "Measure and reduce emissions, waste, water, hazardous materials, and biodiversity impacts using credible improvement plans."},
+    {"topic": "Resilience", "commitment": "Map critical dependencies, protect inventory and data, test continuity plans, disclose disruptions, and maintain recovery options."},
+    {"topic": "Progress", "commitment": "Set proportionate expectations, use evidence, support corrective action, and recognize measurable supplier improvement."}
+  ],
+  "buyer_commitments": [
+    "Put patients, product quality, and Caldova's interests before personal preference.",
+    "Engage Purchasing early and use approved systems, contracts, and supplier records.",
+    "State requirements and evaluation criteria clearly before receiving offers.",
+    "Treat qualified suppliers consistently and preserve a complete decision record.",
+    "Use confidential information only for the authorized sourcing purpose.",
+    "Challenge waste, unmanaged risk, weak competition, and unrealistic commitments.",
+    "Speak up when conduct, quality, or evidence does not meet this policy.",
+    "Continue learning about supply markets, regulation, technology, and responsible sourcing."
+  ],
+  "exception_fields": [
+    "Requirement and business owner",
+    "Policy requirement not met",
+    "Reason competition or standard control is not feasible",
+    "Supplier and proposed commitment",
+    "Patient, quality, regulatory, financial, and continuity risk",
+    "Compensating controls and accountable owners",
+    "Approvals and decision date",
+    "Expiry or next review date"
+  ]
+}

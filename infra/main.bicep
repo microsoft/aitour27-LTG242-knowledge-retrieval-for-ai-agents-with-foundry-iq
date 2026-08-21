@@ -48,7 +48,7 @@ var fallbackDeployments = [
     }
     sku: {
       name: 'GlobalStandard'
-      capacity: 50
+      capacity: 200
     }
   }
   {
