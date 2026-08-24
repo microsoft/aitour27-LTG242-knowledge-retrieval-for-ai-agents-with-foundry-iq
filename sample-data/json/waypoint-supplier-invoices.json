@@ -400,7 +400,7 @@
         {
           "line_id": "INV-SUP-004-2026-10-L001",
           "line_type": "API lot",
-          "description": "Released AUR-API-7 lot quantity per certificate of analysis",
+          "description": "Released AUR-API-7 (Caldovexine, SUB-001) lot quantity per certificate of analysis",
           "reference_id": "LOT-MD-1026-A",
           "quantity": 7200,
           "unit_price": 184.0,

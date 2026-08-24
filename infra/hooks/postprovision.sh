@@ -13,6 +13,15 @@ fi
 echo "Creating the Search index and knowledge base..."
 uv run --locked python infra/create-search-indexes.py
 
+echo "Creating PostgreSQL schema for MCP tools..."
+./scripts/setup_postgres_database.sh
+
+echo "Granting the MCP managed identity read-only PostgreSQL access..."
+./scripts/setup_postgres_azurerole.sh
+
+echo "Loading PostgreSQL ontology and supplier seed data..."
+./scripts/setup_postgres_seeddata.sh
+
 echo "Creating the Foundry toolbox..."
 uv run --locked python infra/create-toolbox-foundryiq.py
 

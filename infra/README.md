@@ -1,8 +1,13 @@
 # Infrastructure
 
 The infrastructure scripts provision the Foundry project, Azure AI Search,
-Storage, monitoring, hosted agent, knowledge base, and toolbox used by the
-session.
+Storage, monitoring, PostgreSQL, the PostgreSQL MCP Container App, hosted agent,
+knowledge base, and toolbox used by the session.
+
+The PostgreSQL MCP service uses a user-assigned managed identity for Entra token
+authentication to Azure Database for PostgreSQL. Postprovision creates a matching
+read-only database role, loads the ontology and supplier data, and registers the
+service's `/mcp` URL as a knowledge source on the Foundry IQ knowledge base.
 
 ## Sample-data input
 

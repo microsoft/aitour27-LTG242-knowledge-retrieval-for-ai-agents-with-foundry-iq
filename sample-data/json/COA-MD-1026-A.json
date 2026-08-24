@@ -42,6 +42,8 @@
   "material": {
     "name": "AUR-API-7",
     "description": "Principio activo farmacéutico",
+    "substance_name": "Caldovexine",
+    "substance_id": "SUB-001",
     "batch_size_kg": 7200,
     "packaging": "144 bidones de fibra con doble bolsa interior de polietileno, 50 kg netos por bidón",
     "storage": "Conservar en recipiente bien cerrado, protegido de la luz y la humedad, entre 15 °C y 25 °C."

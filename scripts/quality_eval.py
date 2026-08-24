@@ -19,8 +19,8 @@ ENVIRONMENT_NAME = os.environ.get("AZURE_ENV_NAME", "pf-ltg242")
 RESULTS_ROOT = AGENT_ROOT / ".foundry" / "results" / ENVIRONMENT_NAME
 RUN_STATE_PATH = RESULTS_ROOT / "response_completeness_last_run.json"
 AGENT_NAME = os.environ.get(
-    "AGENT_AGENT_TOOLBOX_FOUNDRYIQ_NAME",
-    "agent-toolbox-foundryiq",
+    "AGENT_INVOICE_INVESTIGATION_AGENT_NAME",
+    "invoice-investigation-agent",
 )
 EXPECTED_CASE_COUNT = 4
 

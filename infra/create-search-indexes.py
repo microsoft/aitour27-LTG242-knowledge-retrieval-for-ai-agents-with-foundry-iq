@@ -472,6 +472,18 @@ async def create_knowledge_base(
         ),
     )
     await client.create_or_update_knowledge_source(knowledge_source=source)
+    knowledge_sources = {source.name: KnowledgeSourceReference(name=source.name)}
+    try:
+        existing_knowledge_base = await client.get_knowledge_base(knowledge_base_name)
+    except ResourceNotFoundError:
+        pass
+    else:
+        knowledge_sources.update(
+            {
+                reference.name: reference
+                for reference in existing_knowledge_base.knowledge_sources
+            }
+        )
     knowledge_base = KnowledgeBase(
         name=knowledge_base_name,
         description="Invoice evidence knowledge base for the LTG242 hosted agent.",
@@ -484,7 +496,7 @@ async def create_knowledge_base(
                 )
             )
         ],
-        knowledge_sources=[KnowledgeSourceReference(name=source.name)],
+        knowledge_sources=list(knowledge_sources.values()),
         retrieval_reasoning_effort=KnowledgeRetrievalLowReasoningEffort(),
         output_mode=KnowledgeRetrievalOutputMode.EXTRACTIVE_DATA,
     )

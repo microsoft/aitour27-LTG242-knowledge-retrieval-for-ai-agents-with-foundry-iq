@@ -25,6 +25,12 @@
     },
     "searchServiceSku": {
       "value": "${AZURE_AI_SEARCH_SKU_NAME=standard}"
+    },
+    "mcpApiKey": {
+      "value": "${MCP_API_KEY}"
+    },
+    "servicePostgresMcpImageName": {
+      "value": "${SERVICE_POSTGRES_MCP_IMAGE_NAME=}"
     }
   }
 }

@@ -10,7 +10,12 @@ dependencies = [
     "azure-search-documents==12.1.0b1",
     "azure-storage-blob>=12.30.0,<13",
     "python-dotenv>=1.2.2",
-    "aiohttp==3.14.3"
+    "aiohttp==3.14.3",
+    "asyncpg>=0.30.0,<1",
+    "greenlet>=3.2.4,<4",
+    "sqlalchemy>=2.0.43,<3",
+    "psycopg[binary]>=3.2.10,<4",
+    "fastmcp==4.0.0b3"
 ]
 
 [dependency-groups]
@@ -20,6 +25,7 @@ dev = [
 
 [tool.uv]
 package = false
+prerelease = "allow"
 
 [tool.ruff]
 line-length = 100

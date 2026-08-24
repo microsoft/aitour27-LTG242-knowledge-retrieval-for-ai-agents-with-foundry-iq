@@ -37,6 +37,16 @@ param enableMonitoring bool = true
 ])
 param searchServiceSku string = 'standard'
 
+@description('Enable PostgreSQL infrastructure for MCP-backed relational tools.')
+param enablePostgres bool = true
+
+@secure()
+@description('Shared API key used by Azure AI Search to call the PostgreSQL MCP server.')
+param mcpApiKey string
+
+@description('Previously deployed PostgreSQL MCP image supplied by azd.')
+param servicePostgresMcpImageName string = ''
+
 var configuredDeployments = json(aiProjectDeploymentsJson)
 var fallbackDeployments = [
   {
@@ -71,10 +81,45 @@ var tags = {
   'azd-env-name': environmentName
 }
 
+// Keeps globally scoped resource names deterministic and within length limits.
+var resourceToken = toLower(uniqueString(subscription().subscriptionId, environmentName))
+
 resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: resourceGroupName
   location: location
   tags: tags
+}
+
+var postgresServerName = 'pg-${resourceToken}'
+var postgresDatabaseName = 'ontology'
+var postgresEntraAdministratorName = 'admin${uniqueString(rg.id, principalId)}'
+
+module postgresServer 'core/database/postgresql/flexibleserver.bicep' = if (enablePostgres) {
+  scope: rg
+  name: 'postgresql'
+  params: {
+    name: postgresServerName
+    location: location
+    tags: tags
+    sku: {
+      name: 'Standard_B1ms'
+      tier: 'Burstable'
+    }
+    storage: {
+      storageSizeGB: 32
+    }
+    version: '16'
+    authType: 'EntraOnly'
+    entraAdministratorName: postgresEntraAdministratorName
+    entraAdministratorObjectId: principalId
+    entraAdministratorType: principalType
+    databaseNames: [
+      postgresDatabaseName
+    ]
+    allowAzureIPsFirewall: true
+    allowAllIPsFirewall: true
+    allowedExtensions: 'vector,pg_trgm'
+  }
 }
 
 module aiProject 'core/ai/ai-project.bicep' = {
@@ -89,6 +134,34 @@ module aiProject 'core/ai/ai-project.bicep' = {
     deployments: deployments
     enableMonitoring: enableMonitoring
     searchServiceSku: searchServiceSku
+  }
+}
+
+module containerApps 'core/host/container-apps.bicep' = if (enablePostgres) {
+  scope: rg
+  params: {
+    location: location
+    tags: tags
+    containerAppsEnvironmentName: 'cae-${resourceToken}'
+    containerRegistryName: 'cr${resourceToken}'
+    logAnalyticsWorkspaceName: aiProject.outputs.LOG_ANALYTICS_WORKSPACE_NAME
+  }
+}
+
+module postgresMcp 'postgres-mcp.bicep' = if (enablePostgres) {
+  scope: rg
+  params: {
+    name: 'postgres-mcp-${resourceToken}'
+    location: location
+    tags: tags
+    containerAppsEnvironmentName: containerApps!.outputs.environmentName
+    containerRegistryName: containerApps!.outputs.registryName
+    postgresHost: postgresServer!.outputs.POSTGRES_DOMAIN_NAME
+    postgresDatabase: postgresDatabaseName
+    mcpApiKey: mcpApiKey
+    imageName: servicePostgresMcpImageName
+    tenantId: tenant().tenantId
+    applicationInsightsConnectionString: aiProject.outputs.APPLICATIONINSIGHTS_CONNECTION_STRING
   }
 }
 
@@ -121,3 +194,18 @@ output AZURE_STORAGE_ACCOUNT_NAME string = aiProject.outputs.storage.accountName
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = aiProject.outputs.APPLICATIONINSIGHTS_CONNECTION_STRING
 output APPLICATIONINSIGHTS_RESOURCE_ID string = aiProject.outputs.APPLICATIONINSIGHTS_RESOURCE_ID
 output AZURE_TENANT_ID string = tenant().tenantId
+output POSTGRES_HOST string = enablePostgres ? postgresServer!.outputs.POSTGRES_DOMAIN_NAME : ''
+output POSTGRES_DATABASE string = enablePostgres ? postgresDatabaseName : ''
+output POSTGRES_SSL string = enablePostgres ? 'require' : ''
+output POSTGRES_AUTH_TYPE string = enablePostgres ? 'EntraOnly' : ''
+output POSTGRES_AAD_ADMIN_NAME string = enablePostgres ? postgresEntraAdministratorName : ''
+output POSTGRES_USERNAME string = enablePostgres ? postgresEntraAdministratorName : ''
+output POSTGRES_MCP_URL string = enablePostgres ? '${postgresMcp!.outputs.SERVICE_POSTGRES_MCP_URI}/mcp' : ''
+output AZURE_CONTAINER_ENVIRONMENT_NAME string = enablePostgres ? containerApps!.outputs.environmentName : ''
+output AZURE_CONTAINER_REGISTRY_ENDPOINT string = enablePostgres ? containerApps!.outputs.registryLoginServer : ''
+output AZURE_CONTAINER_REGISTRY_NAME string = enablePostgres ? containerApps!.outputs.registryName : ''
+output SERVICE_POSTGRES_MCP_IDENTITY_PRINCIPAL_ID string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_IDENTITY_PRINCIPAL_ID : ''
+output SERVICE_POSTGRES_MCP_IDENTITY_NAME string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_IDENTITY_NAME : ''
+output SERVICE_POSTGRES_MCP_IMAGE_NAME string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_IMAGE_NAME : ''
+output SERVICE_POSTGRES_MCP_NAME string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_NAME : ''
+output SERVICE_POSTGRES_MCP_URI string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_URI : ''

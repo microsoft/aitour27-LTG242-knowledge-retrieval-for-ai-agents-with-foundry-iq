@@ -221,10 +221,14 @@ Headline query:
 > actions, and approved subcontractors. What has changed or needs attention?
 > Graph the relevant trends.
 
-The Supplier Intelligence Agent should label document claims and MCP claims,
-include the relational data's as-of date, and use Code Interpreter to chart
-current trends. Expected differences must be locked after the PostgreSQL seed
-data is created.
+Validation queries:
+
+| Query | Expected grounded response | Required knowledge sources |
+|---|---|---|
+| “What's the dosage form, strength, and route of administration for Caldovex?” | Tablet, 50 mg, and oral. | PostgreSQL MCP |
+| “Which Caldova product uses the active substance in Meridian API Works' invoiced `AUR-API-7` lot? Summarize the lot and Meridian's current manufacturer profile.” | Label the invoice and CoA mapping of `AUR-API-7` to Caldovexine (`SUB-001`), lot `LOT-MD-1026-A`, and the 7,200 kg released quantity as indexed document claims. Label the mapping from `SUB-001` to Caldovex (`CALD-201`) and Meridian's current API-manufacturing profile and substance associations as MCP claims. | Supplier-specific indexed knowledge source over the KB 1 PDFs and PostgreSQL MCP |
+
+The Supplier Intelligence Agent should label document claims and MCP claims.
 
 #### Headline demo sequence
 
@@ -426,3 +430,65 @@ End the session at 15:00.
 - Consequence for the demo: any question whose payoff is a rendered chart will appear to fail on stage. Prefer questions that end in a markdown table, a ranking, or an explicit calculation. The certificate-of-analysis spec-margin question was written for this reason.
 - Code Interpreter is also not invoked for small calculations, since the model does the arithmetic directly. It engages when the task involves enough rows to be worth parsing, such as the 30-row analytical results table.
 - Recheck whether the playground gains artifact rendering or file attachment. If it does, restore the temperature, yield, BluePeak, and aggregate-invoice questions to their charted form.
+
+## Appendix: verified material that did not fit the 15-minute run of show
+
+Findings below are measured against the live KB 1 index. They are kept for
+follow-up content, questions from the audience, and any longer version of this
+session. None of them has a slide.
+
+### Cross-lingual retrieval measured directly
+
+Three English queries, none containing a Spanish word, run against the index as
+keyword-only and vector-only. Keyword search never returns the Spanish
+certificate; vector search returns it first every time.
+
+| English query | Keyword-only top 3 | Vector-only top 3 |
+|---|---|---|
+| `powder flowability test results` | GMP-INS-BPB-2027-01, INV-SUP-005, INV-SUP-011 | COA-MD-1026-A (all three chunks) |
+| `heavy metal contamination limits` | DEV-BPB-1026, INV-SUP-009, GMP-INS-BPB-2027-01 | COA-MD-1026-A, COA-MD-1026-A, DEV-BPB-1026 |
+| `batch release certificate of analysis` | INV-SUP-005, INV-SUP-004, INV-SUP-011 | COA-MD-1026-A, COA-MD-1026-A, YLD-MAW-1026 |
+
+The third row is the most useful illustration. Keyword search returns three
+invoices because their line items contain the English phrase "certificate of
+analysis"; the certificate itself stays invisible to it.
+
+Cross-lingual matching comes from `text-embedding-3-large` being multilingual,
+not from Content Understanding. The hybrid-search slide already carries this
+point implicitly, because reranked result 4 is the Spanish certificate.
+
+### Content Understanding output that the extraction slide omits
+
+- The chart-to-Chart.js conversion is derived from the rendered image, not read
+  from the file. The PDF's text layer contains no JSON keys and no data values,
+  and decompressing every stream in the file (347,742 bytes) finds none either.
+- The extracted series is an estimate and is not stable between runs. The same
+  unchanged `TL-VCL-1026.pdf` produced `[5.1, 5.0, 4.9, 5.3, 8.2, 8.6, 5.4]` on
+  one indexing run and `[5.1, 5.0, 4.9, 5.2, 8.2, 7.0, 5.4]` on another. Summary
+  values taken from real text, such as the 10.7 C peak and the 2 hr 30 min
+  excursion, are exact. Do not build a demo answer on an interpolated point.
+- The plotted series is a 7-point summary of the chart. The logger recorded 37
+  points at 30-minute intervals.
+- `ChartFormat.ChartJs` is a documented enum in `Azure.AI.ContentUnderstanding`,
+  described as "Represent charts as Chart.js code blocks," so the format is a
+  deliberate contract rather than a coincidence.
+- The analyzer defaults also extract formulas as LaTeX, hyperlinks, and PDF
+  annotations with authors and comments. Nothing in this corpus exercises them.
+- The Search skill exposes only `extractionOptions`, `modelName`,
+  `modelDeployment`, and `chunkingProperties`. Chart and table formats are not
+  settable from the skillset.
+- `GMP-INS-BPB-2027-01.pdf`, the scanned inspection report, is the richest
+  multimodal example in the corpus: 4 chunks, 13 generated figure descriptions,
+  6 tables, and 27 page markers.
+
+### Retrieval-quality observations
+
+- Semantic reranking is a model and does not uniformly improve results. On one
+  phrasing of the hybrid-slide query it demoted a relevant document and promoted
+  an unrelated invoice. Re-run the exact demo query before the deck is final
+  rather than assuming a previously captured ordering still holds.
+- Small changes in query wording move the rankings noticeably. Substituting the
+  product name for the invoice identifier removed the failure-and-recovery
+  pattern that makes the hybrid slide readable.
+- `scripts/debug_chunks.py` renders a side-by-side PDF and chunk view with
+  `--html` and is the fastest way to re-check any of this after reindexing.

@@ -180,6 +180,22 @@ module knowledgeBaseMcpConnection 'connection.bicep' = {
   }
 }
 
+module supplierKnowledgeBaseMcpConnection 'connection.bicep' = {
+  name: 'supplier-intelligence-kb-mcp-connection'
+  params: {
+    aiServicesAccountName: aiAccount.name
+    aiProjectName: aiAccount::project.name
+    connectionConfig: {
+      name: 'supplier-intelligence-kb-mcp-connection'
+      category: 'RemoteTool'
+      target: 'https://${azureAiSearch.outputs.searchServiceName}.search.windows.net/knowledgebases/supplier-intelligence-kb/mcp?api-version=2026-05-01-preview'
+      authType: 'ProjectManagedIdentity'
+      audience: 'https://search.azure.com/'
+      isSharedToAll: true
+    }
+  }
+}
+
 output AZURE_AI_PROJECT_ENDPOINT string = aiAccount::project.properties.endpoints['AI Foundry API']
 output AZURE_OPENAI_ENDPOINT string = aiAccount.properties.endpoints['OpenAI Language Model Instance API']
 output accountId string = aiAccount.id
@@ -188,6 +204,7 @@ output aiServicesAccountName string = aiAccount.name
 output projectName string = aiAccount::project.name
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = enableMonitoring ? applicationInsights!.outputs.connectionString : ''
 output APPLICATIONINSIGHTS_RESOURCE_ID string = enableMonitoring ? applicationInsights!.outputs.id : ''
+output LOG_ANALYTICS_WORKSPACE_NAME string = enableMonitoring ? logAnalytics!.outputs.name : ''
 output search object = {
   serviceName: azureAiSearch.outputs.searchServiceName
   serviceEndpoint: 'https://${azureAiSearch.outputs.searchServiceName}.search.windows.net'

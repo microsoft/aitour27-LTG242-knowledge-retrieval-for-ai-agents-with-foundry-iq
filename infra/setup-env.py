@@ -28,6 +28,13 @@ def main() -> None:
         "AZURE_AI_SEARCH_SERVICE_ENDPOINT",
         "AZURE_AI_SEARCH_SERVICE_NAME",
         "AZURE_STORAGE_ACCOUNT_NAME",
+        "POSTGRES_HOST",
+        "POSTGRES_DATABASE",
+        "POSTGRES_SSL",
+        "POSTGRES_AUTH_TYPE",
+        "POSTGRES_USERNAME",
+        "POSTGRES_MCP_URL",
+        "SERVICE_POSTGRES_MCP_IDENTITY_NAME",
     )
     missing = [key for key in required_keys if not os.environ.get(key)]
     if missing:
@@ -37,7 +44,13 @@ def main() -> None:
     values.update(
         {
             "AZURE_AI_SEARCH_KB_MCP_CONNECTION_NAME": "knowledge-base-mcp-connection",
+            "AZURE_AI_SEARCH_SUPPLIER_KB_MCP_CONNECTION_NAME": (
+                "supplier-intelligence-kb-mcp-connection"
+            ),
             "CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME": "knowledge-retrieval-tools",
+            "CUSTOM_SUPPLIER_INTELLIGENCE_TOOLBOX_NAME": (
+                "supplier-intelligence-tools"
+            ),
             "APPLICATIONINSIGHTS_CONNECTION_STRING": os.environ.get(
                 "APPLICATIONINSIGHTS_CONNECTION_STRING", ""
             ),
