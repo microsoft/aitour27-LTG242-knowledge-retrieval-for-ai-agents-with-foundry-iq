@@ -315,7 +315,6 @@ why frequently changing relational facts are federated rather than indexed.
 - Reuse the ACL-protected sourcing corpus.
 - Add read-only MCP tools over current supplier master, performance, capacity, audit, quality, and subcontractor data.
 - Distinguish signed document claims from current MCP claims and include as-of dates.
-- Use Code Interpreter to graph current performance trends against documented commitments.
 
 **Suggested graphics/demo beats**
 

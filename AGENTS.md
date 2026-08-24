@@ -39,3 +39,20 @@ Then:
 	generated PDFs, structured JSON, counts, and unexpected deletions.
 - Run the checks relevant to the consuming code or retrieval scenario.
 - Commit the refreshed `sample-data/` snapshot and provenance file together.
+
+## Open issues
+
+### Reranker scores for remote knowledge sources
+
+- A direct retrieval from `supplier-intelligence-kb` returned
+  `rerankerScore: 0` for an included MCP reference while indexed document
+  references received nonzero scores.
+- Microsoft Learn documents `reranker_score: float | None` on both the base
+  `KnowledgeBaseReference` and `KnowledgeBaseMcpServerReference`. It does not
+  explain when an MCP or other remote-source score is calculated, omitted, or
+  returned as zero.
+- Do not state that remote results are never reranked or compare their zero
+  scores with Search index scores. Describe `0` only as the value observed in
+  the specific retrieval response.
+- Recheck the service behavior and Microsoft Learn documentation as the
+  knowledge-bases API and `azure-search-documents` preview evolve.
