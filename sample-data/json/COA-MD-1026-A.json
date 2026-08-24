@@ -81,86 +81,6 @@
     },
     {
       "sequence": 3,
-      "test": "Valoración por HPLC (base anhidra)",
-      "method": "MAW-MET-021",
-      "acceptance": "98,0 %–102,0 %",
-      "result": "99,4 %",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 4,
-      "test": "Impureza individual máxima",
-      "method": "MAW-MET-022",
-      "acceptance": "≤ 0,20 %",
-      "result": "0,12 %",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 5,
-      "test": "Impurezas totales",
-      "method": "MAW-MET-022",
-      "acceptance": "≤ 0,50 %",
-      "result": "0,31 %",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 6,
-      "test": "Contenido de agua por Karl Fischer",
-      "method": "MAW-MET-031",
-      "acceptance": "≤ 0,50 %",
-      "result": "0,18 %",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 7,
-      "test": "Etanol residual",
-      "method": "MAW-MET-044",
-      "acceptance": "≤ 5000 ppm",
-      "result": "124 ppm",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 8,
-      "test": "Acetato de etilo residual",
-      "method": "MAW-MET-044",
-      "acceptance": "≤ 5000 ppm",
-      "result": "48 ppm",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 9,
-      "test": "Plomo",
-      "method": "MAW-MET-052",
-      "acceptance": "≤ 0,50 ppm",
-      "result": "< 0,05 ppm",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 10,
-      "test": "Cadmio",
-      "method": "MAW-MET-052",
-      "acceptance": "≤ 0,50 ppm",
-      "result": "< 0,02 ppm",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 11,
-      "test": "Recuento total de microorganismos aerobios",
-      "method": "MAW-MET-061",
-      "acceptance": "≤ 100 UFC/g",
-      "result": "< 10 UFC/g",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 12,
-      "test": "Mohos y levaduras",
-      "method": "MAW-MET-061",
-      "acceptance": "≤ 100 UFC/g",
-      "result": "< 10 UFC/g",
-      "status": "Conforme"
-    },
-    {
-      "sequence": 13,
       "test": "Escherichia coli",
       "method": "MAW-MET-062",
       "acceptance": "Ausencia en 1 g",
@@ -168,50 +88,162 @@
       "status": "Conforme"
     },
     {
+      "sequence": 4,
+      "test": "Valoración por HPLC (base anhidra)",
+      "method": "MAW-MET-021",
+      "lower_limit": "98,0",
+      "upper_limit": "102,0",
+      "unit": "%",
+      "result": "99,4",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 5,
+      "test": "Impureza individual máxima",
+      "method": "MAW-MET-022",
+      "lower_limit": null,
+      "upper_limit": "0,20",
+      "unit": "%",
+      "result": "0,12",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 6,
+      "test": "Impurezas totales",
+      "method": "MAW-MET-022",
+      "lower_limit": null,
+      "upper_limit": "0,50",
+      "unit": "%",
+      "result": "0,31",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 7,
+      "test": "Contenido de agua por Karl Fischer",
+      "method": "MAW-MET-031",
+      "lower_limit": null,
+      "upper_limit": "0,50",
+      "unit": "%",
+      "result": "0,18",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 8,
+      "test": "Etanol residual",
+      "method": "MAW-MET-044",
+      "lower_limit": null,
+      "upper_limit": "5000",
+      "unit": "ppm",
+      "result": "124",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 9,
+      "test": "Acetato de etilo residual",
+      "method": "MAW-MET-044",
+      "lower_limit": null,
+      "upper_limit": "5000",
+      "unit": "ppm",
+      "result": "48",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 10,
+      "test": "Plomo",
+      "method": "MAW-MET-052",
+      "lower_limit": null,
+      "upper_limit": "0,50",
+      "unit": "ppm",
+      "result": "< 0,05",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 11,
+      "test": "Cadmio",
+      "method": "MAW-MET-052",
+      "lower_limit": null,
+      "upper_limit": "0,50",
+      "unit": "ppm",
+      "result": "< 0,02",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 12,
+      "test": "Recuento total de microorganismos aerobios",
+      "method": "MAW-MET-061",
+      "lower_limit": null,
+      "upper_limit": "100",
+      "unit": "UFC/g",
+      "result": "< 10",
+      "status": "Conforme"
+    },
+    {
+      "sequence": 13,
+      "test": "Mohos y levaduras",
+      "method": "MAW-MET-061",
+      "lower_limit": null,
+      "upper_limit": "100",
+      "unit": "UFC/g",
+      "result": "< 10",
+      "status": "Conforme"
+    },
+    {
       "sequence": 14,
       "test": "Tamaño de partícula D10",
       "method": "MAW-MET-071",
-      "acceptance": "15–35 µm",
-      "result": "24 µm",
+      "lower_limit": "15",
+      "upper_limit": "35",
+      "unit": "µm",
+      "result": "24",
       "status": "Conforme"
     },
     {
       "sequence": 15,
       "test": "Tamaño de partícula D50",
       "method": "MAW-MET-071",
-      "acceptance": "55–85 µm",
-      "result": "68 µm",
+      "lower_limit": "55",
+      "upper_limit": "85",
+      "unit": "µm",
+      "result": "68",
       "status": "Conforme"
     },
     {
       "sequence": 16,
       "test": "Tamaño de partícula D90",
       "method": "MAW-MET-071",
-      "acceptance": "≤ 180 µm",
-      "result": "142 µm",
+      "lower_limit": null,
+      "upper_limit": "180",
+      "unit": "µm",
+      "result": "142",
       "status": "Conforme"
     },
     {
       "sequence": 17,
       "test": "Densidad aparente",
       "method": "MAW-MET-073",
-      "acceptance": "0,35–0,55 g/ml",
-      "result": "0,44 g/ml",
+      "lower_limit": "0,35",
+      "upper_limit": "0,55",
+      "unit": "g/ml",
+      "result": "0,44",
       "status": "Conforme"
     },
     {
       "sequence": 18,
       "test": "Densidad compactada",
       "method": "MAW-MET-073",
-      "acceptance": "0,45–0,70 g/ml",
-      "result": "0,57 g/ml",
+      "lower_limit": "0,45",
+      "upper_limit": "0,70",
+      "unit": "g/ml",
+      "result": "0,57",
       "status": "Conforme"
     },
     {
       "sequence": 19,
       "test": "Índice de Hausner",
       "method": "MAW-MET-073",
-      "acceptance": "≤ 1,35",
+      "lower_limit": null,
+      "upper_limit": "1,35",
+      "unit": null,
       "result": "1,30",
       "status": "Conforme"
     },
@@ -219,23 +251,29 @@
       "sequence": 20,
       "test": "Ángulo de reposo",
       "method": "MAW-MET-074",
-      "acceptance": "≤ 40°",
-      "result": "34,6°",
+      "lower_limit": null,
+      "upper_limit": "40",
+      "unit": "°",
+      "result": "34,6",
       "status": "Conforme"
     },
     {
       "sequence": 21,
       "test": "Rotación óptica específica",
       "method": "MAW-MET-081",
-      "acceptance": "+18,0° a +22,0°",
-      "result": "+20,4°",
+      "lower_limit": "+18,0",
+      "upper_limit": "+22,0",
+      "unit": "°",
+      "result": "+20,4",
       "status": "Conforme"
     },
     {
       "sequence": 22,
       "test": "pH de la solución al 1 %",
       "method": "MAW-MET-083",
-      "acceptance": "5,0–7,0",
+      "lower_limit": "5,0",
+      "upper_limit": "7,0",
+      "unit": null,
       "result": "6,2",
       "status": "Conforme"
     },
@@ -243,88 +281,110 @@
       "sequence": 23,
       "test": "Residuo de ignición",
       "method": "MAW-MET-085",
-      "acceptance": "≤ 0,10 %",
-      "result": "0,04 %",
+      "lower_limit": null,
+      "upper_limit": "0,10",
+      "unit": "%",
+      "result": "0,04",
       "status": "Conforme"
     },
     {
       "sequence": 24,
       "test": "Cloruros",
       "method": "MAW-MET-086",
-      "acceptance": "≤ 200 ppm",
-      "result": "74 ppm",
+      "lower_limit": null,
+      "upper_limit": "200",
+      "unit": "ppm",
+      "result": "74",
       "status": "Conforme"
     },
     {
       "sequence": 25,
       "test": "Sulfatos",
       "method": "MAW-MET-087",
-      "acceptance": "≤ 300 ppm",
-      "result": "116 ppm",
+      "lower_limit": null,
+      "upper_limit": "300",
+      "unit": "ppm",
+      "result": "116",
       "status": "Conforme"
     },
     {
       "sequence": 26,
       "test": "Metanol residual",
       "method": "MAW-MET-044",
-      "acceptance": "≤ 3000 ppm",
-      "result": "86 ppm",
+      "lower_limit": null,
+      "upper_limit": "3000",
+      "unit": "ppm",
+      "result": "86",
       "status": "Conforme"
     },
     {
       "sequence": 27,
       "test": "Acetona residual",
       "method": "MAW-MET-044",
-      "acceptance": "≤ 5000 ppm",
-      "result": "212 ppm",
+      "lower_limit": null,
+      "upper_limit": "5000",
+      "unit": "ppm",
+      "result": "212",
       "status": "Conforme"
     },
     {
       "sequence": 28,
       "test": "Diclorometano residual",
       "method": "MAW-MET-044",
-      "acceptance": "≤ 600 ppm",
-      "result": "38 ppm",
+      "lower_limit": null,
+      "upper_limit": "600",
+      "unit": "ppm",
+      "result": "38",
       "status": "Conforme"
     },
     {
       "sequence": 29,
       "test": "Tolueno residual",
       "method": "MAW-MET-044",
-      "acceptance": "≤ 890 ppm",
-      "result": "27 ppm",
+      "lower_limit": null,
+      "upper_limit": "890",
+      "unit": "ppm",
+      "result": "27",
       "status": "Conforme"
     },
     {
       "sequence": 30,
       "test": "Arsénico",
       "method": "MAW-MET-052",
-      "acceptance": "≤ 1,50 ppm",
-      "result": "0,08 ppm",
+      "lower_limit": null,
+      "upper_limit": "1,50",
+      "unit": "ppm",
+      "result": "0,08",
       "status": "Conforme"
     },
     {
       "sequence": 31,
       "test": "Mercurio",
       "method": "MAW-MET-052",
-      "acceptance": "≤ 0,30 ppm",
-      "result": "0,01 ppm",
+      "lower_limit": null,
+      "upper_limit": "0,30",
+      "unit": "ppm",
+      "result": "0,01",
       "status": "Conforme"
     },
     {
       "sequence": 32,
       "test": "Níquel",
       "method": "MAW-MET-052",
-      "acceptance": "≤ 2,00 ppm",
-      "result": "0,19 ppm",
+      "lower_limit": null,
+      "upper_limit": "2,00",
+      "unit": "ppm",
+      "result": "0,19",
       "status": "Conforme"
     },
     {
       "sequence": 33,
       "test": "Cobre",
       "method": "MAW-MET-052",
-      "acceptance": "≤ 3,00 ppm",
-      "result": "0,42 ppm",
+      "lower_limit": null,
+      "upper_limit": "3,00",
+      "unit": "ppm",
+      "result": "0,42",
       "status": "Conforme"
     }
   ],

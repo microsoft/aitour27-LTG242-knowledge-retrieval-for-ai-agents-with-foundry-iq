@@ -1,6 +1,6 @@
 {
   "repository": "https://github.com/pamelafox/aitour27-caldova-data.git",
-  "commit": "dc8cdddb7cd6c4d1bd13fff6d6f8504dc3da0cbb",
+  "commit": "e6c42e34c8e15a845ee675d1667295a2262d0127",
   "corpora": [
     "invoice-investigation",
     "procurement",
