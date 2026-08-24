@@ -144,15 +144,20 @@ calculation or visualization.
 | “Was lot `LOT-MD-1026-A` released, and should Caldova pay the $125,600 yield adjustment?” | The Spanish certificate releases the lot. Actual released quantity was 7,200 kg and overall yield was 87.8%, within the approved 85-92% range. The adjustment used an 8,000 kg forecast and should be rejected. | Generate a stage-by-stage yield chart and show the $125,600 avoided charge. |
 | “Should Caldova approve BluePeak's $111,000 contamination-investigation charge? Cite the cause, inspection evidence, supply restriction, and corrective actions.” | Reject the pass-through fee because the supplier-maintained `TC-4` connection was reassembled with a pinched gasket and lacked a documented pressure-hold result. The scanned report identifies two major deficiencies and conditionally blocks new `BR-04` runs pending controls and verified CAPA. | Produce a compact evidence timeline or cause-and-effect graphic. |
 | “Review the supplier invoices and associated evidence. Which disputed charges should Caldova reject, and what is the total avoided cost?” | Synthesize the supported decisions across the invoice and evidence packets, cite each decision, and calculate the total only from retrieved supported amounts. | Generate a bar chart of disputed and approved amounts by supplier. |
+| “The certificate of analysis for lot `LOT-MD-1026-A` says every test passed. How narrow were those passes?” Restrict to tests with an upper limit and no lower limit, and exclude results reported as “less than” a value. | Retrieve all 33 numbered tests from the Spanish certificate, translate the names to English, and rank the 19 usable tests by result as a percentage of limit. Hausner ratio is closest to failing at 96.30% of its 1.35 limit, leaving 3.70% margin, followed by angle of repose at 86.50% and particle size D90 at 78.89%. | Markdown table of the ten closest to failing, worst first. No image, so it renders in the Foundry playground. |
 
-#### Verified KB 1 status (agent version 3, toolbox version 4)
+#### Verified KB 1 status (agent version 3, toolbox version 5)
 
 - The live Search index contains exactly the intended 25 KB 1 document titles and no sourcing, policy, or map documents.
-- All four headline questions return grounded answers with inline document and page citations where page metadata is available.
-- The temperature, yield, BluePeak, and aggregate prompts each produce the planned Code Interpreter visual.
+- All headline questions return grounded answers with inline document and page citations where page metadata is available.
+- Code Interpreter runs and returns correct calculations, but generated images do not display in the Foundry playground. The model emits a markdown link to a sandbox path such as `/mnt/data/plot.png`, which the browser cannot load. Prefer prompts that end in a markdown table rather than a chart.
 - Multilingual retrieval returns the Spanish certificate facts, and multimodal/OCR retrieval returns facts from the scanned GMP inspection report.
 - The four-case `builtin.response_completeness` evaluation completed with passing scores of 5, 4, 5, and 5. The yield case's only noted omission was the exact 87.8% figure in that evaluation response; a direct validation prompt returned it correctly.
 - Raw hosted responses currently contain inline citation text but no machine-readable citation annotations (`annotations` is empty).
+- Semantic chunking uses `maximumLength` 2000 tokens. At 500 the certificate's analytical table split into four fragments and the agent reported missing rows; at 2000 the whole table is retrievable.
+- `COA-MD-1026-A` was restructured upstream so the acceptance criteria occupy separate `LÍMITE INFERIOR`, `LÍMITE SUPERIOR`, and `UNIDAD` columns and the three qualitative tests sit in their own preceding table. All 33 rows index with no gaps or duplicates.
+- The `gpt-5.4` deployment runs at capacity 200. At 50 the demo prompts hit the rate limit when run back to back.
+- Use `scripts/debug_chunks.py` to inspect how a document chunked, including a side-by-side PDF and chunk viewer via `--html`.
 
 #### KB 2 ACL design and questions
 
@@ -412,3 +417,12 @@ End the session at 15:00.
 - The SDK defaults to the `2026-05-01-preview` Search API and supports semantic Content Understanding chunking, but its typed `ContentUnderstandingSkill` model does not expose the `modelName` and `modelDeployment` properties required to generate descriptions for embedded images, charts, and diagrams.
 - Stage 1 must therefore create or update the affected skillset through the SDK client's authenticated `send_request` method using a `2026-05-01-preview` REST payload. Other supported Search resources can continue to use typed SDK models.
 - Recheck the SDK when `12.1.0b2` or a newer version is released. Replace the REST payload with typed models once both properties are supported and the serialized request has been verified.
+
+### Code Interpreter charts do not display in the Foundry playground
+
+- Code Interpreter generates chart images correctly, but the playground does not render them. The model returns a markdown image link to a sandbox path, for example `![Temperature series](/mnt/data/ship_vc_1026_temp_plot.png)`, and the browser cannot load a file from the tool's isolated execution environment.
+- The documented retrieval path is to read the generated file back through the SDK, which is not available from the playground UI. See [Code Interpreter for Foundry agents](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/code-interpreter?pivots=python).
+- The playground also has no file-attachment affordance, so prompts cannot supply a CSV for the tool to chart.
+- Consequence for the demo: any question whose payoff is a rendered chart will appear to fail on stage. Prefer questions that end in a markdown table, a ranking, or an explicit calculation. The certificate-of-analysis spec-margin question was written for this reason.
+- Code Interpreter is also not invoked for small calculations, since the model does the arithmetic directly. It engages when the task involves enough rows to be worth parsing, such as the 30-row analytical results table.
+- Recheck whether the playground gains artifact rendering or file attachment. If it does, restore the temperature, yield, BluePeak, and aggregate-invoice questions to their charted form.
