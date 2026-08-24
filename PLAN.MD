@@ -5,7 +5,6 @@
 **FY27 AI Tour | Tech Frontier Lightning Talk | LTG242**
 
 - **Conversation:** Amplify your intelligence
-- **Customer Speaker(s)?:** __ #
 - **Local Customer Story?:** No
 - **Level:** 200
 - **As of:** 7/16/2026
@@ -37,33 +36,34 @@ Also discuss: MCP servers, Microsoft IQs, multi-tenant environments, network iso
 
 #### Act one: Retrieval patterns for AI agents
 
-**Scenario 1 (Graphics/Demo): Internal Knowledge assistant**
+**Scenario 1 (Graphics/Demo): Invoice Investigation Agent**
 
 - **Time:** 4 min
-- **Speaker:** TBD
-- Use indexers, skills, vectorization, hybrid search, Multilingual, multimodal.
-- Index SharePoint documents into Foundry IQ with ACLs.
+- Use Foundry IQ knowledge retrieval and Code Interpreter over the Caldova
+  invoice-evidence index.
+- Show cloud-based ingestion, multimodal extraction, hybrid search, and
+  citations and traces from an evidence-heavy invoice question.
 
-**Scenario 2 (Graphics/Demo): Customer Support Agent**
+**Scenario 2 (Graphics/Demo): Sourcing Review Agent with ACLs**
 
 - **Time:** 4 min
-- **Speaker:** TBD
-- Combine with MCP remote source.
-- Discuss federation vs indexing.
+- Use ACL-protected sourcing documents in ADLS Gen2.
+- Show security trimming for different principals and explain how ACLs preserve
+  document-level access controls during retrieval.
 
 #### Act two: Enterprise knowledge retrieval
 
-**Scenario 3 (Graphics/Demo): Enterprise assistant**
+**Scenario 3 (Graphics/Demo): Supplier Intelligence Agent with MCP**
 
 - **Time:** 3 min
-- **Speaker:** TBD
-- Add Work IQ.
-- Contrast with indexed SharePoint.
+- Combine the session document search index with current supplier data through
+  a remote PostgreSQL MCP server.
+- Show retrieval planning, merged results, source labels, and the Meridian
+  cross-source question.
 
 **Productionizing (Slides): Architecture decisions**
 
 - **Time:** 2 min
-- **Speaker:** TBD
 - Multi-tenancy.
 - Serverless vs dedicated deployments.
 
@@ -72,7 +72,6 @@ Also discuss: MCP servers, Microsoft IQs, multi-tenant environments, network iso
 **Next Steps: Additional Sessions, Learning, Resource**
 
 - **Time:** 2 min
-- **Speaker:** TBD
 
 **Evaluation Slide**
 
@@ -126,11 +125,13 @@ surrogates.
 |---|---|---|---|---|---|
 | **KB 1: Invoice evidence** | Complete: 25 PDFs comprising 15 invoices, 2 temperature reports, 6 operational reports, 1 Spanish certificate, and 1 scanned GMP inspection report. | None | **Invoice Investigation Agent** | Knowledge retrieval and Code Interpreter | Answer evidence-heavy invoice questions across searchable, multilingual, and scanned documents; calculate exposure and generate charts |
 | **KB 2: Confidential sourcing** | Generated: 11 PDFs comprising a purchasing policy, 9 procurement-chain documents, and `CAL-MAP-EVD-001.pdf`. | ADLS Gen2 POSIX-like ACL metadata enforced with the caller's Microsoft Entra token | **Sourcing Review Agent** | ACL-aware knowledge retrieval and Code Interpreter | Show that the same sourcing question returns different evidence and analysis for users with different access |
-| **KB 3: Supplier intelligence** | Generated document assets: the KB 2 corpus plus `CAL-MAP-SUP-001.pdf`. | PostgreSQL through a custom MCP server | **Supplier Intelligence Agent** | Knowledge retrieval, MCP, and Code Interpreter | Combine signed sourcing documents with current structured supplier performance and visualize the comparison |
+| **KB 3: Supplier intelligence** | The session document index used by KB 1. | PostgreSQL through a custom MCP server | **Supplier Intelligence Agent** | Knowledge retrieval, MCP, and Code Interpreter | Combine indexed evidence with current structured supplier facts |
 
-KB 3 intentionally builds on KB 2. This makes the progression easy to explain:
-first secure the indexed documents, then federate current operational facts
-without copying them into the index.
+KB 3 keeps the indexed document corpus and live relational data as separate
+sources. This makes the federation story easy to explain: retrieve signed
+document evidence from the index, then retrieve current structured facts through
+MCP without copying them into the index. ACL retrieval remains the separate KB 2
+scenario.
 
 #### KB 1 content and questions
 
@@ -192,34 +193,16 @@ facts.
 
 #### KB 3 PostgreSQL and MCP design
 
-The remote database should contain current, structured facts that change more
-often than signed sourcing documents. Use the canonical `sup-001` through
-`sup-018` identifiers shared by the sample-data supplier registry, procurement
-documents, Fabric model, and ontology.
-
-Recommended relational tables:
-
-| Table | Example fields | Why it belongs remotely |
-|---|---|---|
-| `suppliers` | supplier ID, legal name, status, risk tier, primary site | Current supplier master data |
-| `supplier_sites` | site, country, capabilities, regulatory status | Filterable current operating footprint |
-| `performance_periods` | supplier ID, month, on-time delivery, right-first-time quality, lead time, defect rate | Time-series metrics for comparisons and charts |
-| `capacity_snapshots` | supplier ID, as-of date, available and firm monthly capacity, utilization | Frequently changing capacity facts |
-| `audits` | supplier ID, audit date, rating, open critical or major actions | Current qualification and risk status |
-| `quality_events` | supplier ID, event date, severity, status, affected product | Operational risk signals |
-| `subcontractors` | supplier ID, subcontractor, service, approval status | Current approval and dependency checks |
-
-The MCP server should expose narrow read-only tools such as
-`get_supplier_profile`, `get_supplier_performance`, `get_supplier_capacity`,
-`get_open_quality_actions`, and `compare_suppliers`. It should not expose
-arbitrary SQL.
+The remote database contains current, structured facts about medicinal products,
+active substances, marketing authorizations, and manufacturers. The deployed MCP
+server exposes four narrow, read-only search tools: `search_products`,
+`search_substances`, `search_authorizations`, and `search_manufacturers`. It does
+not expose arbitrary SQL.
 
 Headline query:
 
-> Compare Summit Dose's commitments in the `CALD-201` RFP response, agreement
-> amendment, and purchase order with its current performance, capacity, audit
-> actions, and approved subcontractors. What has changed or needs attention?
-> Graph the relevant trends.
+> Which Caldova product uses the active substance in Meridian API Works' invoiced
+> `AUR-API-7` lot? Summarize the lot and Meridian's current manufacturer profile.
 
 Validation queries:
 
@@ -232,14 +215,14 @@ The Supplier Intelligence Agent should label document claims and MCP claims.
 
 #### Headline demo sequence
 
-1. **Scenario 1:** Use the Invoice Investigation Agent to answer the BluePeak
-   question across ordinary PDFs and the image-only inspection report, then
-   generate an evidence timeline.
+1. **Scenario 1:** Use the Invoice Investigation Agent to answer the temperature
+  excursion question across the temperature report and supporting evidence,
+  then show the citations and tool traces.
 2. **Scenario 2:** Use the Sourcing Review Agent to ask the same bidder-
    comparison question as a procurement evaluator and a supplier principal.
-3. **Scenario 3:** Use the Supplier Intelligence Agent to combine the signed
-   Summit Dose documents with current PostgreSQL facts through MCP and graph the
-   trends.
+3. **Scenario 3:** Use the Supplier Intelligence Agent to combine Meridian's
+  indexed invoice and certificate evidence with current manufacturer and
+  substance relationships through MCP.
 
 Every answer shown on stage should include citations. For cross-source answers,
 the speaker should explicitly identify whether each material claim came from
@@ -264,11 +247,18 @@ how one index can ground a decision across many document types.
 
 **Suggested graphics/demo beats**
 
-1. Show the completed 25-document invoice-evidence index.
-2. Ask whether BluePeak's $111,000 charge should be paid.
-3. Show citations spanning the invoice, deviation evidence, and image-only GMP inspection report.
-4. Have Code Interpreter create an evidence timeline or cause-and-effect graphic.
-5. Mention the Spanish Meridian certificate as the multilingual backup example.
+1. Show the Invoice Investigation Agent with Foundry IQ knowledge retrieval and
+  Code Interpreter as its two tools.
+2. Demonstrate the temperature-excursion question and show that the agent cites
+  the evidence, calls the tools needed for the answer, and exposes those calls
+  in traces.
+3. Explain the cloud ingestion path: Azure Blob Storage, Azure Content
+  Understanding, Azure OpenAI embeddings, and the Foundry IQ search index.
+4. Show multimodal extraction from the temperature report, including HTML table
+  output, image or chart descriptions, JSON chart data, metadata, and semantic
+  chunk boundaries.
+5. Show hybrid retrieval for the yield-and-powder-flow question, contrasting
+  keyword results, vector results, RRF fusion, and reranking.
 
 **Transition**
 
@@ -296,6 +286,14 @@ agreements, evaluations, and award documents.
 3. Ask the identical question as a supplier representative.
 4. Show the reduced evidence set and the agent's explicit statement that it cannot make a complete comparison.
 
+**Presentation gap**
+
+The current deck contains a generic list-level tutorial placeholder instead of
+this scenario. Replace it with an ACL-specific architecture or demo slide before
+publication. Show ADLS Gen2 document ACLs, Microsoft Entra group access, the
+caller token passed to retrieval, and different results for an evaluator and a
+supplier principal.
+
 **Transition**
 
 Keep the secure sourcing documents and add current structured supplier facts
@@ -312,16 +310,30 @@ why frequently changing relational facts are federated rather than indexed.
 
 **Key points**
 
-- Reuse the ACL-protected sourcing corpus.
-- Add read-only MCP tools over current supplier master, performance, capacity, audit, quality, and subcontractor data.
-- Distinguish signed document claims from current MCP claims and include as-of dates.
+- Use the session document search index together with a remote supplier database
+  through MCP.
+- Show that retrieval planning can generate multiple searches and select the
+  sources needed for a cross-source question.
+- Distinguish indexed document claims from current supplier-database claims.
 
 **Suggested graphics/demo beats**
 
-1. Start with Summit Dose's commitments in the indexed response, amendment, and purchase order.
-2. Add current Summit Dose facts from PostgreSQL through narrow MCP tools.
-3. Ask what changed or needs attention and show source labels and as-of dates.
-4. Have Code Interpreter graph the relevant performance, capacity, or quality trend.
+1. Show the Supplier Intelligence Agent with the session document search index
+  and remote supplier database as separate knowledge sources.
+2. Explain the knowledge-base flow: retrieval planning, generated search
+  queries, selected sources, merged results, and the activity log.
+3. Demonstrate the Meridian `AUR-API-7` question and show the indexed invoice
+  and certificate evidence alongside the current supplier-database relationship.
+4. Show the activity log and merged results, including filenames, snippets,
+  source labels, and document reranker scores.
+5. Label the combined output **Merged results**, not **Reranked results**. The
+  observed MCP reference score is not documented well enough to present as
+  comparable to the indexed-document scores.
+
+The Scenario 3 slide intentionally uses “Merged results” for the combined
+output and “Reranked results” for the post-ranking view because those labels are
+clearer for the audience. The slide shows three selected results from the full
+retrieval response.
 
 **Transition**
 
@@ -382,14 +394,9 @@ End the session at 15:00.
 
 ## Preparation checklist
 
-- [ ] Confirm the speaker for Scenario 1. **TBD**
-- [ ] Confirm the speaker for Scenario 2. **TBD**
-- [ ] Confirm the speaker for Scenario 3. **TBD**
-- [ ] Confirm the speaker for Productionizing. **TBD**
-- [ ] Confirm the speaker for Next Steps and the Evaluation Slide. **TBD**
 - [x] Build the Invoice Investigation Agent with KB 1 and Code Interpreter.
 - [ ] Build the Sourcing Review Agent with KB 2, ACL-aware retrieval, and Code Interpreter.
-- [ ] Build the Supplier Intelligence Agent with KB 3, read-only PostgreSQL MCP tools, and Code Interpreter.
+- [x] Build the Supplier Intelligence Agent with KB 3, read-only PostgreSQL MCP tools, and Code Interpreter.
 - [ ] Create the Productionizing architecture-decision slides. Exact diagrams and decision details: **TBD**
 - [x] Define the three knowledge-base boundaries, agents, tools, and headline questions.
 - [x] Generate KB 1's Spanish certificate and scanned GMP inspection report, bringing the corpus from 23 to 25 PDFs.
@@ -399,9 +406,9 @@ End the session at 15:00.
 - [ ] Upload KB 2's 11 PDFs to ADLS Gen2 and apply the evaluator, approver, and supplier ACL model through Microsoft Entra groups.
 - [ ] Configure the ADLS Gen2 indexer, permission-filter index field, ACL metadata synchronization, and caller-token query enforcement using the applicable preview API.
 - [ ] Validate the bidder-comparison query as a procurement evaluator and at least one supplier principal.
-- [ ] Seed PostgreSQL with current canonical supplier master, performance, capacity, audit, quality-event, and subcontractor data.
-- [ ] Implement and validate the narrow read-only MCP tools for KB 3.
-- [ ] Lock the expected Summit Dose differences and graph after the PostgreSQL seed data is final.
+- [ ] Extend PostgreSQL with supplier performance, capacity, audit, quality-event, and subcontractor data if the broader supplier-comparison scenario returns.
+- [x] Implement and validate the narrow read-only MCP tools for KB 3.
+- [x] Validate the Meridian `AUR-API-7` cross-source question and source labeling.
 - [ ] Add a slide-only comparison of indexed ADLS Gen2, MCP federation, and Work IQ.
 - [ ] Confirm the multi-tenant and network-isolation architecture details. **TBD**
 - [ ] Confirm the serverless and dedicated deployment comparison details. **TBD**
