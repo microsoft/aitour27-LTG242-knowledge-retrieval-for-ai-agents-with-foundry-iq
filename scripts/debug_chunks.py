@@ -16,12 +16,12 @@ from textwrap import shorten
 
 from azure.identity import AzureDeveloperCliCredential
 from azure.search.documents import SearchClient
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PDF_ROOT = REPO_ROOT / "sample-data" / "pdfs"
 
-load_dotenv(dotenv_path=REPO_ROOT / ".env", override=True)
+load_azd_env()
 
 INDEX_NAME = "session-documents"
 SELECT_FIELDS = [

@@ -4,7 +4,7 @@ import asyncio
 import os
 from typing import Any
 
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 from fastmcp import Client
 from fastmcp.client.transports import StreamableHttpTransport
 
@@ -81,7 +81,7 @@ async def test_server(server_url: str, api_key: str) -> None:
 
 def main() -> None:
     """Load deployment settings and run the MCP smoke test."""
-    load_dotenv(override=True)
+    load_azd_env()
     server_url = require_env("POSTGRES_MCP_URL")
     api_key = require_env("MCP_API_KEY")
     asyncio.run(test_server(server_url, api_key))

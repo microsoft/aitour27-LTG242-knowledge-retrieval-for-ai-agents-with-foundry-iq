@@ -10,7 +10,7 @@ type ConnectionConfig = {
   name: string
   category: string
   target: string
-  authType: 'AAD' | 'AccessKey' | 'AccountKey' | 'ApiKey' | 'CustomKeys' | 'ManagedIdentity' | 'None' | 'OAuth2' | 'PAT' | 'ProjectManagedIdentity' | 'SAS' | 'ServicePrincipal' | 'UsernamePassword'
+  authType: 'AAD' | 'AccessKey' | 'AccountKey' | 'AgenticIdentityToken' | 'AgenticUser' | 'AgentUserImpersonation' | 'ApiKey' | 'CustomKeys' | 'DeveloperConnection' | 'ManagedIdentity' | 'None' | 'OAuth2' | 'PAT' | 'ProjectManagedIdentity' | 'SAS' | 'ServicePrincipal' | 'UserEntraToken' | 'UsernamePassword' | 'UserTokenAndProjectManagedIdentity'
   audience: string?
   isSharedToAll: bool?
   credentials: object?

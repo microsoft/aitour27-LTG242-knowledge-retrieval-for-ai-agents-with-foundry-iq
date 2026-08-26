@@ -22,10 +22,13 @@ In Azure, the service uses its user-assigned managed identity to obtain short-li
 
 ## Local run
 
-Set `POSTGRES_HOST`, `POSTGRES_DATABASE`, `POSTGRES_USERNAME`, `MCP_API_KEY`, and either the Azure tenant or local password variables, then run:
+Select the azd environment containing the provisioned PostgreSQL settings. For a local
+PostgreSQL server, store the local overrides in that environment with `azd env set`, including
+`POSTGRES_PASSWORD`. Then run from the repository root:
 
 ```bash
-uv run --with-requirements requirements.txt python main.py
+azd env select <environment-name>
+uv run --with-requirements src/postgres-mcp/requirements.txt python src/postgres-mcp/main.py
 ```
 
 The MCP endpoint is available at `http://localhost:8010/mcp` and requires the same `X-MCP-API-Key` request header.

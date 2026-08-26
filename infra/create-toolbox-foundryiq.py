@@ -9,26 +9,28 @@ from azure.ai.projects.models import (
     ToolboxTool,
 )
 from azure.identity import AzureDeveloperCliCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 
-load_dotenv(dotenv_path=".env", override=True)
+load_azd_env()
 
 TOOLBOX_CONFIGS = (
     {
-        "name_env": "CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME",
         "name": "knowledge-retrieval-tools",
         "knowledge_base": "knowledge-retrieval-kb",
-        "connection_env": "AZURE_AI_SEARCH_KB_MCP_CONNECTION_NAME",
         "connection": "knowledge-base-mcp-connection",
         "description": "Invoice evidence retrieval and code interpreter tools.",
     },
     {
-        "name_env": "CUSTOM_SUPPLIER_INTELLIGENCE_TOOLBOX_NAME",
         "name": "supplier-intelligence-tools",
         "knowledge_base": "supplier-intelligence-kb",
-        "connection_env": "AZURE_AI_SEARCH_SUPPLIER_KB_MCP_CONNECTION_NAME",
         "connection": "supplier-intelligence-kb-mcp-connection",
         "description": "Supplier intelligence retrieval and code interpreter tools.",
+    },
+    {
+        "name": "sourcing-review-tools",
+        "knowledge_base": "sourcing-review-kb",
+        "connection": "sourcing-review-kb-mcp-connection",
+        "description": "Sourcing review with ACL-filtered evidence and code interpreter tools.",
     },
 )
 
@@ -40,10 +42,7 @@ def main() -> None:
     credential = AzureDeveloperCliCredential(tenant_id=os.environ["AZURE_TENANT_ID"])
     project = AIProjectClient(endpoint=endpoint, credential=credential)
     for config in TOOLBOX_CONFIGS:
-        toolbox_name = os.environ.get(config["name_env"], config["name"])
-        connection_name = os.environ.get(
-            config["connection_env"], config["connection"]
-        )
+        toolbox_name = config["name"]
         knowledge_base_mcp_url = (
             f"{search_endpoint.rstrip('/')}/knowledgebases/"
             f"{config['knowledge_base']}/mcp?api-version=2026-05-01-preview"
@@ -60,7 +59,7 @@ def main() -> None:
                 server_label="knowledge-base",
                 server_url=knowledge_base_mcp_url,
                 server_description="Retrieve grounded information from the scenario KB.",
-                project_connection_id=connection_name,
+                project_connection_id=config["connection"],
                 allowed_tools=["knowledge_base_retrieve"],
                 require_approval="never",
             ),

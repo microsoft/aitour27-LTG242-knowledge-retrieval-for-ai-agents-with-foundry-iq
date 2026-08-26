@@ -10,9 +10,9 @@ from agent_framework.observability import enable_instrumentation
 from agent_framework_foundry_hosting import FoundryToolbox, ResponsesHostServer
 from agent_framework_openai import OpenAIContentFilterException
 from azure.identity import AzureDeveloperCliCredential, ManagedIdentityCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 
-load_dotenv(dotenv_path=".env", override=True)
+load_azd_env(quiet=True)
 
 logger = logging.getLogger("agent-toolbox-foundryiq")
 
@@ -64,14 +64,31 @@ AGENT_CONFIGS = {
             "the question."
         ),
     },
+    "sourcing-review": {
+        "name": "SourcingReviewAgent",
+        "toolbox": "sourcing-review-tools",
+        "instructions": (
+            "You are Caldova's Sourcing Review Agent. Always use the knowledge-base tool "
+            "before answering and rely only on facts returned by that tool. Treat the retrieved "
+            "result set as the complete evidence available to the current caller; never infer "
+            "inaccessible bidders or evaluation scores. When comparing suppliers, use only the "
+            "documents and information your knowledge-base tool returns. Cite every material "
+            "claim inline using the retrieved document title and page number when available. "
+            "For scoring or weighted comparisons, pass only retrieved values to code interpreter "
+            "and return a Markdown table rather than image artifacts. Never assume or fabricate "
+            "missing supplier responses, cost data, or performance metrics. Explicitly state "
+            "when you cannot make a complete bidder comparison because some competitors' "
+            "responses or evaluation materials are not available to you. If a user asks for a "
+            "comparison that requires accessing confidential evaluation documents or competing "
+            "bidders' proposals that you cannot retrieve, clearly identify the missing evidence "
+            "and explain why the comparison cannot be completed with your current access."
+        ),
+    },
 }
 if AGENT_SCENARIO not in AGENT_CONFIGS:
     raise RuntimeError(f"Unknown AGENT_SCENARIO: {AGENT_SCENARIO}")
 AGENT_CONFIG = AGENT_CONFIGS[AGENT_SCENARIO]
-TOOLBOX_NAME = os.environ.get(
-    "CUSTOM_FOUNDRY_AGENT_TOOLBOX_NAME",
-    AGENT_CONFIG["toolbox"],
-)
+TOOLBOX_NAME = AGENT_CONFIG["toolbox"]
 CONTENT_FILTER_MESSAGE = (
     "I can't help with that request because it violates content safety policies. "
     "If you have a safer version of the question, I can help with that instead."

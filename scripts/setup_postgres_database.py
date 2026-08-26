@@ -5,7 +5,7 @@ import logging
 import os
 
 from azure.identity import AzureDeveloperCliCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
@@ -152,7 +152,7 @@ def _build_engine() -> AsyncEngine:
 
 
 async def main() -> None:
-    load_dotenv(override=True)
+    load_azd_env()
     engine = _build_engine()
     try:
         async with engine.begin() as conn:

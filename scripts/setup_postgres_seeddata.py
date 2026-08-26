@@ -8,7 +8,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 
 from azure.identity import AzureDeveloperCliCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
@@ -54,7 +54,7 @@ def _build_engine() -> AsyncEngine:
 
 
 async def main() -> None:
-    load_dotenv(override=True)
+    load_azd_env()
 
     suppliers_payload = _load_json("suppliers.json")
     ontology_payload = _load_json("medicinal-product-ontology.json")

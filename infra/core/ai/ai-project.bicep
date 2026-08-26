@@ -196,6 +196,22 @@ module supplierKnowledgeBaseMcpConnection 'connection.bicep' = {
   }
 }
 
+module sourcingReviewKbMcpConnection 'connection.bicep' = {
+  name: 'sourcing-review-kb-mcp-connection'
+  params: {
+    aiServicesAccountName: aiAccount.name
+    aiProjectName: aiAccount::project.name
+    connectionConfig: {
+      name: 'sourcing-review-kb-mcp-connection'
+      category: 'RemoteTool'
+      target: 'https://${azureAiSearch.outputs.searchServiceName}.search.windows.net/knowledgebases/sourcing-review-kb/mcp?api-version=2026-05-01-preview'
+      authType: 'UserEntraToken'
+      audience: 'https://search.azure.com'
+      isSharedToAll: true
+    }
+  }
+}
+
 output AZURE_AI_PROJECT_ENDPOINT string = aiAccount::project.properties.endpoints['AI Foundry API']
 output AZURE_OPENAI_ENDPOINT string = aiAccount.properties.endpoints['OpenAI Language Model Instance API']
 output accountId string = aiAccount.id
@@ -209,6 +225,7 @@ output search object = {
   serviceName: azureAiSearch.outputs.searchServiceName
   serviceEndpoint: 'https://${azureAiSearch.outputs.searchServiceName}.search.windows.net'
   connectionName: azureAiSearch.outputs.searchConnectionName
+  managedIdentityPrincipalId: azureAiSearch.outputs.searchServicePrincipalId
 }
 output storage object = {
   accountName: storage.outputs.storageAccountName

@@ -25,11 +25,15 @@ from azure.search.documents.indexes.models import (
     SearchIndexKnowledgeSource,
     SearchIndexKnowledgeSourceParameters,
 )
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 
-load_dotenv(dotenv_path=".env", override=True)
+load_azd_env()
 
-AGENT_NAMES = ("invoice-investigation-agent", "supplier-intelligence-agent")
+AGENT_NAMES = (
+    "invoice-investigation-agent",
+    "supplier-intelligence-agent",
+    "sourcing-review-agent",
+)
 SEARCH_DATA_CONTRIBUTOR_ROLE_ID = "8ebe5a00-799e-43f5-93ac-243d3dce84a7"
 INVOICE_KNOWLEDGE_BASE_NAME = "knowledge-retrieval-kb"
 SUPPLIER_KNOWLEDGE_BASE_NAME = "supplier-intelligence-kb"
@@ -151,30 +155,26 @@ def register_postgres_mcp_knowledge_source(
     )
 
 
-def get_agent_principal_id(agent_name: str) -> str | None:
-    """Return the managed identity principal ID when the hosted agent is deployed."""
+def get_agent_principal_id(agent_name: str) -> str:
+    """Return the managed identity principal ID for a deployed hosted agent."""
     command_env = os.environ.copy()
     command_env["AZURE_DEV_USER_AGENT"] = "microsoft_foundry_skill"
-    try:
-        result = subprocess.run(
-            [
-                "azd",
-                "ai",
-                "agent",
-                "show",
-                agent_name,
-                "--output",
-                "json",
-                "--no-prompt",
-            ],
-            check=True,
-            capture_output=True,
-            text=True,
-            env=command_env,
-        )
-    except subprocess.CalledProcessError:
-        print(f"Skipping Search access for undeployed agent {agent_name}.")
-        return None
+    result = subprocess.run(
+        [
+            "azd",
+            "ai",
+            "agent",
+            "show",
+            agent_name,
+            "--output",
+            "json",
+            "--no-prompt",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        env=command_env,
+    )
     agent = json.loads(result.stdout)
     principal_id = agent.get("instance_identity", {}).get("principal_id")
     if not principal_id:
@@ -200,8 +200,6 @@ def main() -> None:
     client = AuthorizationManagementClient(credential, subscription_id)
     for agent_name in AGENT_NAMES:
         principal_id = get_agent_principal_id(agent_name)
-        if principal_id is None:
-            continue
         assignment_name = str(
             uuid.uuid5(
                 uuid.NAMESPACE_URL,

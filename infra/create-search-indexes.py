@@ -1,4 +1,4 @@
-"""Create the Stage 1 Azure AI Search index and Foundry IQ knowledge base."""
+"""Create the Search indexes and Foundry IQ knowledge bases."""
 
 import asyncio
 import json
@@ -28,9 +28,9 @@ from azure.search.documents.knowledgebases.models import (
     KnowledgeRetrievalOutputMode,
 )
 from azure.storage.blob.aio import BlobServiceClient
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 
-load_dotenv(dotenv_path=".env", override=True)
+load_azd_env()
 
 REPO_ROOT = Path(__file__).parents[1]
 SAMPLE_DATA_ROOT = REPO_ROOT / "sample-data"
@@ -48,6 +48,11 @@ EMBEDDING_DIMENSIONS = 3072
 SEMANTIC_CONFIGURATION_NAME = "semantic-configuration"
 VECTOR_PROFILE_NAME = "vector-search-profile"
 INDEXER_POLL_SECONDS = 10
+
+# KB 2 ACL-aware resources
+KB2_CONTAINER_NAME = "kb2-sourcing"
+KB2_INDEX_NAME = "sourcing-documents"
+KB2_KNOWLEDGE_BASE_NAME = "sourcing-review-kb"
 
 
 def find_kb1_pdfs() -> tuple[list[Path], dict[str, Any]]:
@@ -119,6 +124,13 @@ def build_index(
                     "type": "Edm.String",
                     "filterable": True,
                     "retrievable": True,
+                    "stored": True,
+                },
+                {
+                    "name": "metadata_storage_path",
+                    "type": "Edm.String",
+                    "filterable": True,
+                    "retrievable": False,
                     "stored": True,
                 },
                 {
@@ -339,6 +351,290 @@ def build_indexer_payloads(
     }
 
 
+def build_kb2_acl_index(
+    index_name: str,
+    openai_endpoint: str,
+    embedding_deployment: str,
+    embedding_model: str,
+) -> SearchIndex:
+    """Build the ACL-aware KB 2 index with permission fields for document-level access control."""
+    return SearchIndex(
+        {
+            "name": index_name,
+            "fields": [
+                {
+                    "name": "chunk_id",
+                    "type": "Edm.String",
+                    "key": True,
+                    "searchable": True,
+                    "retrievable": True,
+                    "stored": True,
+                    "sortable": True,
+                    "analyzer": "keyword",
+                },
+                {
+                    "name": "parent_id",
+                    "type": "Edm.String",
+                    "filterable": True,
+                    "retrievable": True,
+                    "stored": True,
+                },
+                {
+                    "name": "title",
+                    "type": "Edm.String",
+                    "searchable": True,
+                    "retrievable": True,
+                    "stored": True,
+                },
+                {
+                    "name": "blob_path",
+                    "type": "Edm.String",
+                    "filterable": True,
+                    "retrievable": True,
+                    "stored": True,
+                },
+                {
+                    "name": "metadata_storage_path",
+                    "type": "Edm.String",
+                    "filterable": True,
+                    "retrievable": False,
+                    "stored": True,
+                },
+                {
+                    "name": "chunk",
+                    "type": "Edm.String",
+                    "searchable": True,
+                    "retrievable": True,
+                    "stored": True,
+                },
+                {
+                    "name": "page_number_from",
+                    "type": "Edm.Int32",
+                    "filterable": True,
+                    "retrievable": True,
+                    "stored": True,
+                    "sortable": True,
+                },
+                {
+                    "name": "page_number_to",
+                    "type": "Edm.Int32",
+                    "filterable": True,
+                    "retrievable": True,
+                    "stored": True,
+                    "sortable": True,
+                },
+                {
+                    "name": "image_path",
+                    "type": "Edm.String",
+                    "retrievable": True,
+                    "stored": True,
+                },
+                # Permission fields for ACL enforcement
+                {
+                    "name": "user_ids",
+                    "type": "Collection(Edm.String)",
+                    "permissionFilter": "userIds",
+                    "filterable": True,
+                    "retrievable": False,
+                    "stored": True,
+                },
+                {
+                    "name": "group_ids",
+                    "type": "Collection(Edm.String)",
+                    "permissionFilter": "groupIds",
+                    "filterable": True,
+                    "retrievable": False,
+                    "stored": True,
+                },
+                {
+                    "name": "text_vector",
+                    "type": "Collection(Edm.Single)",
+                    "searchable": True,
+                    "retrievable": False,
+                    "stored": False,
+                    "dimensions": EMBEDDING_DIMENSIONS,
+                    "vectorSearchProfile": VECTOR_PROFILE_NAME,
+                },
+            ],
+            "semantic": {
+                "defaultConfiguration": SEMANTIC_CONFIGURATION_NAME,
+                "configurations": [
+                    {
+                        "name": SEMANTIC_CONFIGURATION_NAME,
+                        "prioritizedFields": {
+                            "titleField": {"fieldName": "title"},
+                            "prioritizedContentFields": [{"fieldName": "chunk"}],
+                        },
+                    }
+                ],
+            },
+            "permissionFilterOption": "enabled",
+            "vectorSearch": {
+                "profiles": [
+                    {
+                        "name": VECTOR_PROFILE_NAME,
+                        "algorithm": "vector-search-algorithm",
+                        "vectorizer": "azure-openai-vectorizer",
+                    }
+                ],
+                "algorithms": [
+                    {
+                        "name": "vector-search-algorithm",
+                        "kind": "hnsw",
+                        "hnswParameters": {"metric": "cosine"},
+                    }
+                ],
+                "vectorizers": [
+                    {
+                        "name": "azure-openai-vectorizer",
+                        "kind": "azureOpenAI",
+                        "azureOpenAIParameters": {
+                            "resourceUri": openai_endpoint,
+                            "deploymentId": embedding_deployment,
+                            "modelName": embedding_model,
+                        },
+                    }
+                ],
+            },
+        }
+    )
+
+
+def build_kb2_indexer_payloads(
+    *,
+    index_name: str,
+    storage_resource_id: str,
+    foundry_endpoint: str,
+    openai_endpoint: str,
+    chat_model: str,
+    chat_deployment: str,
+    embedding_model: str,
+    embedding_deployment: str,
+) -> dict[str, tuple[str, dict[str, Any]]]:
+    """Build the ACL-aware KB 2 indexer pipeline with permission metadata ingestion."""
+    data_source_name = f"{index_name}-adls-source"
+    skillset_name = f"{index_name}-content-understanding"
+    indexer_name = f"{index_name}-adls-indexer"
+
+    # KB 2 uses ADLS Gen2 data source with HNS and permission ingestion
+    data_source = {
+        "name": data_source_name,
+        "type": "adlsgen2",
+        "credentials": {"connectionString": f"ResourceId={storage_resource_id};"},
+        "container": {"name": KB2_CONTAINER_NAME},
+        "indexerPermissionOptions": ["userIds", "groupIds"],
+    }
+
+    skillset = {
+        "name": skillset_name,
+        "description": (
+            "Semantic PDF chunking, image descriptions, and vectorization for "
+            "KB 2 procurement with ACL support."
+        ),
+        "skills": [
+            {
+                "@odata.type": "#Microsoft.Skills.Util.ContentUnderstandingSkill",
+                "name": "content-understanding",
+                "context": "/document",
+                "modelName": chat_model,
+                "modelDeployment": chat_deployment,
+                "chunkingProperties": {
+                    "method": "semantic",
+                    "unit": "tokens",
+                    "maximumLength": 2000,
+                },
+                "extractionOptions": ["images", "locationMetadata"],
+                "inputs": [{"name": "file_data", "source": "/document/file_data"}],
+                "outputs": [
+                    {"name": "text_sections", "targetName": "text_sections"},
+                    {"name": "normalized_images", "targetName": "normalized_images"},
+                ],
+            },
+            {
+                "@odata.type": "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill",
+                "name": "azure-openai-embedding",
+                "context": "/document/text_sections/*",
+                "resourceUri": openai_endpoint,
+                "deploymentId": embedding_deployment,
+                "modelName": embedding_model,
+                "dimensions": EMBEDDING_DIMENSIONS,
+                "inputs": [
+                    {"name": "text", "source": "/document/text_sections/*/content"}
+                ],
+                "outputs": [{"name": "embedding", "targetName": "text_vector"}],
+            },
+        ],
+        "cognitiveServices": {
+            "@odata.type": "#Microsoft.Azure.Search.AIServicesByIdentity",
+            "subdomainUrl": foundry_endpoint,
+            "identity": None,
+        },
+        "indexProjections": {
+            "selectors": [
+                {
+                    "targetIndexName": index_name,
+                    "parentKeyFieldName": "parent_id",
+                    "sourceContext": "/document/text_sections/*",
+                    "mappings": [
+                        {"name": "chunk", "source": "/document/text_sections/*/content"},
+                        {
+                            "name": "text_vector",
+                            "source": "/document/text_sections/*/text_vector",
+                        },
+                        {
+                            "name": "page_number_from",
+                            "source": (
+                                "/document/text_sections/*/locationMetadata/pageNumberFrom"
+                            ),
+                        },
+                        {
+                            "name": "page_number_to",
+                            "source": "/document/text_sections/*/locationMetadata/pageNumberTo",
+                        },
+                        {
+                            "name": "image_path",
+                            "source": "/document/text_sections/*/imagePath",
+                        },
+                        {"name": "title", "source": "/document/metadata_storage_name"},
+                        {"name": "blob_path", "source": "/document/metadata_storage_path"},
+                        {
+                            "name": "metadata_storage_path",
+                            "source": "/document/metadata_storage_path",
+                        },
+                        # ACL metadata from ADLS Gen2 indexer
+                        {"name": "user_ids", "source": "/document/metadata_user_ids"},
+                        {"name": "group_ids", "source": "/document/metadata_group_ids"},
+                    ],
+                }
+            ],
+            "parameters": {"projectionMode": "skipIndexingParentDocuments"},
+        },
+    }
+
+    indexer = {
+        "name": indexer_name,
+        "dataSourceName": data_source_name,
+        "targetIndexName": index_name,
+        "skillsetName": skillset_name,
+        "parameters": {
+            "batchSize": 1,
+            "configuration": {
+                "dataToExtract": "contentAndMetadata",
+                "parsingMode": "default",
+                "allowSkillsetToReadFileData": True,
+                "indexedFileNameExtensions": ".pdf",
+            },
+        },
+        "fieldMappings": [],
+        "outputFieldMappings": [],
+    }
+    return {
+        "datasources": (data_source_name, data_source),
+        "skillsets": (skillset_name, skillset),
+        "indexers": (indexer_name, indexer),
+    }
+
+
 async def upload_kb1_pdfs(
     storage_account_name: str,
     credential: Any,
@@ -503,8 +799,144 @@ async def create_knowledge_base(
     await client.create_or_update_knowledge_base(knowledge_base=knowledge_base)
 
 
+async def create_kb2_knowledge_base(
+    client: SearchIndexClient,
+    *,
+    index_name: str,
+    knowledge_base_name: str,
+    openai_endpoint: str,
+    model_deployment: str,
+    model_name: str,
+) -> None:
+    """Create the KB 2 ACL-aware knowledge base for sourcing review."""
+    source = SearchIndexKnowledgeSource(
+        name=index_name,
+        description=(
+            "Caldova procurement sourcing documents including RFP, supplier responses, "
+            "agreements, amendments, purchase orders, and evaluation evidence with "
+            "document-level access control based on Entra group membership."
+        ),
+        search_index_parameters=SearchIndexKnowledgeSourceParameters(
+            search_index_name=index_name,
+            source_data_fields=[
+                SearchIndexFieldReference(name=field_name)
+                for field_name in (
+                    "chunk_id",
+                    "parent_id",
+                    "title",
+                    "blob_path",
+                    "chunk",
+                    "page_number_from",
+                    "page_number_to",
+                    "image_path",
+                )
+            ],
+            search_fields=[SearchIndexFieldReference(name="chunk")],
+            semantic_configuration_name=SEMANTIC_CONFIGURATION_NAME,
+        ),
+    )
+    await client.create_or_update_knowledge_source(knowledge_source=source)
+    knowledge_sources = {source.name: KnowledgeSourceReference(name=source.name)}
+    try:
+        existing_knowledge_base = await client.get_knowledge_base(knowledge_base_name)
+    except ResourceNotFoundError:
+        pass
+    else:
+        knowledge_sources.update(
+            {
+                reference.name: reference
+                for reference in existing_knowledge_base.knowledge_sources
+            }
+        )
+    knowledge_base = KnowledgeBase(
+        name=knowledge_base_name,
+        description=(
+            "Sourcing review knowledge base with document-level access control "
+            "for the LTG242 hosted agent."
+        ),
+        models=[
+            KnowledgeBaseAzureOpenAIModel(
+                azure_open_ai_parameters=AzureOpenAIVectorizerParameters(
+                    resource_url=openai_endpoint,
+                    deployment_name=model_deployment,
+                    model_name=model_name,
+                )
+            )
+        ],
+        knowledge_sources=list(knowledge_sources.values()),
+        retrieval_reasoning_effort=KnowledgeRetrievalLowReasoningEffort(),
+        output_mode=KnowledgeRetrievalOutputMode.EXTRACTIVE_DATA,
+    )
+    await client.create_or_update_knowledge_base(knowledge_base=knowledge_base)
+
+
+async def configure_kb2(
+    *,
+    endpoint: str,
+    credential: Any,
+    storage_resource_id: str,
+    foundry_endpoint: str,
+    openai_endpoint: str,
+    model_deployment: str,
+    model_name: str,
+    embedding_deployment: str,
+    embedding_model: str,
+) -> None:
+    """Create and run the ACL-aware KB 2 indexing pipeline."""
+    index = build_kb2_acl_index(
+        KB2_INDEX_NAME,
+        openai_endpoint,
+        embedding_deployment,
+        embedding_model,
+    )
+    async with SearchIndexClient(endpoint=endpoint, credential=credential) as index_client:
+        await index_client.create_or_update_index(index)
+        removed_chunks = await clear_index_documents(
+            endpoint,
+            KB2_INDEX_NAME,
+            credential,
+        )
+        await create_kb2_knowledge_base(
+            index_client,
+            index_name=KB2_INDEX_NAME,
+            knowledge_base_name=KB2_KNOWLEDGE_BASE_NAME,
+            openai_endpoint=openai_endpoint,
+            model_deployment=model_deployment,
+            model_name=model_name,
+        )
+
+    pipeline = build_kb2_indexer_payloads(
+        index_name=KB2_INDEX_NAME,
+        storage_resource_id=storage_resource_id,
+        foundry_endpoint=foundry_endpoint,
+        openai_endpoint=openai_endpoint,
+        chat_model=model_name,
+        chat_deployment=model_deployment,
+        embedding_model=embedding_model,
+        embedding_deployment=embedding_deployment,
+    )
+    async with SearchIndexerClient(endpoint=endpoint, credential=credential) as indexer_client:
+        for collection, (name, payload) in pipeline.items():
+            await put_preview_resource(indexer_client, endpoint, collection, name, payload)
+        indexer_name = pipeline["indexers"][0]
+        await indexer_client.reset_indexer(indexer_name)
+        started_after = datetime.now(UTC) - timedelta(seconds=5)
+        await indexer_client.run_indexer(indexer_name)
+        indexed_items, failed_items = await wait_for_indexer(
+            indexer_client,
+            indexer_name,
+            started_after,
+        )
+
+    print(
+        f"Removed {removed_chunks} stale chunks and indexed {indexed_items} items "
+        f"with {failed_items} failures for knowledge base "
+        f"'{KB2_KNOWLEDGE_BASE_NAME}'."
+    )
+
+
 async def main_async() -> None:
-    """Upload KB 1 PDFs and configure its indexer-backed knowledge base."""
+    """Configure the KB 1 and ACL-aware KB 2 indexing pipelines."""
     endpoint = os.environ["AZURE_AI_SEARCH_SERVICE_ENDPOINT"]
     openai_endpoint = os.environ["AZURE_OPENAI_ENDPOINT"]
     model_deployment = os.environ["AZURE_AI_MODEL_DEPLOYMENT_NAME"]
@@ -515,6 +947,7 @@ async def main_async() -> None:
     ai_account_name = os.environ["AZURE_AI_ACCOUNT_NAME"]
     subscription_id = os.environ["AZURE_SUBSCRIPTION_ID"]
     resource_group = os.environ["AZURE_RESOURCE_GROUP"]
+    kb2_storage_resource_id = os.environ["KB2_STORAGE_ACCOUNT_ID"]
     storage_resource_id = (
         f"/subscriptions/{subscription_id}/resourceGroups/{resource_group}"
         f"/providers/Microsoft.Storage/storageAccounts/{storage_account_name}"
@@ -576,6 +1009,17 @@ async def main_async() -> None:
             f"for knowledge base '{KNOWLEDGE_BASE_NAME}'. Source: "
             f"{provenance.get('repository', 'unknown')} at "
             f"{provenance.get('commit', 'unknown')}, corpus '{KB1_CORPUS_NAME}'."
+        )
+        await configure_kb2(
+            endpoint=endpoint,
+            credential=credential,
+            storage_resource_id=kb2_storage_resource_id,
+            foundry_endpoint=foundry_endpoint,
+            openai_endpoint=openai_endpoint,
+            model_deployment=model_deployment,
+            model_name=model_name,
+            embedding_deployment=embedding_deployment,
+            embedding_model=embedding_model,
         )
     finally:
         await credential.close()

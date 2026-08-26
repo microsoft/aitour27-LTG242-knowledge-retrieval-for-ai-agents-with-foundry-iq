@@ -8,9 +8,11 @@ from typing import Any
 
 from azure.ai.projects import AIProjectClient
 from azure.identity import AzureDeveloperCliCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 
 REPO_ROOT = Path(__file__).parents[1]
+load_azd_env()
+
 AGENT_ROOT = REPO_ROOT / "src" / "agent-toolbox-foundryiq"
 DATASET_PATH = (
     AGENT_ROOT / ".foundry" / "datasets" / "response_completeness_ground_truth.jsonl"
@@ -23,8 +25,6 @@ AGENT_NAME = os.environ.get(
     "invoice-investigation-agent",
 )
 EXPECTED_CASE_COUNT = 4
-
-load_dotenv(REPO_ROOT / ".env", override=True)
 
 
 def serialize(value: Any) -> Any:

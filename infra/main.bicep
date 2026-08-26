@@ -165,8 +165,25 @@ module postgresMcp 'postgres-mcp.bicep' = if (enablePostgres) {
   }
 }
 
+module kb2Storage 'core/storage/storage-kb2-hns.bicep' = {
+  scope: rg
+  name: 'kb2-storage'
+  params: {
+    resourceName: 'st${resourceToken}kb2'
+    location: location
+    tags: tags
+    searchServicePrincipalId: aiProject.outputs.search.managedIdentityPrincipalId
+    searchServicePrincipalType: 'ServicePrincipal'
+    provisioningPrincipalId: principalId
+    provisioningPrincipalType: principalType
+  }
+}
+
 output AZURE_RESOURCE_GROUP string = resourceGroupName
 output AZURE_AI_ACCOUNT_ID string = aiProject.outputs.accountId
+// azd persists these canonical outputs in its active environment and uses them
+// to target the Foundry project during hosted-agent deployment. See:
+// https://learn.microsoft.com/azure/foundry/agents/how-to/deploy-hosted-agent#deploy-using-the-azure-developer-cli-or-vs-code
 output AZURE_AI_PROJECT_ID string = aiProject.outputs.projectId
 output AZURE_AI_FOUNDRY_PROJECT_ID string = aiProject.outputs.projectId
 output AZURE_AI_ACCOUNT_NAME string = aiProject.outputs.aiServicesAccountName
@@ -197,7 +214,6 @@ output AZURE_TENANT_ID string = tenant().tenantId
 output POSTGRES_HOST string = enablePostgres ? postgresServer!.outputs.POSTGRES_DOMAIN_NAME : ''
 output POSTGRES_DATABASE string = enablePostgres ? postgresDatabaseName : ''
 output POSTGRES_SSL string = enablePostgres ? 'require' : ''
-output POSTGRES_AUTH_TYPE string = enablePostgres ? 'EntraOnly' : ''
 output POSTGRES_AAD_ADMIN_NAME string = enablePostgres ? postgresEntraAdministratorName : ''
 output POSTGRES_USERNAME string = enablePostgres ? postgresEntraAdministratorName : ''
 output POSTGRES_MCP_URL string = enablePostgres ? '${postgresMcp!.outputs.SERVICE_POSTGRES_MCP_URI}/mcp' : ''
@@ -209,3 +225,8 @@ output SERVICE_POSTGRES_MCP_IDENTITY_NAME string = enablePostgres ? postgresMcp!
 output SERVICE_POSTGRES_MCP_IMAGE_NAME string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_IMAGE_NAME : ''
 output SERVICE_POSTGRES_MCP_NAME string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_NAME : ''
 output SERVICE_POSTGRES_MCP_URI string = enablePostgres ? postgresMcp!.outputs.SERVICE_POSTGRES_MCP_URI : ''
+
+output KB2_STORAGE_ACCOUNT_NAME string = kb2Storage.outputs.storageAccountName
+output KB2_STORAGE_ACCOUNT_ID string = kb2Storage.outputs.storageAccountId
+output KB2_CONTAINER_NAME string = kb2Storage.outputs.containerName
+output KB2_CONTAINER_RESOURCE_ID string = kb2Storage.outputs.containerResourceId

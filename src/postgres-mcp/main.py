@@ -10,14 +10,14 @@ from typing import Any
 
 import psycopg
 from azure.identity import AzureDeveloperCliCredential, ManagedIdentityCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 from fastmcp import FastMCP
 from sqlalchemy import create_engine, text
 from starlette.middleware import Middleware
 from starlette.responses import PlainTextResponse
 
 logger = logging.getLogger("ltg242.postgres_mcp")
-load_dotenv(override=True)
+load_azd_env(quiet=True)
 
 
 def _require_env(name: str) -> str:

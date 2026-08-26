@@ -5,7 +5,7 @@ import logging
 import os
 
 from azure.identity import AzureDeveloperCliCredential
-from dotenv import load_dotenv
+from dotenv_azd import load_azd_env
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 
@@ -24,7 +24,7 @@ def _quote_identifier(value: str) -> str:
 
 
 async def main() -> None:
-    load_dotenv(override=True)
+    load_azd_env()
     host = _require_env("POSTGRES_HOST")
     if not host.endswith(".database.azure.com"):
         logger.info("Skipping Entra role setup for non-Azure PostgreSQL.")
