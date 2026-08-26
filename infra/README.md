@@ -141,7 +141,6 @@ duplicated, or a PDF exists outside the manifest.
 
 ## References
 
-- [ACL design plan](../acls_plan.md)
 - [Azure AI Search document-level access control](https://learn.microsoft.com/azure/search/search-document-level-access-overview)
 - [ADLS Gen2 indexer ACL ingestion](https://learn.microsoft.com/azure/search/search-indexer-access-control-lists-and-role-based-access)
 - [Foundry MCP tool authentication](https://learn.microsoft.com/azure/foundry/agents/how-to/tools/model-context-protocol)
