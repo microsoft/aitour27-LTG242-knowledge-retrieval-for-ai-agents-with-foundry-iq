@@ -27,7 +27,8 @@ Discover how Foundry IQ connects knowledge across diverse data sources while pre
 
 ### Notes
 
-Also discuss: MCP servers, Microsoft IQs, multi-tenant environments, network isolation, and serverless versus dedicated deployments.
+Also discuss: MCP servers, Microsoft IQs, multi-tenant environments, and
+serverless versus dedicated deployments.
 
 ### Session authors
 
@@ -48,10 +49,9 @@ Also discuss: MCP servers, Microsoft IQs, multi-tenant environments, network iso
 
 - **Time:** 4 min
 - Use ACL-protected sourcing documents in ADLS Gen2.
-- Show security trimming for different principals and explain how ACLs preserve
+- Show the complete indexed corpus administratively, then show caller-specific
+  security trimming for the signed-in user and explain how ACLs preserve
   document-level access controls during retrieval.
-
-#### Act two: Enterprise knowledge retrieval
 
 **Scenario 3 (Graphics/Demo): Supplier Intelligence Agent with MCP**
 
@@ -124,7 +124,7 @@ surrogates.
 | Configuration | Indexed content | Security or additional source | Corresponding agent | Agent tools | Demo purpose |
 |---|---|---|---|---|---|
 | **KB 1: Invoice evidence** | Complete: 25 PDFs comprising 15 invoices, 2 temperature reports, 6 operational reports, 1 Spanish certificate, and 1 scanned GMP inspection report. | None | **Invoice Investigation Agent** | Knowledge retrieval and Code Interpreter | Answer evidence-heavy invoice questions across searchable, multilingual, and scanned documents; calculate exposure and generate charts |
-| **KB 2: Confidential sourcing** | Generated: 11 PDFs comprising a purchasing policy, 9 procurement-chain documents, and `CAL-MAP-EVD-001.pdf`. | ADLS Gen2 POSIX-like ACL metadata enforced with the caller's Microsoft Entra token | **Sourcing Review Agent** | ACL-aware knowledge retrieval and Code Interpreter | Show that the same sourcing question returns different evidence and analysis for users with different access |
+| **KB 2: Confidential sourcing** | Generated: 12 PDFs comprising 9 procurement-chain documents and 3 policy or diagram documents. | ADLS Gen2 POSIX-like ACL metadata enforced with the caller's Microsoft Entra token | **Sourcing Review Agent** | ACL-aware knowledge retrieval and Code Interpreter | Show that the full corpus remains indexed while the signed-in user retrieves only authorized evidence |
 | **KB 3: Supplier intelligence** | The session document index used by KB 1. | PostgreSQL through a custom MCP server | **Supplier Intelligence Agent** | Knowledge retrieval, MCP, and Code Interpreter | Combine indexed evidence with current structured supplier facts |
 
 KB 3 keeps the indexed document corpus and live relational data as separate
@@ -178,18 +178,23 @@ synchronized ACL metadata.
 | Summit Dose representative | RFP, Summit Dose response, Summit Dose agreement, and any awarded documents intentionally shared with Summit Dose |
 | Atlas Regional representative | RFP, Atlas Regional response, and Atlas Regional agreement |
 
-Run the same prompt as at least two principals:
+Run the same prompt through two views:
 
 > Compare the bidders for `RFP-CAL-OSD-2026-01`. Which supplier should be
 > selected, what are the key tradeoffs, and what evidence supports the answer?
 > Create a weighted-score chart.
 
-The procurement evaluator should retrieve all three bids and support the Summit
-Dose award. A supplier principal must not retrieve competitors' responses
-or confidential evaluation evidence; the agent should state that it cannot
-make a complete comparison from the accessible evidence rather than infer the
-missing bids. Code Interpreter must operate only on the ACL-filtered retrieved
-facts.
+The administrative Search view should show that all 12 documents are indexed.
+The signed-in user, acting as a Summit Dose representative, must not retrieve
+competitors' responses or confidential evaluation evidence; the agent should
+state that it cannot make a complete comparison from the accessible evidence
+rather than infer the missing bids. Code Interpreter must operate only on the
+ACL-filtered retrieved facts.
+
+The demo uses one signed-in user because the session owner cannot create or
+manage additional tenant users. It therefore demonstrates corpus completeness
+and caller-specific trimming, not a live comparison between multiple user
+accounts.
 
 #### KB 3 PostgreSQL and MCP design
 
@@ -218,8 +223,9 @@ The Supplier Intelligence Agent should label document claims and MCP claims.
 1. **Scenario 1:** Use the Invoice Investigation Agent to answer the temperature
   excursion question across the temperature report and supporting evidence,
   then show the citations and tool traces.
-2. **Scenario 2:** Use the Sourcing Review Agent to ask the same bidder-
-   comparison question as a procurement evaluator and a supplier principal.
+2. **Scenario 2:** Show the complete sourcing corpus administratively, then use
+  the Sourcing Review Agent to ask the bidder-comparison question as the
+  signed-in restricted user.
 3. **Scenario 3:** Use the Supplier Intelligence Agent to combine Meridian's
   indexed invoice and certificate evidence with current manufacturer and
   substance relationships through MCP.
@@ -243,7 +249,7 @@ how one index can ground a decision across many document types.
 - Cover indexers, built-in and custom skills, vectorization, and hybrid search.
 - Include multilingual and multimodal content.
 - Add Code Interpreter for calculations and visual responses.
-- Identify where CU fits in the retrieval choices; exact treatment is TBD.
+- Show where Content Understanding fits in the ingestion and retrieval choices.
 
 **Suggested graphics/demo beats**
 
@@ -275,24 +281,24 @@ agreements, evaluations, and award documents.
 **Key points**
 
 - Use a separate knowledge base sourced from ACL-protected ADLS Gen2 content.
-- Ask the same bidder-comparison question as two principals.
+- Contrast the complete administrative corpus with the signed-in user's
+  ACL-trimmed retrieval result.
 - Show that inaccessible competitor evidence is neither cited nor inferred.
 - Add Code Interpreter only after retrieval so charts reflect the caller's accessible evidence.
 
 **Suggested graphics/demo beats**
 
-1. Ask the bidder-comparison question as a procurement evaluator.
-2. Show the complete comparison, Summit Dose recommendation, citations, and weighted-score chart.
-3. Ask the identical question as a supplier representative.
-4. Show the reduced evidence set and the agent's explicit statement that it cannot make a complete comparison.
+1. Show all 12 source documents in the administrative Search view.
+2. Ask the bidder-comparison question through the Sourcing Review Agent as the
+  signed-in Summit Dose representative.
+3. Show the reduced evidence set and the agent's explicit statement that it
+  cannot make a complete comparison.
 
-**Presentation gap**
+**Presentation status**
 
-The current deck contains a generic list-level tutorial placeholder instead of
-this scenario. Replace it with an ACL-specific architecture or demo slide before
-publication. Show ADLS Gen2 document ACLs, Microsoft Entra group access, the
-caller token passed to retrieval, and different results for an evaluator and a
-supplier principal.
+The deck includes ACL-specific ingestion and query-time security-trimming
+slides showing ADLS Gen2 document ACLs, Microsoft Entra group access, and the
+caller token passed to retrieval.
 
 **Transition**
 
@@ -348,17 +354,15 @@ Summarize the enterprise architecture choices that shape a production deployment
 **Key points**
 
 - Discuss multi-tenant environments.
-- Discuss network isolation.
 - Compare serverless and dedicated deployment models.
 - Tie deployment choices back to the indexed, federated, and enterprise retrieval patterns already shown.
 - Mention Work IQ as a permission-aware Microsoft 365 grounding option that was intentionally kept out of the live demo.
 
 **Suggested slide beats**
 
-1. Show a compact architecture-decision view covering indexing, ACLs, federation, multi-tenancy, and network isolation.
+1. Show a compact architecture-decision view covering indexing, ACLs, federation, and multi-tenancy.
 2. Compare serverless and dedicated deployments.
 3. Place Work IQ on the broader enterprise-source map as a slide-only option.
-4. Keep selection criteria, topology, limits, and recommendations as TBD unless they are confirmed in the session materials.
 
 **Transition**
 
@@ -378,15 +382,15 @@ Reinforce the retrieval choices covered in the talk and direct attendees to conf
 - Recap built-in skills, custom skills, indexers, and CU.
 - Recap ACL preservation for indexed content.
 - Recap MCP servers, Microsoft IQ integrations, and federation versus indexing.
-- Recap multi-tenancy, network isolation, and serverless versus dedicated deployments.
-- Point to additional sessions, learning, and resources; exact items and links are TBD.
-- Ask attendees to complete an evaluation; exact slide details are TBD.
+- Recap multi-tenancy and serverless versus dedicated deployments.
+- Point to the confirmed learning and resource links on the final slide.
+- Ask attendees to complete the event evaluation.
 
 **Suggested slide beats**
 
 1. Show one concise takeaway for each retrieval and production theme.
-2. Show confirmed additional sessions, learning, and resources; content and links are TBD.
-3. End on the evaluation slide and ask attendees to complete one; wording and mechanism are TBD.
+2. Show confirmed learning and resource links.
+3. End on the evaluation slide and ask attendees to complete the event evaluation.
 
 **Transition**
 
@@ -395,26 +399,25 @@ End the session at 15:00.
 ## Preparation checklist
 
 - [x] Build the Invoice Investigation Agent with KB 1 and Code Interpreter.
-- [ ] Build the Sourcing Review Agent with KB 2, ACL-aware retrieval, and Code Interpreter.
+- [x] Build the Sourcing Review Agent with KB 2, ACL-aware retrieval, and Code Interpreter.
 - [x] Build the Supplier Intelligence Agent with KB 3, read-only PostgreSQL MCP tools, and Code Interpreter.
-- [ ] Create the Productionizing architecture-decision slides. Exact diagrams and decision details: **TBD**
+- [x] Create the Productionizing architecture-decision slides.
 - [x] Define the three knowledge-base boundaries, agents, tools, and headline questions.
 - [x] Generate KB 1's Spanish certificate and scanned GMP inspection report, bringing the corpus from 23 to 25 PDFs.
 - [x] Upload KB 1's 25 target PDFs without uploading JSON, HTML, templates, or image assets.
 - [x] Configure and validate hybrid, multilingual, OCR, and multimodal retrieval for the KB 1 questions.
-- [x] Generate KB 2's 11 policy, procurement-chain, and evidence-map PDFs.
-- [ ] Upload KB 2's 11 PDFs to ADLS Gen2 and apply the evaluator, approver, and supplier ACL model through Microsoft Entra groups.
-- [ ] Configure the ADLS Gen2 indexer, permission-filter index field, ACL metadata synchronization, and caller-token query enforcement using the applicable preview API.
-- [ ] Validate the bidder-comparison query as a procurement evaluator and at least one supplier principal.
-- [ ] Extend PostgreSQL with supplier performance, capacity, audit, quality-event, and subcontractor data if the broader supplier-comparison scenario returns.
+- [x] Generate KB 2's 12 procurement, policy, and diagram PDFs.
+- [x] Implement upload of KB 2's 12 PDFs to ADLS Gen2 with member and non-member Microsoft Entra group ACLs.
+- [x] Configure the ADLS Gen2 indexer, permission-filter index field, ACL metadata synchronization, and caller-token query enforcement using the applicable preview API.
+- [ ] Validate that the administrative Search view contains all 12 documents and the signed-in Sourcing Review Agent retrieves only the member group's authorized evidence.
 - [x] Implement and validate the narrow read-only MCP tools for KB 3.
 - [x] Validate the Meridian `AUR-API-7` cross-source question and source labeling.
-- [ ] Add a slide-only comparison of indexed ADLS Gen2, MCP federation, and Work IQ.
-- [ ] Confirm the multi-tenant and network-isolation architecture details. **TBD**
-- [ ] Confirm the serverless and dedicated deployment comparison details. **TBD**
+- [x] Add a slide-only comparison of indexed ADLS Gen2, MCP federation, and Work IQ.
+- [x] Confirm the multi-tenant architecture details.
+- [x] Confirm the serverless and dedicated deployment comparison details.
 - [ ] Confirm all demo environments, accounts, permissions, data, connectivity, and prerequisites. **TBD**
-- [ ] Confirm additional sessions, learning resources, and resource links. **TBD**
-- [ ] Confirm the evaluation slide wording, link or mechanism, and display requirements. **TBD**
+- [x] Confirm the final learning and resource links.
+- [x] Add the event evaluation request to the final slide.
 - [ ] Rehearse to the segment limits: 4, 4, 3, 2, and 2 minutes.
 - [ ] Verify that the complete run of show ends at exactly 15 minutes.
 
