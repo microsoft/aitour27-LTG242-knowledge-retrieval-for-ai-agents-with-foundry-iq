@@ -180,9 +180,7 @@ synchronized ACL metadata.
 
 Run the same prompt through two views:
 
-> Compare the bidders for `RFP-CAL-OSD-2026-01`. Which supplier should be
-> selected, what are the key tradeoffs, and what evidence supports the answer?
-> Create a weighted-score chart.
+> Can you review the bids for `RFP-CAL-OSD-2026-01` and recommend a supplier?
 
 The administrative Search view should show that all 12 documents are indexed.
 The signed-in user, acting as a Summit Dose representative, must not retrieve
@@ -223,9 +221,9 @@ The Supplier Intelligence Agent should label document claims and MCP claims.
 1. **Scenario 1:** Use the Invoice Investigation Agent to answer the temperature
   excursion question across the temperature report and supporting evidence,
   then show the citations and tool traces.
-2. **Scenario 2:** Show the complete sourcing corpus administratively, then use
-  the Sourcing Review Agent to ask the bidder-comparison question as the
-  signed-in restricted user.
+2. **Scenario 2:** Ask the Sourcing Review Agent the bidder-comparison question
+  as the signed-in restricted user, then show in the administrative Search view
+  that the inaccessible documents exist in the complete sourcing corpus.
 3. **Scenario 3:** Use the Supplier Intelligence Agent to combine Meridian's
   indexed invoice and certificate evidence with current manufacturer and
   substance relationships through MCP.
@@ -233,6 +231,189 @@ The Supplier Intelligence Agent should label document claims and MCP claims.
 Every answer shown on stage should include citations. For cross-source answers,
 the speaker should explicitly identify whether each material claim came from
 the index or MCP. Mention Work IQ as a slide-only extension to the architecture.
+
+### Demo recording script
+
+Record each demo as a separate clip. Start from a clean conversation, keep the
+browser zoom and window size consistent, and pause briefly after opening each
+activity or citation panel so it remains readable in the recording. Keep a
+capture of each validated result as a backup for the live presentation.
+
+#### Recording 1: Invoice Investigation Agent (4 minutes)
+
+##### 0:00-0:35 - Establish the agent and corpus
+
+From the repository root, get the agent details and playground link with:
+
+```bash
+azd ai agent show invoice-investigation-agent
+```
+
+On screen: Open `invoice-investigation-agent` in the Foundry playground and
+show its Foundry IQ and Code Interpreter tools.
+
+Say:
+
+> Foundry IQ is the knowledge layer for this Invoice Investigation Agent. Its
+> index contains 25 PDFs: invoices, operational reports, a Spanish certificate,
+> and a scanned inspection report. The agent retrieves grounded evidence first,
+> then uses Code Interpreter when the evidence requires calculation.
+
+##### 0:35-0:50 - Submit the question
+
+```text
+For lot LOT-MD-1026-A, how close were the passing tests to their upper limits? Calculate each test's upper-limit utilization and remaining margin and return the ten closest to their limits.
+```
+
+##### 0:50-2:45 - Review the grounded answer
+
+On screen: Expand the tool activity, then show the Markdown table and inline
+certificate citations.
+
+Expected result: The agent retrieves all 33 tests, identifies 19 usable tests,
+and ranks the ten closest to their upper limit. Hausner ratio leads at 96.30%
+of its 1.35 limit, leaving a 3.70% margin; angle of repose follows at 86.50%,
+then particle size D90 at 78.89%.
+
+Say:
+
+> This is an English question over a Spanish certificate. Foundry IQ retrieves
+> the semantically chunked certificate, and Code Interpreter performs the row
+> filtering and ranking over grounded values. The response stays readable as a
+> Markdown table and cites the source document.
+
+##### 2:45-4:00 - Explain the retrieval path and transition
+
+Say:
+
+> The ingestion path combines Content Understanding, multilingual embeddings,
+> vector and keyword retrieval, semantic ranking, and page metadata. The
+> important design choice is that calculation happens after retrieval and only
+> over retrieved facts. Now let's move from broad document retrieval to evidence
+> that changes with the caller's access.
+
+Fallback: Use a validated capture of the complete table, tool activity, and
+citations if the response is slow or incomplete. Do not request a chart;
+generated image artifacts do not render in the Foundry playground.
+
+#### Recording 2: Sourcing Review Agent with ACLs (4 minutes)
+
+**Pre-recording gate:** Do not record this as a successful ACL demo until the
+administrative Search Explorer view shows all 12 documents and the signed-in
+member-group user retrieves only shared and Summit Dose evidence. The result
+must explicitly report unavailable competitor evidence and must not reveal or
+infer Aster Ridge or Atlas Regional response content.
+
+##### 0:00-0:20 - Submit the restricted-user question
+
+On screen: Open the
+[Sourcing Review Agent playground](https://ai.azure.com/nextgen/r/eogHKHDTSdCt3kJQcWz9lA,rg-pf-ltg242,,ai-account-uqu2yu2cnxuys,ai-project-pf-ltg242/build/agents/sourcing-review-agent/build?version=2)
+while signed in as the configured member-group user, then submit:
+
+```text
+Can you review the bids for RFP-CAL-OSD-2026-01 and recommend a supplier?
+```
+
+##### 0:20-2:15 - Review the security-trimmed result
+
+On screen: Show the answer, citations, and retrieved document titles.
+
+Expected result after the pre-recording gate passes: Only shared and Summit
+Dose evidence appears. The agent states that it cannot complete a three-bidder
+comparison because competing responses or confidential evaluation evidence are
+unavailable. It does not invent scores or recommend a winner from missing bids.
+
+Say:
+
+> The agent cannot make a complete comparison because this signed-in user
+> cannot retrieve the competing bids or confidential evaluation evidence. Now
+> let's confirm that those documents exist in the indexed corpus.
+
+##### 2:15-3:10 - Reveal the complete administrative corpus
+
+On screen: Open the
+[Search service](https://portal.azure.com/#view/Microsoft_Azure_Search/Index.ReactView/id/%2Fsubscriptions%2F7a880728-70d3-49d0-adde-4250716cfd94%2FresourceGroups%2Frg-pf-ltg242%2Fproviders%2FMicrosoft.Search%2FsearchServices%2Fsearch-uqu2yu2cnxuys%23sourcing-documents/location/West%20US/sku/standard).
+In Search Explorer, query `sourcing-documents` administratively and show the 12
+indexed document titles, including the competitor responses and evaluation
+documents that the signed-in agent could not retrieve.
+
+Say:
+
+> The administrative view confirms that all 12 sourcing documents are indexed.
+> The documents the agent reported as inaccessible are present here. Search
+> Explorer is showing the complete corpus with administrative access; it does
+> not represent what the signed-in agent was allowed to retrieve. Foundry IQ
+> applied the caller's delegated identity at retrieval time, so the agent saw
+> only the ACL-filtered evidence available to that user.
+
+##### 3:10-4:00 - Transition
+
+Say:
+
+> ACL-aware indexing is the right pattern for protected document evidence. For
+> current relational facts, we can keep the data remote and let Foundry IQ
+> retrieve from it when needed.
+
+Fallback: If the pre-recording gate does not pass, replace the live result with
+the ACL architecture slide and say, “This tenant's end-to-end ACL result is
+still awaiting validation, so I'm showing the configured security path rather
+than claiming a live result.” After a successful validation, retain that
+recording as the event-day fallback.
+
+#### Recording 3: Supplier Intelligence Agent with MCP (3 minutes)
+
+##### 0:00-0:35 - Establish the federated knowledge base
+
+On screen: Open `supplier-intelligence-agent` and show its separate
+`supplier-session-documents` and `postgres-ontology-suppliers` knowledge
+sources.
+
+Say:
+
+> This knowledge base keeps signed documents in the search index and current
+> structured facts in the Caldova suppliers database. Foundry IQ can plan
+> retrieval across both without copying relational data into the document
+> index.
+
+##### 0:35-0:50 - Submit the cross-source question
+
+```text
+Which Caldova product uses the active substance in Meridian API Works' invoiced AUR-API-7 lot? Summarize the lot and Meridian's current manufacturer profile. Clearly distinguish indexed document claims from Caldova suppliers database claims and cite each material claim.
+```
+
+##### 0:50-2:25 - Review the merged result
+
+On screen: Show retrieval planning, generated searches, selected sources,
+citations, and the **Merged results** view.
+
+Expected result: Indexed documents establish that `AUR-API-7` is Caldovexine
+(`SUB-001`), lot `LOT-MD-1026-A`, with 7,200 kg released. Database records map
+`SUB-001` to Caldovex (`CALD-201`) and identify Meridian's current API
+manufacturer profile and substance associations.
+
+Say:
+
+> The invoice and certificate establish the lot identity, substance, and
+> released quantity. The Caldova suppliers database establishes the
+> substance-to-product relationship and Meridian's current manufacturer
+> record. The answer labels which source supports each part of the join.
+
+##### 2:25-3:00 - Explain the observed score and transition
+
+On screen: Point to the activity-log field only if it is present in this
+response.
+
+Say:
+
+> In this specific retrieval response, an included MCP reference has a
+> `rerankerScore` of zero, while indexed references have nonzero values. That is
+> only an observed value in this response; it is not a general claim about
+> whether or how remote results are reranked. I'll call the combined view
+> “Merged results.”
+
+Fallback: Use a capture from the validated Meridian run. If the remote source
+is unavailable and no capture is ready, show the federation architecture and
+do not claim a live cross-source result.
 
 ### Act one: Retrieval patterns for AI agents
 
@@ -288,11 +469,12 @@ agreements, evaluations, and award documents.
 
 **Suggested graphics/demo beats**
 
-1. Show all 12 source documents in the administrative Search view.
-2. Ask the bidder-comparison question through the Sourcing Review Agent as the
+1. Ask the bidder-comparison question through the Sourcing Review Agent as the
   signed-in Summit Dose representative.
-3. Show the reduced evidence set and the agent's explicit statement that it
+2. Show the reduced evidence set and the agent's explicit statement that it
   cannot make a complete comparison.
+3. Open the administrative Search view and show that all 12 source documents,
+  including the inaccessible competitor evidence, are present in the index.
 
 **Presentation status**
 

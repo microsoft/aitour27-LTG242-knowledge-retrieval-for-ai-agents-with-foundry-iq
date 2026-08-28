@@ -40,6 +40,35 @@ Then:
 - Run the checks relevant to the consuming code or retrieval scenario.
 - Commit the refreshed `sample-data/` snapshot and provenance file together.
 
+## Updating Python dependencies
+
+This repository has separate Python projects and dependency files:
+
+- The repository root project uses `pyproject.toml` and `uv.lock` for
+  infrastructure scripts.
+- The hosted agent uses `src/agent-toolbox-foundryiq/pyproject.toml` and
+  `src/agent-toolbox-foundryiq/uv.lock`.
+- The hosted agent's `requirements.txt` is a generated production export used
+  by the deployment build. It must be updated when the agent dependencies
+  change.
+- The PostgreSQL MCP service keeps its deployment dependencies in
+  `src/postgres-mcp/requirements.txt`.
+
+When changing hosted-agent dependencies, run from the agent directory:
+
+```bash
+cd src/agent-toolbox-foundryiq
+uv lock
+uv export --locked --no-dev --no-emit-project \
+  --format requirements-txt --output-file requirements.txt
+cd ../..
+```
+
+Review and commit both the agent lockfile and exported requirements when they
+change. `azd deploy <agent-name>` consumes the existing `requirements.txt`; it
+does not run `uv export` or update dependency files automatically. Redeploy the
+changed hosted agent after updating the export.
+
 ## Open issues
 
 ### Reranker scores for remote knowledge sources

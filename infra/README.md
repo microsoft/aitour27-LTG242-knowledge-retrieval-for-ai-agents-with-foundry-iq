@@ -67,6 +67,26 @@ In addition to provisioning Azure resources, the azd hooks:
   supplier-intelligence hosted agents
 - Complete postdeployment registration and role assignments
 
+### Redeploy one agent
+
+After changing an agent's source code or system instructions, redeploy only that
+agent from the repository root. Replace `<agent-name>` with the service name for
+the agent you changed:
+
+```bash
+azd deploy <agent-name>
+```
+
+For example, to redeploy the invoice agent:
+
+```bash
+azd deploy invoice-investigation-agent
+```
+
+This uses the currently selected azd environment and does not rerun resource
+provisioning or the postprovision and postdeploy hooks. Use `azd up` when those
+steps are needed.
+
 ## ACL-aware sourcing scenario
 
 The sourcing corpus contains 12 documents: nine procurement documents and three
