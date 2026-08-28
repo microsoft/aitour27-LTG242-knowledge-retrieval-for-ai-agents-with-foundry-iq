@@ -6,16 +6,15 @@ Presenter, re-delivery, and train-the-trainer materials for this session.
 
 | Item | Link | Notes |
 | --- | --- | --- |
-| Delivery deck | [AITour2027-LTG242-KnowledgeRetrievalAIAgentsFoundryIQ.pdf](../AITour2027-LTG242-KnowledgeRetrievalAIAgentsFoundryIQ.pdf) | Final presentation deck |
-| Speaker notes | [speaker_notes.md](speaker_notes.md) | Suggested notes and timing for every slide |
-| Session recording | Pending — add event-day or re-delivery recording URL | Optional link when available |
+| Delivery deck | Pending | Final presentation deck |
+| Session recording | Pending | Optional link when available |
 | Attendee landing page | [Session README](../README.md) | Public starting point |
 
 ## Delivery checklist
 
 - Review the delivery deck.
-- Deploy the examples.
-- Rehearse the demos.
+- Deploy the demos.
+- Rehearse the presentation and demos.
 
 ## Session preparation
 
