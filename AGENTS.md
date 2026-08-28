@@ -11,17 +11,17 @@ provenance file together.
 ## Changing sample data
 
 - Make source-data, generator, template, and generated-artifact changes in a
-	checkout of `pamelafox/aitour27-caldova-data`, usually at
-	`../aitour27-caldova-data`.
+  checkout of `pamelafox/aitour27-caldova-data`, usually at
+  `../aitour27-caldova-data`.
 - Change the structured source of truth rather than editing generated HTML or
-	PDFs. Regenerate only the affected artifacts with the upstream repository's
-	existing generation scripts.
+  PDFs. Regenerate only the affected artifacts with the upstream repository's
+  existing generation scripts.
 - Keep related evidence consistent. When a shared fact changes, check every
-	invoice, certificate, report, diagram, and JSON record that refers to it.
+  invoice, certificate, report, diagram, and JSON record that refers to it.
 - Validate the generated output upstream, including extracted PDF text and
-	layout or page-count expectations. Avoid unrelated generated-file churn.
+  layout or page-count expectations. Avoid unrelated generated-file churn.
 - Commit the complete upstream change before synchronizing. The sync script
-	rejects a dirty upstream checkout and records its exact `HEAD` in provenance.
+  rejects a dirty upstream checkout and records its exact `HEAD` in provenance.
 
 ## Synchronizing sample data
 
@@ -34,9 +34,9 @@ uv run --locked python scripts/sync_sample_data.py --source ../aitour27-caldova-
 Then:
 
 - Confirm `sample-data/provenance.json` names the intended upstream repository
-	and commit.
+  and commit.
 - Review all changes under `sample-data/`, especially the corpus manifest,
-	generated PDFs, structured JSON, counts, and unexpected deletions.
+  generated PDFs, structured JSON, counts, and unexpected deletions.
 - Run the checks relevant to the consuming code or retrieval scenario.
 - Commit the refreshed `sample-data/` snapshot and provenance file together.
 
@@ -68,6 +68,20 @@ Review and commit both the agent lockfile and exported requirements when they
 change. `azd deploy <agent-name>` consumes the existing `requirements.txt`; it
 does not run `uv export` or update dependency files automatically. Redeploy the
 changed hosted agent after updating the export.
+
+## Search ingestion constraints
+
+- Keep semantic Content Understanding chunks at `maximumLength: 2000` unless
+  retrieval over the certificate of analysis has been revalidated. At 500
+  tokens, its analytical table splits across fragments and retrieval can omit
+  rows; the demo depends on retrieving all 33 tests without gaps or duplicates.
+- The pinned `azure-search-documents==12.1.0b1` models do not expose the
+  `modelName` and `modelDeployment` properties required by the Content
+  Understanding skill. Create or update that skillset through the Search
+  client's authenticated `send_request` method with a `2026-05-01-preview`
+  payload. Continue using typed SDK models for supported Search resources.
+- Replace the REST payload only after a newer SDK exposes both properties and
+  its serialized request has been verified.
 
 ## Open issues
 

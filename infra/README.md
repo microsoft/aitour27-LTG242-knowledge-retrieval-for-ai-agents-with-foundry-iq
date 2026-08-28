@@ -8,6 +8,9 @@ The PostgreSQL MCP service uses a user-assigned managed identity for Entra token
 authentication to Azure Database for PostgreSQL. Postprovision creates a matching
 read-only database role, loads the ontology and supplier data, and registers the
 service's `/mcp` URL as a knowledge source on the Foundry IQ knowledge base.
+The remote source exposes only `search_products`, `search_substances`,
+`search_authorizations`, and `search_manufacturers`; it does not accept
+arbitrary SQL.
 
 The sourcing-review scenario uses a separate HNS-enabled ADLS Gen2 account and
 Entra group ACLs. Its `UserEntraToken` connection is scoped to
@@ -94,6 +97,12 @@ policy or diagram documents. Shared documents are readable by both configured
 groups. Supplier-specific documents are assigned to either the member or
 non-member group.
 
+The member group represents the Summit Dose view and can retrieve the Summit
+Dose response and agreement. The non-member group can retrieve the Aster Ridge
+and Atlas Regional responses and agreements. Policy and diagram documents and
+the RFP are shared with both groups. The amendment and purchase order are
+confidential and are not granted to either demo group.
+
 Azure AI Search ingests the ADLS Gen2 ACL metadata into filterable,
 non-retrievable `user_ids` and `group_ids` fields. The `sourcing-documents` index
 has permission filtering enabled, and the `sourcing-review-kb` knowledge base
@@ -141,9 +150,16 @@ is wrong, verify the selected group IDs, the ADLS ACL assignments, and the
 
 Search ingestion reads the tracked [`../sample-data/corpora.json`](../sample-data/corpora.json)
 manifest and PDFs under [`../sample-data/pdfs/`](../sample-data/pdfs). The
-current `session-documents` index selects the 25-file `invoice-investigation`
-group. Future indexes can select `procurement` or `policy-and-diagrams` without
-changing how sample data is synchronized.
+`session-documents` index selects the 25-file `invoice-investigation` group.
+The `sourcing-documents` index selects the nine-file `procurement` group and
+the three-file `policy-and-diagrams` group.
+
+Only manifest-selected PDFs are indexing inputs. Do not index the JSON source
+records or any HTML previews, templates, or image assets from the upstream
+sample-data repository. The Supplier Intelligence knowledge base uses a
+supplier-specific knowledge source over `session-documents` together with the
+remote `postgres-ontology-suppliers` MCP knowledge source; relational records
+are not copied into the Search index.
 
 [`../sample-data/provenance.json`](../sample-data/provenance.json) records the
 authoritative upstream repository and commit. Normal provisioning does not need

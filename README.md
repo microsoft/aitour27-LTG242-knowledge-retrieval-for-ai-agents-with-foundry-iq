@@ -1,30 +1,3 @@
-## Before you're done
-
-This repo has been created for your AI Tour 2027 session. Here's how to get it ready.
-
-**Easiest path — use the agent (recommended):**
-
-- Open GitHub Copilot Chat and say `help me initialize repo`. The agent will walk you through getting the README populated.
-- When you're ready to publish, say `help me finalize repo`. The agent will clean up unused folders, validate everything, and remove this "Before you're done" section and other extra stuff that attendees don't need to see.
-- Curious how it works? Read the [agent workflow](.github/AGENT-WORKFLOW.md).
-
-**Doing it manually?**
-
-Fill in the sections below yourself, then:
-
-- Delete any placeholder folders you don't need (`data/`, `infra/`, etc.)
-- Delete this "Before you're done" section
-- Delete `.github/agents/`, `.github/tests/`, `.github/copilot-instructions.md`, and `.github/AGENT-WORKFLOW.md` — these are template tooling, not part of your published repo
-
-**Folder conventions:**
-
-- Attendee step-by-step guidance goes in `instructions/`. If you use MkDocs or a docs site instead, put it in `docs/` and link to it from this README.
-- Reference material and background reading go in `docs/`.
-- Presenter notes, deck link, recordings, and re-delivery materials go in `delivery-resources/`. Fill in [`delivery-resources/README.md`](delivery-resources/README.md).
-- You can add a `.devcontainer/` folder if needed.
-
----
-
 <a name="start-building"></a>
 
 <p align="center">
@@ -44,46 +17,34 @@ and remote sources.
 
 ### 🚀 Getting started
 
-#### In a guided session
+This repository contains the working session assets for an AI Tour 2027 talk. The live demos use three Foundry hosted agents that use Foundry IQ and are built around the fictional Caldova pharmaceutical company:
 
-Guided session steps are pending.
+- Invoice Investigation Agent for indexed document retrieval and evidence-backed analysis
+- Sourcing Review Agent for ACL-aware retrieval over confidential sourcing documents
+- Supplier Intelligence Agent for cross-source retrieval across indexed documents and PostgreSQL MCP data
 
-#### On your own
-
-Self-paced session steps are pending.
-
-#### Sample data
-
-The finished Caldova PDF corpora used by this session are committed under
-[`sample-data/`](sample-data) so provisioning, CI, and lab environments do not
-need a second repository checkout. The snapshot comes from
-[`pamelafox/aitour27-caldova-data`](https://github.com/pamelafox/aitour27-caldova-data),
-which remains the source of truth for the documents, structured data, generation
-assets, and Fabric definitions.
-
-Do not edit the local snapshot directly. Maintainers should make changes in the
-upstream repository, check out the reviewed commit locally, and refresh this
-repository with:
-
-```bash
-uv run --locked python scripts/sync_sample_data.py --source ../aitour27-caldova-data
-```
-
-Commit the updated PDFs, corpus manifest, and provenance file together.
+Presenters can find delivery links and run-of-show guidance in [delivery-resources/README.md](delivery-resources/README.md).
 
 ### 🎯 Learning outcomes
 
 By the end of this session, you will be able to:
 
-- Explain agentic knowledge bases and choose when to use built-in skills,
-  custom skills, indexers, and CU.
-- Describe how to preserve data ACLs in indexed content.
-- Explore MCP servers and Microsoft IQ integrations.
+- Explain how Foundry IQ knowledge bases plan retrieval across indexed and remote knowledge sources.
+- Describe how Content Understanding, hybrid search, and semantic ranking improve retrieval quality.
+- Explain how document ACLs and delegated identity restrict retrieval to authorized content.
+- Describe how MCP servers, Work IQ, and Fabric IQ extend a knowledge base with current, remote data.
 
 ### 💻 Technologies used
 
-- Foundry IQ
-- Work IQ
+- Foundry IQ (Azure AI Search)
+- Microsoft Foundry hosted agents
+- Microsoft Agent Framework
+- Foundry Toolbox and Code Interpreter
+- Azure AI Search Content Understanding and indexers
+- Azure OpenAI models and embeddings
+- Azure Data Lake Storage Gen2 ACLs
+- Azure Database for PostgreSQL with a custom MCP server
+- Work IQ and Fabric IQ as architecture extensions
 
 ### 📚 Continue your learning
 
@@ -91,6 +52,9 @@ Pick your next step based on your learning style:
 
 | Resource | What you'll get |
 |----------|-----------------|
+| **[Foundry IQ overview](https://aka.ms/FoundryIQ)** | Product capabilities, announcements, and links for getting started with Foundry IQ |
+| **[Foundry IQ retrieval evaluations](https://aka.ms/foundryiq-evals)** | Quality benchmarks and details about the latest agentic retrieval improvements |
+| **[Microsoft Foundry portal](https://ai.azure.com)** | Create and explore Foundry IQ knowledge bases and agents |
 | **[Microsoft Learn](https://learn.microsoft.com)** | Official documentation and guided learning paths on these topics |
 | **[AI Tour 2027 Resource Center](https://aka.ms/aitour27-resource-center)** | Additional session repos and materials from AI Tour 2027 |
 | **[Microsoft Foundry Community](https://aka.ms/MicrosoftFoundryDiscord-AITour27)** | Connect with other learners and experts in our Discord community |
