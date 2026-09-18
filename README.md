@@ -52,6 +52,7 @@ Pick your next step based on your learning style:
 
 | Resource | What you'll get |
 |----------|-----------------|
+| **[Session Recording](https://aka.ms/aitour27/LTG242/youtube)** | A recording of session LTG242 by the session creator |
 | **[Foundry IQ overview](https://aka.ms/FoundryIQ)** | Product capabilities, announcements, and links for getting started with Foundry IQ |
 | **[Foundry IQ retrieval evaluations](https://aka.ms/foundryiq-evals)** | Quality benchmarks and details about the latest agentic retrieval improvements |
 | **[Microsoft Foundry portal](https://ai.azure.com)** | Create and explore Foundry IQ knowledge bases and agents |

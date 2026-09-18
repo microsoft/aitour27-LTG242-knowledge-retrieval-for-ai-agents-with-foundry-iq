@@ -7,7 +7,6 @@ Presenter, re-delivery, and train-the-trainer materials for this session.
 | Item | Link | Notes |
 | --- | --- | --- |
 | Delivery deck | [English](https://aka.ms/aitour27/LTG242/slides/en) | Final presentation deck |
-| Session recording | [Recording](https://aka.ms/aitour27/LTG242/youtube) | Optional link when available |
 | Attendee landing page | [Session README](../README.md) | Public starting point |
 
 ## Delivery checklist
